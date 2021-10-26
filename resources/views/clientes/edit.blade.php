@@ -1,11 +1,27 @@
 @extends('layouts.app')
 
-@section('title', 'Cadastrar cliente')
+@section('title', 'Editar cliente')
 
 @section('content')
 
-<form action="{{ route('create-cliente') }}" method="POST" class="needs-validation" novalidate>
+<a href="{{ route('clientes.index') }}" class="d-block mb-4">
+  <i class="bi bi-arrow-return-left"></i>
+  Voltar pra lista de clientes
+</a>
+
+<h3 class="pb-4 mb-4 font-italic border-bottom">Editar cliente</h3>
+
+@if ($errors->any())
+  @foreach ($errors->all() as $error)
+    <x-alert type="danger">
+      <x-slot name="message">{{ $error }}</x-slot>
+    </x-alert>
+  @endforeach
+@endif
+
+<form action="{{ route('clientes.update', $cliente->id) }}" method="POST" class="needs-validation" novalidate id="form">
   @csrf
+  @method('PUT')
   <div class="form-row">
     <div class="col-md-6 mb-3">
       <label for="nome">Nome</label>
@@ -14,6 +30,7 @@
         class="form-control"
         id="nome"
         name="nome"
+        value="{{ $cliente->nome }}"
         required
       />
       <div class="invalid-tooltip">
@@ -22,49 +39,53 @@
     </div>
     <div class="col-md-6 mb-3">
       <label for="cpf_cnpj">CPF ou CNPJ</label>
-        <input
-          type="text"
-          class="form-control"
-          id="cpf_cnpj"
-          name="cpf_cnpj"
-          required
-        />
+      <input
+        type="text"
+        class="form-control"
+        id="cpf_cnpj"
+        name="cpf_cnpj"
+        value="{{ $cliente->cpf_cnpj }}"
+        required
+      />
       <div class="invalid-tooltip">
         Por favor forneça um CPF ou CNPJ válido.
       </div>
     </div>
     <div class="col-md-4 mb-3">
       <label for="inscricao_estadual">IE (Inscrição Estadual)</label>
-        <input
-          type="text"
-          class="form-control"
-          id="inscricao_estadual"
-          name="inscricao_estadual"
-        />
+      <input
+        type="text"
+        class="form-control"
+        id="inscricao_estadual"
+        name="inscricao_estadual"
+        value="{{ $cliente->inscricao_estadual }}"
+      />
       <div class="invalid-tooltip">
         Por favor forneça uma Inscrição estadual válida.
       </div>
     </div>
     <div class="col-md-4 mb-3">
       <label for="nome_fantasia">Nome fantasia</label>
-        <input
-          type="text"
-          class="form-control"
-          id="nome_fantasia"
-          name="nome_fantasia"
-        />
+      <input
+        type="text"
+        class="form-control"
+        id="nome_fantasia"
+        name="nome_fantasia"
+        value="{{ $cliente->name_fantasia }}"
+      />
       <div class="invalid-tooltip">
         Por favor forneça um Nome fantasia válido.
       </div>
     </div>
     <div class="col-md-4 mb-3">
       <label for="razao_social">Razão Social</label>
-        <input
-          type="text"
-          class="form-control"
-          id="razao_social"
-          name="razao_social"
-        />
+      <input
+        type="text"
+        class="form-control"
+        id="razao_social"
+        name="razao_social"
+        value="{{ $cliente->razao_social }}"
+      />
       <div class="invalid-tooltip">
         Por favor forneça uma Razão social válida.
       </div>
@@ -76,15 +97,20 @@
         class="form-control"
         id="email"
         name="email"
+        value="{{ $cliente->email }}"
       />
+      <div class="invalid-tooltip">
+        Por favor forneça um E-mail válido.
+      </div>
     </div>
     <div class="col-md-6 mb-3">
       <label for="telefone">Telefone</label>
       <input
-        type="email"
+        type="text"
         class="form-control"
         id="telefone"
         name="telefone"
+        value="{{ $cliente->telefone }}"
       />
     </div>
   </div>
@@ -96,6 +122,7 @@
         class="form-control"
         id="bairro"
         name="bairro"
+        value="{{ $cliente->bairro }}"
       />
     </div>
     <div class="col-md-6 mb-3">
@@ -105,6 +132,7 @@
         class="form-control"
         id="rua"
         name="rua"
+        value="{{ $cliente->rua }}"
       />
     </div>
     <div class="col-md-2 mb-3">
@@ -114,6 +142,7 @@
         class="form-control"
         id="numero"
         name="numero"
+        value="{{ $cliente->numero }}"
       />
     </div>
     <div class="col-md-8 mb-3">
@@ -123,6 +152,7 @@
         class="form-control"
         id="complemento"
         name="complemento"
+        value="{{ $cliente->complemento }}"
       />
     </div>
     <div class="col-md-2 mb-3">
@@ -132,6 +162,7 @@
         class="form-control"
         id="cep"
         name="cep"
+        value="{{ $cliente->cep }}"
       />
     </div>
     <div class="col-md-6 mb-3">
@@ -141,14 +172,12 @@
         class="form-control"
         id="cidade"
         name="cidade"
+        value="{{ $cliente->cidade }}"
       />
     </div>
     <div class="col-md-6 mb-3">
       <label for="estado">Estado</label>
-      <select class="custom-select" id="estado" name="estado">
-        <option selected disabled value="">Choose...</option>
-        <option>...</option>
-      </select>
+      <x-select-estados select="{{ $cliente->estado }}" />
     </div>
   </div>
   <div class="form-row">
@@ -164,8 +193,28 @@
       </div>
     </div>
   </div>
-  <button class="btn btn-primary" type="submit">Cadastrar</button>
-  <a class="btn btn-warning" href="{{ route('index-cliente') }}">Cancelar</a>
 </form>
+<div class="form-row">
+  <div class="col-md-12 text-right">
+		<a class="btn btn-warning" href="{{ route('clientes.index') }}">
+			<i class="bi bi-arrow-return-left"></i> Cancelar
+		</a>
+		<form action="{{ route('clientes.destroy', $cliente->id) }}" method="POST" class="d-inline">
+			@csrf
+			@method('DELETE')
+			<button type="submit" class="btn btn-danger d-inline" name="delete" data-toggle="modal" data-target="#delete">
+				<i class="bi bi-trash"></i>
+				Excluir
+			</button>
+			<x-modal target="delete">
+				<x-slot name="title">Deseja deletar esse usuário?</x-slot>
+				<x-slot name="message">Clique em confirmar para deletar, caso deseje cancele a operação!</x-slot>
+			</x-modal>
+		</form>
+		<button class="btn btn-primary" type="submit" form="form">
+			<i class="bi bi-check-circle-fill"></i> Atualizar
+		</button>
+	</div>
+</div>
 
 @endsection

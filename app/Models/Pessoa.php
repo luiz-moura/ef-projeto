@@ -11,11 +11,17 @@ class Pessoa extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $table = 'pessoas';
+    public $timestamps = true;
+
     protected $fillable = [
         'nome',
         'cpf_cnpj',
         'email',
         'telefone',
+        'inscricao_estadual',
+        'nome_fantasia',
+        'razao_social',
         'rua',
         'numero',
         'bairro',

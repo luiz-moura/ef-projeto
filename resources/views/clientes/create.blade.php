@@ -1,12 +1,26 @@
 @extends('layouts.app')
 
-@section('title', 'Editar cliente')
+@section('title', 'Cadastrar cliente')
 
 @section('content')
 
-<form action="{{ route('update-cliente', $pessoa->id) }}" method="POST" class="needs-validation" novalidate>
+<a href="{{ route('clientes.index') }}" class="d-block mb-4">
+  <i class="bi bi-arrow-return-left"></i>
+  Voltar pra lista de clientes
+</a>
+
+<h3 class="pb-4 mb-4 font-italic border-bottom">Cadastrar cliente</h3>
+
+@if ($errors->any())
+  @foreach ($errors->all() as $error)
+    <x-alert type="danger">
+      <x-slot name="message">{{ $error }}</x-slot>
+    </x-alert>
+  @endforeach
+@endif
+
+<form action="{{ route('clientes.store') }}" method="POST" class="needs-validation" novalidate>
   @csrf
-  @method('PATCH')
   <div class="form-row">
     <div class="col-md-6 mb-3">
       <label for="nome">Nome</label>
@@ -15,65 +29,60 @@
         class="form-control"
         id="nome"
         name="nome"
-        value="{{ $pessoa->nome }}"
         required
       />
-      <div class="invalid-tooltip">
+      <!-- <div class="invalid-tooltip">
         Por favor forneça um nome válido.
-      </div>
+      </div> -->
     </div>
     <div class="col-md-6 mb-3">
       <label for="cpf_cnpj">CPF ou CNPJ</label>
-        <input
-          type="text"
-          class="form-control"
-          id="cpf_cnpj"
-          name="cpf_cnpj"
-          value="{{ $pessoa->cpf_cnpj }}"
-          required
-        />
-      <div class="invalid-tooltip">
+      <input
+        type="text"
+        class="form-control"
+        id="cpf_cnpj"
+        name="cpf_cnpj"
+        required
+      />
+      <!-- <div class="invalid-tooltip">
         Por favor forneça um CPF ou CNPJ válido.
-      </div>
+      </div> -->
     </div>
     <div class="col-md-4 mb-3">
       <label for="inscricao_estadual">IE (Inscrição Estadual)</label>
-        <input
-          type="text"
-          class="form-control"
-          id="inscricao_estadual"
-          name="inscricao_estadual"
-          value="{{ $pessoa->inscricao_estadual }}"
-        />
-      <div class="invalid-tooltip">
+      <input
+        type="text"
+        class="form-control"
+        id="inscricao_estadual"
+        name="inscricao_estadual"
+      />
+      <!-- <div class="invalid-tooltip">
         Por favor forneça uma Inscrição estadual válida.
-      </div>
+      </div> -->
     </div>
     <div class="col-md-4 mb-3">
       <label for="nome_fantasia">Nome fantasia</label>
-        <input
-          type="text"
-          class="form-control"
-          id="nome_fantasia"
-          name="nome_fantasia"
-          value="{{ $pessoa->name_fantasia }}"
-        />
-      <div class="invalid-tooltip">
+      <input
+        type="text"
+        class="form-control"
+        id="nome_fantasia"
+        name="nome_fantasia"
+      />
+      <!-- <div class="invalid-tooltip">
         Por favor forneça um Nome fantasia válido.
-      </div>
+      </div> -->
     </div>
     <div class="col-md-4 mb-3">
       <label for="razao_social">Razão Social</label>
-        <input
-          type="text"
-          class="form-control"
-          id="razao_social"
-          name="razao_social"
-          value="{{ $pessoa->razao_social }}"
-        />
-      <div class="invalid-tooltip">
-      Por favor forneça uma Razão social válida.
-      </div>
+      <input
+        type="text"
+        class="form-control"
+        id="razao_social"
+        name="razao_social"
+      />
+      <!-- <div class="invalid-tooltip">
+        Por favor forneça uma Razão social válida.
+      </div> -->
     </div>
     <div class="col-md-6 mb-3">
       <label for="email">E-mail</label>
@@ -82,17 +91,18 @@
         class="form-control"
         id="email"
         name="email"
-        value="{{ $pessoa->email }}"
       />
+      <!-- <div class="invalid-tooltip">
+        Por favor forneça um E-mail válido.
+      </div> -->
     </div>
     <div class="col-md-6 mb-3">
       <label for="telefone">Telefone</label>
       <input
-        type="email"
+        type="text"
         class="form-control"
         id="telefone"
         name="telefone"
-        value="{{ $pessoa->telefone }}"
       />
     </div>
   </div>
@@ -104,7 +114,6 @@
         class="form-control"
         id="bairro"
         name="bairro"
-        value="{{ $pessoa->bairro }}"
       />
     </div>
     <div class="col-md-6 mb-3">
@@ -114,7 +123,6 @@
         class="form-control"
         id="rua"
         name="rua"
-        value="{{ $pessoa->rua }}"
       />
     </div>
     <div class="col-md-2 mb-3">
@@ -124,7 +132,6 @@
         class="form-control"
         id="numero"
         name="numero"
-        value="{{ $pessoa->numero }}"
       />
     </div>
     <div class="col-md-8 mb-3">
@@ -134,7 +141,6 @@
         class="form-control"
         id="complemento"
         name="complemento"
-        value="{{ $pessoa->complemento }}"
       />
     </div>
     <div class="col-md-2 mb-3">
@@ -144,7 +150,6 @@
         class="form-control"
         id="cep"
         name="cep"
-        value="{{ $pessoa->cep }}"
       />
     </div>
     <div class="col-md-6 mb-3">
@@ -154,15 +159,11 @@
         class="form-control"
         id="cidade"
         name="cidade"
-        value="{{ $pessoa->cidade }}"
       />
     </div>
     <div class="col-md-6 mb-3">
       <label for="estado">Estado</label>
-      <select class="custom-select" id="estado" name="estado">
-        <option selected disabled value="">Choose...</option>
-        <option>...</option>
-      </select>
+      <x-select-estados />
     </div>
   </div>
   <div class="form-row">
@@ -178,8 +179,14 @@
       </div>
     </div>
   </div>
-  <button class="btn btn-primary" type="submit">Atualizar</button>
-  <a class="btn btn-warning" href="{{ route('index-cliente') }}">Cancelar</a>
+  <div class="text-right">
+    <a class="btn btn-warning" href="{{ route('clientes.index') }}">
+      <i class="bi bi-arrow-return-left"></i> Cancelar
+    </a>
+    <button class="btn btn-primary" type="submit">
+      <i class="bi bi-check-circle-fill"></i> Cadastrar
+    </button>
+  </div>
 </form>
 
 @endsection

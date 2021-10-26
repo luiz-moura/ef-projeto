@@ -13,9 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/cliente', 'ClienteController@index')->name('index-cliente');
-Route::get('/cliente/create', 'ClienteController@create')->name('create-cliente');
-Route::post('/cliente/store', 'ClienteController@store')->name('store-cliente');
-Route::get('/cliente/edit/{pessoa}', 'ClienteController@edit')->name('edit-cliente');
-Route::patch('/cliente/update/{pessoa}', 'ClienteController@update')->name('update-cliente');
-Route::post('/cliente/destroy{pessoa}', 'ClienteController@destroy')->name('destroy-cliente');
+// Route::get('/cliente', 'ClienteController@index')->name('index-cliente');
+// Route::get('/cliente/create', 'ClienteController@create')->name('create-cliente');
+// Route::post('/cliente/store', 'ClienteController@store')->name('store-cliente');
+// Route::get('/cliente/edit/{pessoa}', 'ClienteController@edit')->name('edit-cliente');
+// Route::put('/cliente/update/{pessoa}', 'ClienteController@update')->name('update-cliente');
+// Route::post('/cliente/destroy{pessoa}', 'ClienteController@destroy')->name('destroy-cliente');
+
+Route::resource('clientes', 'ClienteController');

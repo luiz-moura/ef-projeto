@@ -14,8 +14,9 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        $pessoas = Pessoa::all();
-        return view('cliente.index', compact('pessoas'));
+        $clientes = Pessoa::latest()->paginate(20);
+        return view('clientes.index', compact('clientes'))
+            ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**
@@ -25,7 +26,7 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        return view('cliente.create');
+        return view('clientes.create');
     }
 
     /**
@@ -36,65 +37,70 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-        $input = $request->all();
+        $request->validate([
+            'nome'      => 'required',
+            'cpf_cnpj'  => 'required'
+        ]);
 
-        Pessoa::create($input);
+        Pessoa::create($request->all());
 
-        return $this->index();
+        return redirect()->route('clientes.index')
+            ->with('success', 'Cliente criado com sucesso.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Pessoa  $pessoa
+     * @param  \App\Models\Pessoa  $cliente
      * @return \Illuminate\Http\Response
      */
-    public function show(Pessoa $pessoa)
+    public function show(Pessoa $cliente)
     {
-        //
+        return view('clientes.show', compact('cliente'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Pessoa  $pessoa
+     * @param  \App\Models\Pessoa  $cliente
      * @return \Illuminate\Http\Response
      */
-    public function edit(Pessoa $pessoa)
+    public function edit(Pessoa $cliente)
     {
-        $pessoas = $pessoa->all();
-        return view('cliente.edit', compact('pessoa'));
+        return view('clientes.edit', compact('cliente'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Pessoa  $pessoa
+     * @param  \App\Models\Pessoa  $cliente
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Pessoa $pessoa)
+    public function update(Request $request, Pessoa $cliente)
     {
-        $input = $request->all();
+        $request->validate([
+            'nome'      => 'required',
+            'cpf_cnpj'  => 'required'
+        ]);
 
-        $pessoa->nome  = $input['nome'];
-        $pessoa->email = $input['email'];
-        $pessoa->cpf_cnpj = $input['cpf_cnpj'];
-        $pessoa->cep = $input['cep'];
+        $cliente->update($request->all());
 
-        $pessoa->save();
-
-        return view('cliente.index');
+        return redirect()->route('clientes.index')
+            ->with('success', 'Cliente atualizado com sucesso');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Pessoa  $pessoa
+     * @param  \App\Models\Pessoa  $cliente
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Pessoa $pessoa)
+    public function destroy(Pessoa $cliente)
     {
-        $pessoa->delete();
+        $cliente->delete();
+
+        return redirect()->route('clientes.index')
+            ->with('success', 'Cliente deletado com sucesso');
     }
 }
