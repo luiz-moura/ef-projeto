@@ -21,3 +21,4 @@ use Illuminate\Support\Facades\Route;
 // Route::post('/cliente/destroy{pessoa}', 'ClienteController@destroy')->name('destroy-cliente');
 
 Route::resource('clientes', 'ClienteController');
+Route::resource('categorias', 'CategoriaController');

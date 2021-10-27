@@ -49,8 +49,8 @@
           <a class="p-2 text-muted" href="{{ route('clientes.index') }}">
             <i class="bi bi-handbag-fill"></i> Produtos
             </a>
-            <a class="p-2 text-muted" href="#">
-              <i class="bi bi-tag-fill"></i> Categorias
+            <a class="p-2 text-muted" href="{{ route('categorias.index') }}">
+              <i class="bi bi-bookmark-fill"></i> Categorias
             </a>
           </div>
       </nav>
