@@ -19,7 +19,7 @@ class ProdutoController extends Controller
         $produtos = Produto::latest()->paginate(20);
 
         return view('produto.index', compact('produtos'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);;
+            ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**
@@ -57,8 +57,7 @@ class ProdutoController extends Controller
      */
     public function show(Produto $produto)
     {
-        $categorias = Categoria::latest()->get();
-        return view('produto.show', compact('produto'), compact('categorias'));
+        return view('produto.show', compact('produto'));
     }
 
     /**
