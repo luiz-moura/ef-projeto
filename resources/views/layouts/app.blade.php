@@ -46,7 +46,7 @@
           </a>
         </div>
         <div class="nav d-flex">
-          <a class="p-2 text-muted" href="{{ route('clientes.index') }}">
+          <a class="p-2 text-muted" href="{{ route('produtos.index') }}">
             <i class="bi bi-handbag-fill"></i> Produtos
             </a>
             <a class="p-2 text-muted" href="{{ route('categorias.index') }}">
@@ -76,6 +76,8 @@
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
   <script>window.jQuery</script>
   <script src="https://getbootstrap.com/docs/4.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+  <script src="{{ asset('js/jquery.mask.js') }}"></script>
+  <script src="{{ asset('js/money-validate.js') }}"></script>
   <script src="{{ asset('js/form-validate.js') }}"></script>
   <script src="{{ asset('js/delete-validate.js') }}"></script>
 </body>
