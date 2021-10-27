@@ -31,4 +31,9 @@ class Pessoa extends Model
         'cep',
         'observacoes'
     ];
+
+    public function contextos()
+    {
+        return $this->hasMany(Contexto::class, 'pessoa_id', 'id');
+    }
 }

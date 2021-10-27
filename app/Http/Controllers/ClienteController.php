@@ -14,7 +14,8 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        $clientes = Pessoa::latest()->paginate(20);
+        $clientes = Pessoa::whereRelation('contextos', 'tipo', 'c')->latest()->paginate(20);
+
         return view('clientes.index', compact('clientes'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
