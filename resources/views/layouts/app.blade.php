@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-br">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -30,19 +30,29 @@
       </div>
     </header>
     <div class="nav-scroller py-1 mb-4">
-      <nav class="nav d-flex">
-        <a class="p-2 text-muted" href="{{ route('clientes.index') }}">
-          <i class="bi bi-person-lines-fill"></i> Clientes
-        </a>
-        <a class="p-2 text-muted" href="#">
-          <i class="bi bi-truck"></i> Fornecedores
-        </a>
-        <a class="p-2 text-muted" href="#">
-          <i class="bi bi-people-fill"></i> Funcionarios
-        </a>
-        <a class="p-2 text-muted" href="#">
-          <i class="bi bi-shop-window"></i> Empresas
-        </a>
+      <nav>
+        <div class="nav d-flex">
+          <a class="p-2 text-muted" href="{{ route('clientes.index') }}">
+            <i class="bi bi-person-lines-fill"></i> Clientes
+          </a>
+          <a class="p-2 text-muted" href="#">
+            <i class="bi bi-truck"></i> Fornecedores
+          </a>
+          <a class="p-2 text-muted" href="#">
+            <i class="bi bi-people-fill"></i> Funcionarios
+          </a>
+          <a class="p-2 text-muted" href="#">
+            <i class="bi bi-shop-window"></i> Empresas
+          </a>
+        </div>
+        <div class="nav d-flex">
+          <a class="p-2 text-muted" href="{{ route('clientes.index') }}">
+            <i class="bi bi-handbag-fill"></i> Produtos
+            </a>
+            <a class="p-2 text-muted" href="#">
+              <i class="bi bi-tag-fill"></i> Categorias
+            </a>
+          </div>
       </nav>
     </div>
   </div>
@@ -60,6 +70,7 @@
     <p>
       <a href="#"><i class="bi bi-hand-index-thumb-fill"></i></a>
     </p>
+    <p>Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})</p>
   </footer>
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

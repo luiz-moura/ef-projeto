@@ -12,3 +12,8 @@
         font-size: 3.5rem;
     }
 }
+
+
+.nav-scroller {
+    height: inherit !important;
+}
