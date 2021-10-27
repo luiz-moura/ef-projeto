@@ -1,0 +1,18 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Contexto extends Model
+{
+    use HasFactory;
+    use SoftDeletes;
+
+    public function pessoa()
+    {
+        return $this->hasOne(Pessoa::class, 'id', 'pessoa_id');
+    }
+}
