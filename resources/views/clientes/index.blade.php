@@ -25,35 +25,41 @@
         <th scope="col">Nome</th>
         <th scope="col">CPF/CNPJ</th>
         <th scope="col">Telefone</th>
+        <!-- <th scope="col">Consta como</th> -->
         <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
       @foreach($clientes as $cliente)
-      <tr>
-        <th scope="row">{{ $cliente->id }}</th>
-        <td>{{ $cliente->nome }}</td>
-        <td>{{ $cliente->cpf_cnpj }}</td>
-        <td>{{ $cliente->telefone }}</td>
-        <td class="text-right">
-          <form action="{{ route('clientes.destroy', $cliente->id) }}" method="POST">
-            <a href="{{ route('clientes.show', $cliente->id) }}" class="btn btn-info pb-0 pt-0">
-              <i class="bi bi-eye-fill"></i>
-              Visualizar
-            </a>
-            <a href="{{ route('clientes.edit', $cliente->id) }}" class="btn btn-dark pb-0 pt-0">
-              <i class="bi bi-brush"></i>
-              Editar
-            </a>
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="btn btn-danger pb-0 pt-0" name="delete" data-toggle="modal" data-target="#delete">
-              <i class="bi bi-trash"></i>
-              Excluir
-            </button>
-          </form>
-        </td>
-      </tr>
+        <tr>
+          <th scope="row">{{ $cliente->id }}</th>
+          <td>{{ $cliente->nome }}</td>
+          <td>{{ $cliente->cpf_cnpj }}</td>
+          <td>{{ $cliente->telefone }}</td>
+          <!-- <td>
+            @foreach($cliente->contextos as $contexto)
+              {{ $contexto->tipo_formatado . (!$loop->last ? ',' : null) }}
+            @endforeach
+          </td> -->
+          <td class="text-right">
+            <form action="{{ route('clientes.destroy', $cliente->id) }}" method="POST">
+              <a href="{{ route('clientes.show', $cliente->id) }}" class="btn btn-info pb-0 pt-0">
+                <i class="bi bi-eye-fill"></i>
+                Visualizar
+              </a>
+              <a href="{{ route('clientes.edit', $cliente->id) }}" class="btn btn-dark pb-0 pt-0">
+                <i class="bi bi-brush"></i>
+                Editar
+              </a>
+              @csrf
+              @method('DELETE')
+              <button type="submit" class="btn btn-danger pb-0 pt-0" name="delete" data-toggle="modal" data-target="#delete">
+                <i class="bi bi-trash"></i>
+                Excluir
+              </button>
+            </form>
+          </td>
+        </tr>
       @endforeach
     </tbody>
   </table>
@@ -63,7 +69,7 @@
     <x-slot name="message">Clique em confirmar para deletar, caso deseje cancele a operação!</x-slot>
   </x-modal>
 
-  {!! $clientes->links() !!}
+
 @else
   <div class="alert alert-dark" role="alert">
     Não foram encotrado clientes.

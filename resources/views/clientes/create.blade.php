@@ -31,9 +31,6 @@
         name="nome"
         required
       />
-      <!-- <div class="invalid-tooltip">
-        Por favor forneça um nome válido.
-      </div> -->
     </div>
     <div class="col-md-6 mb-3">
       <label for="cpf_cnpj">CPF ou CNPJ</label>
@@ -42,11 +39,7 @@
         class="form-control"
         id="cpf_cnpj"
         name="cpf_cnpj"
-        required
       />
-      <!-- <div class="invalid-tooltip">
-        Por favor forneça um CPF ou CNPJ válido.
-      </div> -->
     </div>
     <div class="col-md-4 mb-3">
       <label for="inscricao_estadual">IE (Inscrição Estadual)</label>
@@ -56,9 +49,6 @@
         id="inscricao_estadual"
         name="inscricao_estadual"
       />
-      <!-- <div class="invalid-tooltip">
-        Por favor forneça uma Inscrição estadual válida.
-      </div> -->
     </div>
     <div class="col-md-4 mb-3">
       <label for="nome_fantasia">Nome fantasia</label>
@@ -68,9 +58,6 @@
         id="nome_fantasia"
         name="nome_fantasia"
       />
-      <!-- <div class="invalid-tooltip">
-        Por favor forneça um Nome fantasia válido.
-      </div> -->
     </div>
     <div class="col-md-4 mb-3">
       <label for="razao_social">Razão Social</label>
@@ -80,9 +67,6 @@
         id="razao_social"
         name="razao_social"
       />
-      <!-- <div class="invalid-tooltip">
-        Por favor forneça uma Razão social válida.
-      </div> -->
     </div>
     <div class="col-md-6 mb-3">
       <label for="email">E-mail</label>
@@ -92,9 +76,6 @@
         id="email"
         name="email"
       />
-      <!-- <div class="invalid-tooltip">
-        Por favor forneça um E-mail válido.
-      </div> -->
     </div>
     <div class="col-md-6 mb-3">
       <label for="telefone">Telefone</label>
