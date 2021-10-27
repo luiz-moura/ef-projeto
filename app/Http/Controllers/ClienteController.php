@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreClienteRequest;
+use App\Http\Requests\UpdateClienteRequest;
 use App\Models\Pessoa;
-use Illuminate\Http\Request;
 
 class ClienteController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('verifica.contexto')->except(['index', 'create', 'store']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +20,7 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        $clientes = Pessoa::whereRelation('contextos', 'tipo', 'c')->latest()->paginate(20);
+        $clientes = Pessoa::tipo('c')->latest()->paginate(20);
 
         return view('clientes.index', compact('clientes'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
@@ -36,14 +42,17 @@ class ClienteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreClienteRequest $request)
     {
-        $request->validate([
-            'nome'      => 'required',
-            'cpf_cnpj'  => 'required'
-        ]);
+        $request->validated();
 
-        Pessoa::create($request->all());
+        $pessoa = Pessoa::create($request->all());
+
+        $pessoa->contextos()->createMany([
+            ['tipo' => 'c'],
+            ['tipo' => 'f'],
+            ['tipo' => 'u'],
+        ]);
 
         return redirect()->route('clientes.index')
             ->with('success', 'Cliente criado com sucesso.');
@@ -78,12 +87,9 @@ class ClienteController extends Controller
      * @param  \App\Models\Pessoa  $cliente
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Pessoa $cliente)
+    public function update(UpdateClienteRequest $request, Pessoa $cliente)
     {
-        $request->validate([
-            'nome'      => 'required',
-            'cpf_cnpj'  => 'required'
-        ]);
+        $request->validated();
 
         $cliente->update($request->all());
 

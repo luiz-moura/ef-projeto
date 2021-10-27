@@ -36,4 +36,16 @@ class Pessoa extends Model
     {
         return $this->hasMany(Contexto::class, 'pessoa_id', 'id');
     }
+
+    public function scopeTipo($qb, $tipo)
+    {
+        $qb->whereRelation('contextos', 'tipo', $tipo);
+        return $qb;
+    }
+
+    public function scopeCliente($qb)
+    {
+        $qb->whereRelation('contextos', 'tipo', 'c');
+        return $qb;
+    }
 }

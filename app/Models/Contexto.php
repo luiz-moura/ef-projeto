@@ -11,8 +11,21 @@ class Contexto extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $fillable = ['tipo', 'vigencia'];
+
     public function pessoa()
     {
         return $this->hasOne(Pessoa::class, 'id', 'pessoa_id');
+    }
+
+    public function getTipoFormatadoAttribute()
+    {
+        return match ($this->tipo) {
+            'c' => 'Cliente',
+            'f' => 'Funcionario',
+            'u' => 'Fornecedor',
+            'e' => 'Empresa',
+            default => null,
+        };
     }
 }
