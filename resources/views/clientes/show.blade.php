@@ -187,15 +187,16 @@
         <i class="bi bi-trash"></i>
         Excluir
       </button>
-      <x-modal target="delete">
-        <x-slot name="title">Deseja deletar esse usuário?</x-slot>
-        <x-slot name="message">Clique em confirmar para deletar, caso deseje cancele a operação!</x-slot>
-	  </x-modal>
     </form>
     <a href="{{ route('clientes.edit', $cliente->id) }}" class="btn btn-dark" type="submit">
       <i class="bi bi-brush"></i> Editar
     </a>
   </div>
 </form>
+
+<x-modal target="delete">
+  <x-slot name="title">Deseja deletar esse usuário?</x-slot>
+  <x-slot name="message">Clique em confirmar para deletar, caso deseje cancele a operação!</x-slot>
+</x-modal>
 
 @endsection

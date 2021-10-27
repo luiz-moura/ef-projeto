@@ -52,15 +52,17 @@
               Excluir
             </button>
           </form>
-          <x-modal target="delete">
-            <x-slot name="title">Deseja deletar esse usuário?</x-slot>
-            <x-slot name="message">Clique em confirmar para deletar, caso deseje cancele a operação!</x-slot>
-          </x-modal>
         </td>
       </tr>
       @endforeach
     </tbody>
   </table>
+
+  <x-modal target="delete">
+    <x-slot name="title">Deseja deletar esse usuário?</x-slot>
+    <x-slot name="message">Clique em confirmar para deletar, caso deseje cancele a operação!</x-slot>
+  </x-modal>
+
   {!! $clientes->links() !!}
 @else
   <div class="alert alert-dark" role="alert">

@@ -206,15 +206,16 @@
 				<i class="bi bi-trash"></i>
 				Excluir
 			</button>
-			<x-modal target="delete">
-				<x-slot name="title">Deseja deletar esse usuário?</x-slot>
-				<x-slot name="message">Clique em confirmar para deletar, caso deseje cancele a operação!</x-slot>
-			</x-modal>
 		</form>
 		<button class="btn btn-primary" type="submit" form="form">
 			<i class="bi bi-check-circle-fill"></i> Atualizar
 		</button>
 	</div>
 </div>
+
+<x-modal target="delete">
+  <x-slot name="title">Deseja deletar esse usuário?</x-slot>
+  <x-slot name="message">Clique em confirmar para deletar, caso deseje cancele a operação!</x-slot>
+</x-modal>
 
 @endsection
