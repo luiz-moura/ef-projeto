@@ -20,7 +20,7 @@ class CreateContextosTable extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->string('tipo');
-            $table->string('vigencia');
+            $table->string('vigencia')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -33,7 +33,9 @@ class CreateContextosTable extends Migration
      */
     public function down()
     {
-        $table->dropForeign('pessoa_id');
+        Schema::table('contextos', function (Blueprint $table) {
+            $table->dropForeign('pessoa_id');
+        });
 
         Schema::dropIfExists('contextos');
     }

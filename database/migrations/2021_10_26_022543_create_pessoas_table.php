@@ -16,7 +16,7 @@ class CreatePessoasTable extends Migration
         Schema::create('pessoas', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
-            $table->string('cpf_cnpj')->unique();
+            $table->string('cpf_cnpj')->nullable()->unique();
             $table->string('email')->nullable()->unique();
             $table->string('telefone')->nullable();
             $table->string('inscricao_estadual')->nullable();
