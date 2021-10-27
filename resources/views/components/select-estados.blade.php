@@ -30,12 +30,11 @@ $estados[] = "Tocantins";
 ?>
 
 <select class="custom-select" id="estado" name="estado" {{ $attributes }}>
-    <option selected disabled value="">Escolha...</option>
+    <option selected value="">Escolha...</option>
     @foreach ($estados as $estado)
-      @if ($select == $estado)
-        <option value="{{ $estado }}" selected>{{ $estado }}</option>
-      @else
-        <option value="{{ $estado }}">{{ $estado }}</option>
-      @endif
+      <option
+        value="{{ $estado }}"
+        <?php (!empty($select) && $select == $estado) && 'selected' ?>
+      >{{ $estado }}</option>
     @endforeach
 </select>
