@@ -6,7 +6,8 @@
   <title>@yield('title')</title>
   <meta name="theme-color" content="#563d7c">
   <link href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900" rel="stylesheet">
-  <link href="https://getbootstrap.com/docs/4.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+  <!-- <link href="https://getbootstrap.com/docs/4.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous"> -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
   <link href="https://getbootstrap.com/docs/4.6/examples/blog/blog.css" rel="stylesheet">
   <link href="{{ asset('styles/app.css') }}" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
@@ -33,6 +34,9 @@
       <nav>
         <div class="nav d-flex">
           <a class="p-2 text-muted" href="{{ route('clientes.index') }}">
+            <i class="bi bi-person-lines-fill"></i> Pré cadastro
+          </a>
+          <a class="p-2 text-muted" href="{{ route('clientes.index') }}">
             <i class="bi bi-person-lines-fill"></i> Clientes
           </a>
           <a class="p-2 text-muted" href="{{ route('fornecedores.index') }}">
@@ -41,8 +45,8 @@
           <a class="p-2 text-muted" href="{{ route('funcionarios.index') }}">
             <i class="bi bi-people-fill"></i> Funcionarios
           </a>
-          <a class="p-2 text-muted" href="#">
-            <i class="bi bi-shop-window"></i> Empresas
+          <a class="p-2 text-muted" href="{{ route('empresas.index') }}">
+            <i class="bi bi-shop-window"></i> Minhas Empresas
           </a>
         </div>
         <div class="nav d-flex">
@@ -73,9 +77,11 @@
     <p>Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})</p>
   </footer>
 
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
   <script>window.jQuery</script>
-  <script src="https://getbootstrap.com/docs/4.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+  <!-- <script src="https://getbootstrap.com/docs/4.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
   <script src="{{ asset('js/jquery.mask.js') }}"></script>
   <script src="{{ asset('js/money-validate.js') }}"></script>
   <script src="{{ asset('js/form-validate.js') }}"></script>

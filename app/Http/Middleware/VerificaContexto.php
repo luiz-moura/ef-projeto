@@ -23,6 +23,7 @@ class VerificaContexto
             'clientes'      => 'c',
             'funcionarios'  => 'f',
             'fornecedores'  => 'u',
+            'empresas'      => 'e',
             default         => null,
         };
 
@@ -30,6 +31,7 @@ class VerificaContexto
             'clientes'      => 'cliente',
             'funcionarios'  => 'funcionario',
             'fornecedores'  => 'fornecedor',
+            'empresas'      => 'empresa',
             default         => null,
         };
 
