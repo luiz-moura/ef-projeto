@@ -35,7 +35,7 @@
           <a class="p-2 text-muted" href="{{ route('clientes.index') }}">
             <i class="bi bi-person-lines-fill"></i> Clientes
           </a>
-          <a class="p-2 text-muted" href="#">
+          <a class="p-2 text-muted" href="{{ route('fornecedores.index') }}">
             <i class="bi bi-truck"></i> Fornecedores
           </a>
           <a class="p-2 text-muted" href="#">

@@ -16,17 +16,24 @@ class VerificaContexto
      */
     public function handle(Request $request, Closure $next)
     {
-        $route = $request->route()->getName();
-        $route = explode('.', $route)[0];
+        $routeName = $request->route()->getName();
+        $routeName = explode('.', $routeName)[0];
 
-        $tipo = match ($route) {
+        $tipo = match ($routeName) {
             'clientes'      => 'c',
             'funcionarios'  => 'f',
             'fornecedores'  => 'u',
             default         => null,
         };
 
-        if ($request->route('cliente')->contextos()->where('tipo', $tipo)->exists()) {
+        $rota = match ($routeName) {
+            'clientes'      => 'cliente',
+            'funcionarios'  => 'funcionario',
+            'fornecedores'  => 'fornecedor',
+            default         => null,
+        };
+
+        if ($request->route($rota)->contextos()->where('tipo', $tipo)->exists()) {
             return $next($request);
         }
 
