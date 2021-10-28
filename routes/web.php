@@ -19,3 +19,4 @@ Route::resource('produtos', 'ProdutoController');
 Route::resource('fornecedores', 'FornecedorController')->parameters(['fornecedores' => 'fornecedor']);
 Route::resource('funcionarios', 'FuncionarioController');
 Route::resource('empresas', 'EmpresaController');
+Route::resource('vendas', 'VendaController');
