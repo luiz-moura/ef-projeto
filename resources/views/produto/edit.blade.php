@@ -76,7 +76,11 @@
     </div>
     <div class="col-md-6 mb-3">
       <label for="categoria_id">Categoria</label>
-      <select class="custom-select" id="categoria_id" name="categoria_id">
+      <select
+        id="categoria_id"
+        class="custom-select"
+        name="categoria_id"
+      >
         <option value="">Escolha...</option>
         @foreach ($categorias as $cat)
           <option

@@ -19,7 +19,12 @@
   @endforeach
 @endif
 
-<form action="{{ route('categorias.store') }}" method="POST" class="needs-validation" novalidate>
+<form
+  action="{{ route('categorias.store') }}"
+  method="POST"
+  class="needs-validation"
+  novalidate
+>
   @csrf
   <div class="form-row">
     <div class="col-md-6 mb-3">

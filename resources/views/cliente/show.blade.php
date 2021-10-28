@@ -11,7 +11,7 @@
 
 <h3 class="pb-4 mb-4 font-italic border-bottom">Visualizar cliente</h3>
 
-<form>
+<div>
   <div class="form-row">
     <div class="col-md-6 mb-3">
       <label for="nome">Nome</label>
@@ -167,35 +167,59 @@
     <div class="col-md-12 mb-5">
       <label class="mr-3">Constar em:</label>
       <div class="custom-control-inline custom-switch mr-3">
-        <input type="checkbox" class="custom-control-input" id="fornecedor" disabled>
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="fornecedor"
+          <?php echo ($cliente->contextos()->where('tipo', 'u')->exists()) ? 'checked' : '' ?>
+          disabled
+        >
         <label class="custom-control-label" for="fornecedor">Fornecedor</label>
       </div>
       <div class="custom-control-inline custom-switch mr-3">
-        <input type="checkbox" class="custom-control-input" id="funcionario" disabled>
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="funcionario"
+          <?php echo ($cliente->contextos()->where('tipo', 'f')->exists()) ? 'checked' : '' ?>
+          disabled
+        >
         <label class="custom-control-label" for="funcionario">Funcionario</label>
       </div>
     </div>
   </div>
-  <div class="text-right">
-    <a class="btn btn-warning" href="{{ route('clientes.index') }}">
-	  <i class="bi bi-arrow-return-left"></i> Voltar
-    </a>
-    <form action="{{ route('clientes.destroy', $cliente->id) }}" method="POST">
-      @csrf
-      @method('DELETE')
-      <button type="submit" class="btn btn-danger" name="delete" data-toggle="modal" data-target="#delete">
-        <i class="bi bi-trash"></i>
-        Excluir
-      </button>
-    </form>
-    <a href="{{ route('clientes.edit', $cliente->id) }}" class="btn btn-dark" type="submit">
-      <i class="bi bi-brush"></i> Editar
-    </a>
+  <div class="form-row">
+    <div class="col-md-12 text-right">
+      <a class="btn btn-warning" href="{{ route('clientes.index') }}">
+      <i class="bi bi-arrow-return-left"></i> Voltar
+      </a>
+      <form
+        action="{{ route('clientes.destroy', $cliente->id) }}"
+        method="POST"
+        class="d-inline"
+      >
+        @csrf
+        @method('DELETE')
+        <button
+          type="submit"
+          class="btn btn-danger"
+          name="delete"
+          data-toggle="modal"
+          data-target="#delete"
+        >
+          <i class="bi bi-trash"></i>
+          Excluir
+        </button>
+      </form>
+      <a href="{{ route('clientes.edit', $cliente->id) }}" class="btn btn-dark">
+        <i class="bi bi-brush"></i> Editar
+      </a>
+    </div>
   </div>
-</form>
+</div>
 
 <x-modal target="delete">
-  <x-slot name="title">Deseja deletar esse usuário?</x-slot>
+  <x-slot name="title">Deseja deletar esse cliente?</x-slot>
   <x-slot name="message">Clique em confirmar para deletar, caso deseje cancele a operação!</x-slot>
 </x-modal>
 

@@ -19,7 +19,13 @@
   @endforeach
 @endif
 
-<form action="{{ route('categorias.update', $categoria->id) }}" method="POST" class="needs-validation" novalidate id="form">
+<form
+  action="{{ route('categorias.update', $categoria->id) }}"
+  method="POST"
+  class="needs-validation"
+  novalidate
+  id="form"
+>
   @csrf
   @method('PUT')
   <div class="form-row">
@@ -51,10 +57,20 @@
 		<a class="btn btn-warning" href="{{ route('categorias.index') }}">
 			<i class="bi bi-arrow-return-left"></i> Cancelar
 		</a>
-		<form action="{{ route('categorias.destroy', $categoria->id) }}" method="POST" class="d-inline">
+		<form
+      action="{{ route('categorias.destroy', $categoria->id) }}"
+      method="POST"
+      class="d-inline"
+    >
 			@csrf
 			@method('DELETE')
-			<button type="submit" class="btn btn-danger d-inline" name="delete" data-toggle="modal" data-target="#delete">
+			<button
+        type="submit"
+        class="btn btn-danger d-inline"
+        name="delete"
+        data-toggle="modal"
+        data-target="#delete"
+      >
 				<i class="bi bi-trash"></i>
 				Excluir
 			</button>

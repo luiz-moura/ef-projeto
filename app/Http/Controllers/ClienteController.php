@@ -22,7 +22,7 @@ class ClienteController extends Controller
     {
         $clientes = Pessoa::tipo('c')->latest()->paginate(20);
 
-        return view('clientes.index', compact('clientes'))
+        return view('cliente.index', compact('clientes'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
@@ -33,7 +33,7 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        return view('clientes.create');
+        return view('cliente.create');
     }
 
     /**
@@ -69,7 +69,7 @@ class ClienteController extends Controller
      */
     public function show(Pessoa $cliente)
     {
-        return view('clientes.show', compact('cliente'));
+        return view('cliente.show', compact('cliente'));
     }
 
     /**
@@ -80,7 +80,7 @@ class ClienteController extends Controller
      */
     public function edit(Pessoa $cliente)
     {
-        return view('clientes.edit', compact('cliente'));
+        return view('cliente.edit', compact('cliente'));
     }
 
     /**
@@ -95,14 +95,6 @@ class ClienteController extends Controller
         $request->validated();
 
         $cliente->update($request->all());
-
-        $tipos = ['c'];
-        if (isset($request->tipo)) {
-            foreach ($request->tipo as $tipo) $tipos[] = $tipo;
-        }
-
-        $cliente->contextos()->where('tipo', '<>', $tipos)->delete();
-        $pessoa->contextos()->createMany($contextos);
 
         return redirect()->route('clientes.index')
             ->with('success', 'Cliente atualizado com sucesso');

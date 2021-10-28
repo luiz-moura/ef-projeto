@@ -33,17 +33,29 @@
         <td>{{ $cat->nome }}</td>
         <td class="text-right">
           <form action="{{ route('categorias.destroy', $cat->id) }}" method="POST">
-            <a href="{{ route('categorias.show', $cat->id) }}" class="btn btn-info pb-0 pt-0">
+            <a
+              href="{{ route('categorias.show', $cat->id) }}"
+              class="btn btn-info pb-0 pt-0"
+            >
               <i class="bi bi-eye-fill"></i>
               Visualizar
             </a>
-            <a href="{{ route('categorias.edit', $cat->id) }}" class="btn btn-dark pb-0 pt-0">
+            <a
+              href="{{ route('categorias.edit', $cat->id) }}"
+              class="btn btn-dark pb-0 pt-0"
+            >
               <i class="bi bi-brush"></i>
               Editar
             </a>
             @csrf
             @method('DELETE')
-            <button type="submit" class="btn btn-danger pb-0 pt-0" name="delete" data-toggle="modal" data-target="#delete">
+            <button
+              type="submit"
+              class="btn btn-danger pb-0 pt-0"
+              name="delete"
+              data-toggle="modal"
+              data-target="#delete"
+            >
               <i class="bi bi-trash"></i>
               Excluir
             </button>
@@ -54,12 +66,12 @@
     </tbody>
   </table>
 
+  {!! $categorias->links() !!}
+
   <x-modal target="delete">
     <x-slot name="title">Deseja deletar essa categoria?</x-slot>
     <x-slot name="message">Clique em confirmar para deletar, caso deseje cancele a operação!</x-slot>
   </x-modal>
-
-  {!! $categorias->links() !!}
 @else
   <div class="alert alert-dark" role="alert">
     Não foram encotrado categorias.

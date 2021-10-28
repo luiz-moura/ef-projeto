@@ -25,7 +25,6 @@
         <th scope="col">Nome</th>
         <th scope="col">CPF/CNPJ</th>
         <th scope="col">Telefone</th>
-        <!-- <th scope="col">Consta como</th> -->
         <th scope="col"></th>
       </tr>
     </thead>
@@ -36,24 +35,34 @@
           <td>{{ $cliente->nome }}</td>
           <td>{{ $cliente->cpf_cnpj }}</td>
           <td>{{ $cliente->telefone }}</td>
-          <!-- <td>
-            @foreach($cliente->contextos as $contexto)
-              {{ $contexto->tipo_formatado . (!$loop->last ? ',' : null) }}
-            @endforeach
-          </td> -->
           <td class="text-right">
-            <form action="{{ route('clientes.destroy', $cliente->id) }}" method="POST">
-              <a href="{{ route('clientes.show', $cliente->id) }}" class="btn btn-info pb-0 pt-0">
+            <form
+              action="{{ route('clientes.destroy', $cliente->id) }}"
+              method="POST"
+            >
+              <a
+                href="{{ route('clientes.show', $cliente->id) }}"
+                class="btn btn-info pb-0 pt-0"
+              >
                 <i class="bi bi-eye-fill"></i>
                 Visualizar
               </a>
-              <a href="{{ route('clientes.edit', $cliente->id) }}" class="btn btn-dark pb-0 pt-0">
+              <a
+                href="{{ route('clientes.edit', $cliente->id) }}"
+                class="btn btn-dark pb-0 pt-0"
+              >
                 <i class="bi bi-brush"></i>
                 Editar
               </a>
               @csrf
               @method('DELETE')
-              <button type="submit" class="btn btn-danger pb-0 pt-0" name="delete" data-toggle="modal" data-target="#delete">
+              <button
+                type="submit"
+                class="btn btn-danger pb-0 pt-0"
+                name="delete"
+                data-toggle="modal"
+                data-target="#delete"
+              >
                 <i class="bi bi-trash"></i>
                 Excluir
               </button>
@@ -64,12 +73,12 @@
     </tbody>
   </table>
 
+  {!! $clientes->links() !!}
+
   <x-modal target="delete">
-    <x-slot name="title">Deseja deletar esse usuário?</x-slot>
+    <x-slot name="title">Deseja deletar esse cliente?</x-slot>
     <x-slot name="message">Clique em confirmar para deletar, caso deseje cancele a operação!</x-slot>
   </x-modal>
-
-
 @else
   <div class="alert alert-dark" role="alert">
     Não foram encotrado clientes.

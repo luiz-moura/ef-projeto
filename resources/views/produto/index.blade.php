@@ -75,12 +75,12 @@
     </tbody>
   </table>
 
+  {!! $produtos->links() !!}
+
   <x-modal target="delete">
     <x-slot name="title">Deseja deletar esse produto?</x-slot>
     <x-slot name="message">Clique em confirmar para deletar, caso deseje cancele a operação!</x-slot>
   </x-modal>
-
-  {!! $produtos->links() !!}
 @else
   <div class="alert alert-dark" role="alert">
     Não foram encotrado produtos.

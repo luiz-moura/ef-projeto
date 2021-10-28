@@ -11,7 +11,7 @@
 
 <h3 class="pb-4 mb-4 font-italic border-bottom">Visualizar produto</h3>
 
-<form>
+<div>
   <div class="form-row">
     <div class="col-md-8 mb-3">
       <label for="nome">Nome</label>
@@ -70,37 +70,37 @@
       </select>
     </div>
   </div>
-</form>
-<div class="form-row">
-  <div class="col-md-12 text-right">
-    <a class="btn btn-warning" href="{{ route('produtos.index') }}">
-	    <i class="bi bi-arrow-return-left"></i> Voltar
-    </a>
-    <form
-      action="{{ route('produtos.destroy', $produto->id) }}"
-      method="POST"
-      class="d-inline"
-    >
-			@csrf
-			@method('DELETE')
-			<button
-        type="submit"
-        class="btn btn-danger d-inline"
-        name="delete"
-        data-toggle="modal"
-        data-target="#delete"
+  <div class="form-row">
+    <div class="col-md-12 text-right">
+      <a class="btn btn-warning" href="{{ route('produtos.index') }}">
+        <i class="bi bi-arrow-return-left"></i> Voltar
+      </a>
+      <form
+        action="{{ route('produtos.destroy', $produto->id) }}"
+        method="POST"
+        class="d-inline"
       >
-				<i class="bi bi-trash"></i>
-				Excluir
-			</button>
-		</form>
-    <a
-      href="{{ route('produtos.edit', $produto->id) }}"
-      class="btn btn-dark"
-      type="submit"
-    >
-      <i class="bi bi-brush"></i> Editar
-    </a>
+        @csrf
+        @method('DELETE')
+        <button
+          type="submit"
+          class="btn btn-danger d-inline"
+          name="delete"
+          data-toggle="modal"
+          data-target="#delete"
+        >
+          <i class="bi bi-trash"></i>
+          Excluir
+        </button>
+      </form>
+      <a
+        href="{{ route('produtos.edit', $produto->id) }}"
+        class="btn btn-dark"
+        type="submit"
+      >
+        <i class="bi bi-brush"></i> Editar
+      </a>
+    </div>
   </div>
 </div>
 

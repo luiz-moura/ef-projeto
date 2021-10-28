@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Cadastrar cliente')
+@section('title', 'Editar cliente')
 
 @section('content')
 
@@ -9,7 +9,7 @@
   Voltar pra lista de clientes
 </a>
 
-<h3 class="pb-4 mb-4 font-italic border-bottom">Cadastrar cliente</h3>
+<h3 class="pb-4 mb-4 font-italic border-bottom">Editar cliente</h3>
 
 @if ($errors->any())
   @foreach ($errors->all() as $error)
@@ -19,8 +19,15 @@
   @endforeach
 @endif
 
-<form action="{{ route('clientes.store') }}" method="POST" class="needs-validation" novalidate>
+<form
+  action="{{ route('clientes.update', $cliente->id) }}"
+  method="POST"
+  id="form"
+  class="needs-validation"
+  novalidate
+>
   @csrf
+  @method('PUT')
   <div class="form-row">
     <div class="col-md-6 mb-3">
       <label for="nome">Nome</label>
@@ -29,6 +36,7 @@
         class="form-control"
         id="nome"
         name="nome"
+        value="{{ $cliente->nome }}"
         required
       />
     </div>
@@ -39,6 +47,7 @@
         class="form-control"
         id="cpf_cnpj"
         name="cpf_cnpj"
+        value="{{ $cliente->cpf_cnpj }}"
       />
     </div>
     <div class="col-md-4 mb-3">
@@ -48,6 +57,7 @@
         class="form-control"
         id="inscricao_estadual"
         name="inscricao_estadual"
+        value="{{ $cliente->inscricao_estadual }}"
       />
     </div>
     <div class="col-md-4 mb-3">
@@ -57,6 +67,7 @@
         class="form-control"
         id="nome_fantasia"
         name="nome_fantasia"
+        value="{{ $cliente->name_fantasia }}"
       />
     </div>
     <div class="col-md-4 mb-3">
@@ -66,6 +77,7 @@
         class="form-control"
         id="razao_social"
         name="razao_social"
+        value="{{ $cliente->razao_social }}"
       />
     </div>
     <div class="col-md-6 mb-3">
@@ -75,6 +87,7 @@
         class="form-control"
         id="email"
         name="email"
+        value="{{ $cliente->email }}"
       />
     </div>
     <div class="col-md-6 mb-3">
@@ -84,6 +97,7 @@
         class="form-control"
         id="telefone"
         name="telefone"
+        value="{{ $cliente->telefone }}"
       />
     </div>
   </div>
@@ -95,6 +109,7 @@
         class="form-control"
         id="bairro"
         name="bairro"
+        value="{{ $cliente->bairro }}"
       />
     </div>
     <div class="col-md-6 mb-3">
@@ -104,6 +119,7 @@
         class="form-control"
         id="rua"
         name="rua"
+        value="{{ $cliente->rua }}"
       />
     </div>
     <div class="col-md-2 mb-3">
@@ -113,6 +129,7 @@
         class="form-control"
         id="numero"
         name="numero"
+        value="{{ $cliente->numero }}"
       />
     </div>
     <div class="col-md-8 mb-3">
@@ -122,6 +139,7 @@
         class="form-control"
         id="complemento"
         name="complemento"
+        value="{{ $cliente->complemento }}"
       />
     </div>
     <div class="col-md-2 mb-3">
@@ -131,6 +149,7 @@
         class="form-control"
         id="cep"
         name="cep"
+        value="{{ $cliente->cep }}"
       />
     </div>
     <div class="col-md-6 mb-3">
@@ -140,11 +159,12 @@
         class="form-control"
         id="cidade"
         name="cidade"
+        value="{{ $cliente->cidade }}"
       />
     </div>
     <div class="col-md-6 mb-3">
       <label for="estado">Estado</label>
-      <x-select-estados />
+      <x-select-estados select="{{ $cliente->estado }}" />
     </div>
   </div>
   <div class="form-row">
@@ -157,6 +177,7 @@
           id="fornecedor"
           name="tipo[]"
           value="u"
+          <?php echo $cliente->contextos()->where('tipo', 'u')->exists() ? 'checked' : '' ?>
         >
         <label class="custom-control-label" for="fornecedor">Fornecedor</label>
       </div>
@@ -167,19 +188,45 @@
           id="funcionario"
           name="tipo[]"
           value="f"
+          <?php echo ($cliente->contextos()->where('tipo', 'f')->exists()) ? 'checked' : '' ?>
         >
         <label class="custom-control-label" for="funcionario">Funcionario</label>
       </div>
     </div>
   </div>
-  <div class="text-right">
-    <a class="btn btn-warning" href="{{ route('clientes.index') }}">
-      <i class="bi bi-arrow-return-left"></i> Cancelar
-    </a>
-    <button class="btn btn-primary" type="submit">
-      <i class="bi bi-check-circle-fill"></i> Cadastrar
-    </button>
-  </div>
 </form>
+<div class="form-row">
+  <div class="col-md-12 text-right">
+		<a class="btn btn-warning" href="{{ route('clientes.index') }}">
+			<i class="bi bi-arrow-return-left"></i> Cancelar
+		</a>
+		<form
+      action="{{ route('clientes.destroy', $cliente->id) }}"
+      method="POST"
+      class="d-inline"
+    >
+			@csrf
+			@method('DELETE')
+			<button
+        type="submit"
+        class="btn btn-danger d-inline"
+        name="delete"
+        data-toggle="modal"
+        data-target="#delete"
+      >
+				<i class="bi bi-trash"></i>
+				Excluir
+			</button>
+		</form>
+		<button class="btn btn-primary" type="submit" form="form">
+			<i class="bi bi-check-circle-fill"></i> Atualizar
+		</button>
+	</div>
+</div>
+
+<x-modal target="delete">
+  <x-slot name="title">Deseja deletar esse cliente?</x-slot>
+  <x-slot name="message">Clique em confirmar para deletar, caso deseje cancele a operação!</x-slot>
+</x-modal>
 
 @endsection
