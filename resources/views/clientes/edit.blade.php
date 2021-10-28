@@ -165,11 +165,25 @@
     <div class="col-md-12 mb-5">
       <label class="mr-3">Constar em:</label>
       <div class="custom-control-inline custom-switch mr-3">
-        <input type="checkbox" class="custom-control-input" id="fornecedor">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="fornecedor"
+          name="tipo[]"
+          value="u"
+          <?php echo $cliente->contextos()->where('tipo', 'u')->exists() ? 'checked' : '' ?>
+        >
         <label class="custom-control-label" for="fornecedor">Fornecedor</label>
       </div>
       <div class="custom-control-inline custom-switch mr-3">
-        <input type="checkbox" class="custom-control-input" id="funcionario">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="funcionario"
+          name="tipo[]"
+          value="f"
+          <?php echo ($cliente->contextos()->where('tipo', 'f')->exists()) ? 'checked' : '' ?>
+        >
         <label class="custom-control-label" for="funcionario">Funcionario</label>
       </div>
     </div>

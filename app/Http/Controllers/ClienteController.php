@@ -48,11 +48,14 @@ class ClienteController extends Controller
 
         $pessoa = Pessoa::create($request->all());
 
-        $pessoa->contextos()->createMany([
-            ['tipo' => 'c'],
-            ['tipo' => 'f'],
-            ['tipo' => 'u'],
-        ]);
+        $contextos = array(['tipo' => 'c']);
+        if (isset($request->tipo)) {
+            foreach ($request->tipo as $tipo) {
+                $contextos[] = ['tipo' => $tipo];
+            }
+        }
+
+        $pessoa->contextos()->createMany($contextos);
 
         return redirect()->route('clientes.index')
             ->with('success', 'Cliente criado com sucesso.');
@@ -92,6 +95,14 @@ class ClienteController extends Controller
         $request->validated();
 
         $cliente->update($request->all());
+
+        $tipos = ['c'];
+        if (isset($request->tipo)) {
+            foreach ($request->tipo as $tipo) $tipos[] = $tipo;
+        }
+
+        $cliente->contextos()->where('tipo', '<>', $tipos)->delete();
+        $pessoa->contextos()->createMany($contextos);
 
         return redirect()->route('clientes.index')
             ->with('success', 'Cliente atualizado com sucesso');
