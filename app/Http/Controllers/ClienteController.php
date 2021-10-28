@@ -94,6 +94,16 @@ class ClienteController extends Controller
     {
         $request->validated();
 
+        $marcados = $request->tipo;
+
+        $cliente->contextos()->whereNotIn('tipo', $marcados)->delete();
+
+        foreach ($marcados as $tipo) {
+            if ($cliente->contextos()->where('tipo', $tipo)->doesntExist()) {
+                $cliente->contextos()->create(['tipo' => $tipo]);
+            }
+        }
+
         $cliente->update($request->all());
 
         return redirect()->route('clientes.index')

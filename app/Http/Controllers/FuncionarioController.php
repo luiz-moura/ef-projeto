@@ -48,7 +48,7 @@ class FuncionarioController extends Controller
 
         $funcionario = Pessoa::create($request->all());
 
-        $contextos = array(['tipo' => 'u']);
+        $contextos = array(['tipo' => 'f']);
         if (isset($request->tipo)) {
             foreach ($request->tipo as $tipo) {
                 $contextos[] = ['tipo' => $tipo];
@@ -93,6 +93,16 @@ class FuncionarioController extends Controller
     public function update(UpdateFuncionarioRequest $request, Pessoa $funcionario)
     {
         $request->validated();
+
+        $marcados = [...$request->tipo, 'e'];
+
+        $funcionario->contextos()->whereNotIn('tipo', $marcados)->delete();
+
+        foreach ($marcados as $tipo) {
+            if ($funcionario->contextos()->where('tipo', $tipo)->doesntExist()) {
+                $funcionario->contextos()->create(['tipo' => $tipo]);
+            }
+        }
 
         $funcionario->update($request->all());
 

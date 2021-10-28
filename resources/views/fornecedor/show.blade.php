@@ -171,10 +171,22 @@
           type="checkbox"
           class="custom-control-input"
           id="fornecedor"
+          name="tipo[]"
+          value="u"
           <?php echo ($fornecedor->contextos()->where('tipo', 'u')->exists()) ? 'checked' : '' ?>
           disabled
         >
         <label class="custom-control-label" for="fornecedor">Fornecedor</label>
+      </div>
+      <div class="custom-control-inline custom-switch mr-3">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="cliente"
+          <?php echo ($fornecedor->contextos()->where('tipo', 'c')->exists()) ? 'checked' : '' ?>
+          disabled
+        >
+        <label class="custom-control-label" for="cliente">Cliente</label>
       </div>
       <div class="custom-control-inline custom-switch mr-3">
         <input

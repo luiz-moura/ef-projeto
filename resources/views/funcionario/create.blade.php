@@ -159,21 +159,21 @@
         <input
           type="checkbox"
           class="custom-control-input"
-          id="funcionario"
+          id="cliente"
           name="tipo[]"
-          value="u"
+          value="c"
         >
-        <label class="custom-control-label" for="funcionario">Funcionario</label>
+        <label class="custom-control-label" for="cliente">Cliente</label>
       </div>
       <div class="custom-control-inline custom-switch mr-3">
         <input
           type="checkbox"
           class="custom-control-input"
-          id="funcionario"
+          id="fornecedor"
           name="tipo[]"
-          value="f"
+          value="u"
         >
-        <label class="custom-control-label" for="funcionario">Funcionario</label>
+        <label class="custom-control-label" for="fornecedor">Fornecedor</label>
       </div>
     </div>
   </div>

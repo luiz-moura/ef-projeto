@@ -176,8 +176,8 @@
           class="custom-control-input"
           id="funcionario"
           name="tipo[]"
-          value="u"
-          <?php echo $funcionario->contextos()->where('tipo', 'u')->exists() ? 'checked' : '' ?>
+          value="f"
+          <?php echo $funcionario->contextos()->where('tipo', 'f')->exists() ? 'checked' : '' ?>
         >
         <label class="custom-control-label" for="funcionario">Funcionario</label>
       </div>
@@ -185,12 +185,23 @@
         <input
           type="checkbox"
           class="custom-control-input"
-          id="funcionario"
+          id="cliente"
           name="tipo[]"
-          value="f"
-          <?php echo ($funcionario->contextos()->where('tipo', 'f')->exists()) ? 'checked' : '' ?>
+          value="c"
+          <?php echo $funcionario->contextos()->where('tipo', 'c')->exists() ? 'checked' : '' ?>
         >
-        <label class="custom-control-label" for="funcionario">Funcionario</label>
+        <label class="custom-control-label" for="cliente">Cliente</label>
+      </div>
+      <div class="custom-control-inline custom-switch mr-3">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="fornecedor"
+          name="tipo[]"
+          value="u"
+          <?php echo ($funcionario->contextos()->where('tipo', 'u')->exists()) ? 'checked' : '' ?>
+        >
+        <label class="custom-control-label" for="fornecedor">Fornecedor</label>
       </div>
     </div>
   </div>

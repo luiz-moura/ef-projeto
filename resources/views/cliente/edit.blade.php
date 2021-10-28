@@ -174,6 +174,17 @@
         <input
           type="checkbox"
           class="custom-control-input"
+          id="cliente"
+          name="tipo[]"
+          value="c"
+          <?php echo $cliente->contextos()->where('tipo', 'c')->exists() ? 'checked' : '' ?>
+        >
+        <label class="custom-control-label" for="cliente">Cliente</label>
+      </div>
+      <div class="custom-control-inline custom-switch mr-3">
+        <input
+          type="checkbox"
+          class="custom-control-input"
           id="fornecedor"
           name="tipo[]"
           value="u"

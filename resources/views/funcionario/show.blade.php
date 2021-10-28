@@ -171,7 +171,7 @@
           type="checkbox"
           class="custom-control-input"
           id="funcionario"
-          <?php echo ($funcionario->contextos()->where('tipo', 'u')->exists()) ? 'checked' : '' ?>
+          <?php echo ($funcionario->contextos()->where('tipo', 'f')->exists()) ? 'checked' : '' ?>
           disabled
         >
         <label class="custom-control-label" for="funcionario">Funcionario</label>
@@ -180,11 +180,21 @@
         <input
           type="checkbox"
           class="custom-control-input"
-          id="funcionario"
-          <?php echo ($funcionario->contextos()->where('tipo', 'f')->exists()) ? 'checked' : '' ?>
+          id="cliente"
+          <?php echo ($funcionario->contextos()->where('tipo', 'c')->exists()) ? 'checked' : '' ?>
           disabled
         >
-        <label class="custom-control-label" for="funcionario">Funcionario</label>
+        <label class="custom-control-label" for="cliente">Cliente</label>
+      </div>
+      <div class="custom-control-inline custom-switch mr-3">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="fornecedor"
+          <?php echo ($funcionario->contextos()->where('tipo', 'u')->exists()) ? 'checked' : '' ?>
+          disabled
+        >
+        <label class="custom-control-label" for="fornecedor">Fornecedor</label>
       </div>
     </div>
   </div>

@@ -94,6 +94,16 @@ class FornecedorController extends Controller
     {
         $request->validated();
 
+        $marcados = [...$request->tipo, 'e'];
+
+        $fornecedor->contextos()->whereNotIn('tipo', $marcados)->delete();
+
+        foreach ($marcados as $tipo) {
+            if ($fornecedor->contextos()->where('tipo', $tipo)->doesntExist()) {
+                $fornecedor->contextos()->create(['tipo' => $tipo]);
+            }
+        }
+
         $fornecedor->update($request->all());
 
         return redirect()->route('fornecedores.index')
