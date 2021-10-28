@@ -38,7 +38,7 @@
           <a class="p-2 text-muted" href="{{ route('fornecedores.index') }}">
             <i class="bi bi-truck"></i> Fornecedores
           </a>
-          <a class="p-2 text-muted" href="#">
+          <a class="p-2 text-muted" href="{{ route('funcionarios.index') }}">
             <i class="bi bi-people-fill"></i> Funcionarios
           </a>
           <a class="p-2 text-muted" href="#">
