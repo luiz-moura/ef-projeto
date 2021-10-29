@@ -71,6 +71,7 @@
           class="form-control money"
           name="valor_venda"
           value="{{ $produto->valor_venda }}"
+          required
         >
       </div>
     </div>

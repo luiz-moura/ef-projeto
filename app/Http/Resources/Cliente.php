@@ -15,9 +15,11 @@ class Cliente extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'nome' => $this->nome,
-            'cpf_cnpj' => $this->cpf_cnpj
+            'id'        => $this->id,
+            'nome'      => $this->nome,
+            'cpf_cnpj'  => $this->cpf_cnpj,
+            'cidade'    => $this->cidade,
+            'estado'    => $this->estado,
         ];
 
         // return parent::toArray($request);

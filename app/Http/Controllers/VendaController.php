@@ -21,10 +21,10 @@ class VendaController extends Controller
         return view('venda.index');
     }
 
-    public function findClienteByCpfOrCnpj(Request $request)
+    public function findClienteByCpfOrCnpj(string $cpfCnpj)
     {
         $cliente = Pessoa::tipo('c')
-            ->where('cpf_cnpj', $request->input('cpf_cnpj'))
+            ->where('cpf_cnpj', $cpfCnpj)
             ->firstOrFail();
 
         return new ClienteResource($cliente);
@@ -36,6 +36,16 @@ class VendaController extends Controller
         $produtos = Produto::where('nome', 'ilike', "%$nome%")->paginate(10);
 
         return ProdutoResource::collection($produtos);
+    }
+
+    public function findClienteByNome(Request $request)
+    {
+        $nome = $request->input('nome');
+        $clientes = Pessoa::tipo('c')
+            ->where('nome', 'ilike', "%$nome%")
+            ->paginate();
+
+        return ClienteResource::collection($clientes);
     }
 
     /**

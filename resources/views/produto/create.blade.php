@@ -62,6 +62,7 @@
         class="form-control"
         id="valor_venda"
         name="valor_venda"
+        required
       />
     </div>
     <div class="col-md-6 mb-3">

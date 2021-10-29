@@ -49,7 +49,7 @@
           </a>
         </div>
         <div class="nav d-flex">
-          <a class="p-2 text-muted" href="{{ route('produtos.index') }}">
+          <a class="p-2 text-muted" href="{{ route('vendas') }}">
             <i class="bi bi-handbag-fill"></i> Venda (PDV)
           </a>
           <a class="p-2 text-muted" href="{{ route('produtos.index') }}">
