@@ -3,18 +3,22 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="{{ $target }}Label">{{ $title }}</h5>
+        @if ($exitButton == 'yes')
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
+        @endif
       </div>
       <div class="modal-body">
         {{ $message }}
       </div>
       <div class="modal-footer">
+        @if ($cancelButton == 'yes')
         <button type="button" id="cancel" class="btn btn-warning" data-dismiss="modal">
           <i class="bi bi-arrow-return-left"></i> Cancelar
         </button>
-        <button type="button" id="confirm" class="btn btn-primary">
+        @endif
+        <button type="button" class="btn btn-primary confirm_btn_modal">
           <i class="bi bi-check-circle-fill"></i> Confirmar
         </button>
       </div>

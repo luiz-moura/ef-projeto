@@ -2,9 +2,11 @@ const instance = axios.create({
   baseURL: 'http://localhost:8000/api'
 });
 
-const venda = {
-  empresa: 1,
-  cliente: null,
+let venda = {
+  empresa_id: 18,
+  cliente: {
+    id: null,
+  },
   forma_pagamento: 'Dinheiro',
   produtos: [],
 
@@ -13,18 +15,63 @@ const venda = {
 };
 
 $(document).ready(function() {
-  let $produtosCliente = $('#adicionados');
-  let $procurarCliente = $("#procurar_cliente");
-  let $cliente_nome = $('#cliente_nome');
-  let $cpf_cnpj = $('#cpf_cnpj');
+  let $clienteNome = $('#cliente_nome');
+  let $cpfCnpj = $('#cpf_cnpj');
   let $estado = $('#estado');
   let $cidade = $('#cidade');
 
+  let $procurarClienteNome = $('#procurar_cliente_nome');
+  let $listaClientes = $('#cliente_lista');
+  let $confirmarClienteBtn = $('#confirmar_cliente');
+
+  let $produtosAdicionados = $('#adicionados');
   let $quantidadeProdutos = $('#quantidade');
+  let $quantidadeProduto = $('#quantidade_produto');
   let $procurarProduto = $('#procurar');
   let $listaProdutos = $('#produtos');
 
-  let $valorVenda = $("#valor_total");
+  let $formMain = $('form#main');
+  let $valorVenda = $('#valor_total');
+  let $pagamentoDinheiro = $('#dinheiro');
+  let $finalizarVenda = $('#finalizar_venda');
+
+  let $modalVenda = $('#venda');
+  let $modalAtalhos = $('#atalhos');
+  let $confirmButton = $('.confirm_btn_modal');
+  let $toast = $('.toast');
+
+  let $caixaAberto = $('#caixa-aberto');
+
+  /**
+   *
+   */
+
+  const resetar = function () {
+    venda = {
+      empresa_id: 18,
+      cliente: {
+        id: null,
+      },
+      forma_pagamento: 'Dinheiro',
+      produtos: [],
+
+      produtosConsulta: [],
+      clientesConsulta: [],
+    };
+
+    $quantidadeProdutos.html(totalProdutos());
+    $valorVenda.html(totalValor());
+    $listaProdutos.html('');
+    $clienteNome.val('');
+    $cpfCnpj.val('');
+    $estado.val('');
+    $cidade.val('');
+    $produtosAdicionados.html('');
+    $listaProdutos.html('');
+    $procurarProduto.val('');
+    $quantidadeProduto.val(1);
+    $pagamentoDinheiro.prop("checked", true);
+  }
 
   // Preenche a quantidade e valor na DOM
   $quantidadeProdutos.html(totalProdutos());
@@ -35,41 +82,42 @@ $(document).ready(function() {
     venda.forma_pagamento = $(this).val();
   });
 
-  // Remove produto do objeto e lista (DOM)
-  $("body").on("click", ".remover_produto", function () {
+  // Remove produto do objeto e da lista (DOM)
+  $('body').on('click', '.remover_produto', function () {
     let hash = $(this).attr('data-target');
 
     pos = venda.produtos.map(function(e) { return e.hash; });
     let index = pos.indexOf(hash);
     venda.produtos.splice(index, 1);
-    // delete venda.produtos[index];
-    // delete venda.produtos[hash]
 
     $(this).parent().remove();
+
     $quantidadeProdutos.html(totalProdutos());
     $valorVenda.html(totalValor());
   });
 
   // Adiciona produto no objeto e na lista (também atualiza a quantidade na DOM)
-  $("body").on("click", "#adicionar_produto", function () {
+  $('body').on('click', '#adicionar_produto', function () {
     if ($listaProdutos.val() == null) {
-      $('.toast').toast('show');
+      $toast.toast('show');
+      return;
+    }
+
+    let quantidade = parseInt($quantidadeProduto.val());
+    if (!Number.isInteger(quantidade) || quantidade < 1) {
+      $toast.toast('show');
       return;
     }
 
     let id = parseInt($listaProdutos.val());
-    let quantidade = parseInt($('#quantidade_produto').val());
-    let hash = Math.random();
 
     pos = venda.produtosConsulta.map(function(e) { return e.id; });
-
     let index = pos.indexOf(id);
 
     let produto = venda.produtosConsulta[index];
-    produto.hash = hash;
+    produto.hash = Math.random();
     produto.quantidade = quantidade;
 
-    // venda.produtos[hash] = (produto)
     venda.produtos.push(produto);
 
     let li = `
@@ -85,7 +133,7 @@ $(document).ready(function() {
       </li>
     `;
 
-    $produtosCliente.append(li);
+    $produtosAdicionados.append(li);
     $quantidadeProdutos.html(totalProdutos());
     $valorVenda.html(totalValor());
   });
@@ -109,8 +157,13 @@ $(document).ready(function() {
 
   // Foca no campo de pesquisar produtos
   $(document).keyup(function (e) {
-    if ((e.key).toLowerCase() === "p") {
+    if ((e.key).toLowerCase() === '+') {
+      $procurarProduto.val('');
       $procurarProduto.focus();
+    } else if (e.key === 'F9') {
+      $finalizarVenda.click();
+    } else if (e.key == 'Enter') {
+      $confirmButton.click();
     }
   });
 
@@ -120,9 +173,8 @@ $(document).ready(function() {
    *
    */
 
-  // Consultas produtos
   $procurarProduto.change(function () {
-    if ($procurarProduto.val() == "") return;
+    if ($procurarProduto.val() == '') return;
 
     $listaProdutos.append('<option disabled>Procurando...</option>');
     instance.post('produtos', {
@@ -140,50 +192,44 @@ $(document).ready(function() {
   });
 
   // Consulta cliente por cfp_cnpj
-  $procurarCliente.submit(function (event) {
-    event.preventDefault();
-
-    if ($cpf_cnpj.val() == "") {
-      $cliente_nome.val('');
+  $cpfCnpj.change(function () {
+    if ($cpfCnpj.val() == '') {
+      $clienteNome.val('');
       $estado.val('');
       $cidade.val('');
-      venda.cliente = null;
+      venda.cliente = {
+        id: null,
+      };
       return;
     }
 
-    instance.get(`cliente/${$cpf_cnpj.val()}`)
+    instance.get(`cliente/${$cpfCnpj.val()}`)
       .then((response) => {
-        let { id, nome, cpf_cnpj, estado, cidade } = response.data.data;
-        // venda.cliente = cpf_cnpj
-        venda.cliente = id;
-        $cliente_nome.val(nome);
+        let cliente = { id, nome, estado, cidade } = response.data.data;
+        venda.cliente = cliente;
+        $clienteNome.val(nome);
         $estado.val(estado);
         $cidade.val(cidade);
       })
       .catch(error => {
-        $cliente_nome.val('');
-        $cpf_cnpj.val('');
+        $clienteNome.val('');
+        $cpfCnpj.val('');
       })
   });
 
-  // Consulta pessoa por nome
-  let $procurar_cliente_nome = $('#procurar_cliente_nome');
-  let $cliente_lista = $('#cliente_lista');
-  let $confirmar_cliente = $('#confirmar_cliente');
-
-  $procurar_cliente_nome.change(function () {
-    if ($procurar_cliente_nome.val() == "") {
-      $cliente_lista.html('');
-      $cliente_lista.hide();
-      $confirmar_cliente.hide();
+  $procurarClienteNome.change(function () {
+    if ($procurarClienteNome.val() == '') {
+      $listaClientes.html('');
+      $listaClientes.hide();
+      $confirmarClienteBtn.hide();
       return;
     }
 
     instance.post(`cliente`, {
-      nome: $procurar_cliente_nome.val()
+      nome: $procurarClienteNome.val()
     })
       .then((response) => {
-        $cliente_lista.html('');
+        $listaClientes.html('');
 
         let clientes = response.data.data;
         if (clientes.length == 0) return;
@@ -191,32 +237,71 @@ $(document).ready(function() {
         venda.clientesConsulta = clientes;
         venda.clientesConsulta.forEach(function (item) {
           let $option = `<option value="${item.id}">${item.nome}</option>`;
-          $cliente_lista.append($option);
+          $listaClientes.append($option);
         });
 
-        $cliente_lista.show();
-        $confirmar_cliente.show();
-        $cliente_lista.focus();
+        $listaClientes.show();
+        $confirmarClienteBtn.show();
+        $listaClientes.focus();
       })
   });
 
-  // Cofirmar cliente
-  $confirmar_cliente.click(function () {
-    let id = parseInt($cliente_lista.val());
+  $confirmarClienteBtn.click(function () {
+    let id = parseInt($listaClientes.val());
 
     pos = venda.clientesConsulta.map(function(e) { return e.id; });
     let index = pos.indexOf(id);
     let meuCliente = venda.clientesConsulta[index];
 
-    $cliente_nome.val(meuCliente.nome);
-    $cpf_cnpj.val(meuCliente.cpf_cnpj);
+    $clienteNome.val(meuCliente.nome);
+    $cpfCnpj.val(meuCliente.cpf_cnpj);
     $estado.val(meuCliente.estado);
     $cidade.val(meuCliente.cidade);
 
     venda.cliente = meuCliente;
 
-    $confirmar_cliente.hide();
-    $cliente_lista.hide();
-    $procurar_cliente_nome.val("");
+    $confirmarClienteBtn.hide();
+    $listaClientes.hide();
+    $procurarClienteNome.val('');
+  });
+
+  $finalizarVenda.click(function () {
+    if (totalProdutos() < 1) {
+      $toast.toast('show');
+      return;
+    }
+
+    let data = {
+      empresa_id: venda.empresa_id,
+      contexto_id: venda.cliente.id,
+      produtos: venda.produtos
+    }
+
+    instance.post('venda/store/', data)
+      .then((response) => {
+        $modalVenda.modal('show');
+        resetar();
+      });
+  });
+
+  $modalVenda.on('hidden.bs.modal', function (event) {
+    $caixaAberto.show();
+  })
+
+  $confirmButton.click(function () {
+    $modalVenda.modal('hide');
+    $modalAtalhos.modal('hide');
+  })
+
+  $formMain.submit(function(event) {
+    event.preventDefault();
+  })
+
+  // document.querySelector('body').addEventListener('keydown', function(event) {
+  //     console.log( event.keyCode );
+  // });
+
+  $('#abrir-caixa').click(function () {
+    $caixaAberto.hide();
   })
 });

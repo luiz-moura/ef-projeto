@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLancamentosTable extends Migration
+class CreateLancamentoTemProdutosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,18 @@ class CreateLancamentosTable extends Migration
      */
     public function up()
     {
-        Schema::create('lancamentos', function (Blueprint $table) {
+        Schema::create('lancamento_tem_produtos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('contexto_id')
-                ->nullable()
-                ->constrained('contextos')
+            $table->foreignId('lancamento_id')
+                ->constrained('lancamentos')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->foreignId('empresa_id')
-                ->constrained('contextos')
+            $table->foreignId('produto_id')
+                ->constrained('produtos')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->string('operacao');
-            $table->dateTime('data_operacao');
+            $table->integer('quantidade');
+            $table->string('preco_unitario');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -38,6 +37,6 @@ class CreateLancamentosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lancamentos');
+        Schema::dropIfExists('lancamento_tem_produtos');
     }
 }

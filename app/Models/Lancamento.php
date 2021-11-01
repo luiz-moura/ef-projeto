@@ -17,4 +17,9 @@ class Lancamento extends Model
         'operacao',
         'data_operacao'
     ];
+
+    public function lancamentoTemProdutos()
+    {
+        return $this->hasMany(LancamentoTemProduto::class, 'lancamento_id', 'id');
+    }
 }

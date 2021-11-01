@@ -24,4 +24,13 @@ class Produto extends Model
     {
         return $this->belongsTo(Categoria::class)->withDefault();
     }
+
+    public function toArray()
+    {
+        return [
+            'id'            => $this->id,
+            'nome'          => $this->nome,
+            'valor_venda'   => $this->valor_venda
+        ];
+    }
 }

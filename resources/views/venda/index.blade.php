@@ -4,11 +4,6 @@
 
 @section('content')
 
-<x-toast>
-  <x-slot name="title">Tentativa falhou</x-slot>
-  <x-slot name="message">Você deve <b>informar o produto</b> antes de tentar adicionar a venda</x-slot>
-</x-toast>
-
 <div class="row">
   <div class="col-md-5 order-md-2 mb-4">
     <h4 class="d-flex justify-content-between align-items-center mb-3">
@@ -20,7 +15,7 @@
     <form class="card p-2 mb-2">
       @csrf
       <div class="input-group mb-2">
-        <input type="text" id="procurar" class="form-control" placeholder="Pesquisar" name="procurar" autocomplete="off">
+        <input type="text" id="procurar" class="form-control" placeholder="Pesquisar por nome ou código de barras" name="procurar" autocomplete="off">
       </div>
       <div class="input-group">
         <select class="form-control" name="produtos" id="produtos">
@@ -48,28 +43,10 @@
         Opcional
       </span>
     </h4>
-    <form id="procurar_cliente">
-      <div class="row">
-        <div class="col-md-12 mb-2">
-          <div class="custom-control custom-checkbox mb-3">
-            <input
-              type="checkbox"
-              class="custom-control-input"
-              id="sem_cliente"
-              checked
-            >
-            <label
-              class="custom-control-label"
-              for="sem_cliente"
-            >
-              Venda sem cliente
-            </label>
-          </div>
-        </div>
-      </div>
+    <form id="main">
       <div class="row">
         <div class="col-md-12">
-          <label for="procurar_cliente_nome">Pesquisar cliente pelo nome</label>
+          <label for="procurar_cliente_nome">Pesquisar cliente pelo nome ou CPF/CNPJ</label>
         </div>
         <div class="col-md-4 mb-3">
           <input
@@ -94,10 +71,6 @@
       <hr class="mb-4">
       <h4 class="d-flex justify-content-between align-items-center mb-3">
         <span class="text-muted">Dados do cliente</span>
-        <span class="badge badge-info badge-pill">
-          <i class="bi bi-info-circle-fill"></i>
-          Caso seja selecionado
-        </span>
       </h4>
       <div class="row">
         <div class="col-md-5 mb-3">
@@ -125,7 +98,7 @@
           Obrigatório
         </span>
       </h4>
-      <div class="d-block my-3">
+      <div class="d-block my-3" id="pagamento">
         <div class="custom-control custom-radio">
           <input id="dinheiro" name="payment_method" type="radio" class="custom-control-input" value="Dinheiro" checked required>
           <label class="custom-control-label" for="dinheiro">Dinheiro</label>
@@ -140,9 +113,23 @@
         </div>
       </div>
       <hr class="mb-4">
-      <button class="btn btn-primary btn-lg btn-block" type="submit">Finalizar venda</button>
+      <button type="sibmit" hidden></button>
+      <button id="finalizar_venda" class="btn btn-primary btn-lg btn-block" type="button">Finalizar venda</button>
     </form>
   </div>
 </div>
+
+<x-toast>
+  <x-slot name="title">Tentativa falhou</x-slot>
+  <x-slot name="message">Você deve <b>informar o produto</b> antes de tentar adicionar a venda</x-slot>
+</x-toast>
+
+<x-modal target="venda" cancel_button="no" exit_button="no">
+  <x-slot name="title">
+    <i class="bi bi-check2-circle"></i>
+    Venda finalizada com sucesso
+  </x-slot>
+  <x-slot name="message">Venda finalizada com sucesso</x-slot>
+</x-modal>
 
 @endsection

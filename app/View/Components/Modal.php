@@ -12,7 +12,9 @@ class Modal extends Component
      * @return void
      */
     public function __construct(
-        public $target
+        public $target,
+        public $cancelButton = 'yes',
+        public $exitButton = 'yes',
     )
     {
         //

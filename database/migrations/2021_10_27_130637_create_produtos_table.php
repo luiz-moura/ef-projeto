@@ -24,7 +24,7 @@ class CreateProdutosTable extends Migration
             $table->string('nome');
             $table->string('marca')->nullable();
             $table->string('ultimo_valor_custo')->nullable();
-            $table->string('valor_venda')->nullable();
+            $table->string('valor_venda');
             $table->timestamps();
             $table->softDeletes();
         });

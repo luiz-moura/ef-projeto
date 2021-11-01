@@ -21,3 +21,4 @@ Route::resource('funcionarios', 'FuncionarioController');
 Route::resource('empresas', 'EmpresaController');
 
 Route::get('vendas', 'VendaController@index')->name('vendas');
+Route::get('caixa', 'VendaController@caixaAberto')->name('caixaAberto');
