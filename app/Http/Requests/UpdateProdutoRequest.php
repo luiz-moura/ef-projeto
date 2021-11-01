@@ -25,8 +25,8 @@ class UpdateProdutoRequest extends FormRequest
     {
         return [
             'nome'          => 'required',
-            'valor_venda'   => 'nullable',
-            'categoria_id'  => 'exists:categorias,id'
+            'valor_venda'   => 'required',
+            'categoria_id'  => 'nullable|exists:categorias,id'
         ];
     }
 }

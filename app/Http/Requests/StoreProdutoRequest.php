@@ -25,7 +25,7 @@ class StoreProdutoRequest extends FormRequest
     {
         return [
             'nome'          => 'required',
-            'valor_venda'   => 'nullable',
+            'valor_venda'   => 'required',
             'categoria_id'  => 'nullable|exists:categorias,id'
         ];
     }

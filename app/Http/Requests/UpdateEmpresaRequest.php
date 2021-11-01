@@ -24,7 +24,9 @@ class UpdateEmpresaRequest extends FormRequest
     public function rules()
     {
         return [
-            'nome' => 'required',
+            'nome'                  => 'required',
+            'cpf_cnpj'              => 'nullable|unique:pessoas,cpf_cnpj',
+            'inscricao_estadual'    => 'nullable|unique:pessoas,inscricao_estadual'
         ];
     }
 }
