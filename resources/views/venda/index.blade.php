@@ -15,7 +15,7 @@
     <form class="card p-2 mb-2">
       @csrf
       <div class="input-group mb-2">
-        <input type="text" id="procurar" class="form-control" placeholder="Pesquisar por nome ou código de barras" name="procurar" autocomplete="off">
+        <input type="text" id="pesquisar_produto" class="form-control" placeholder="Pesquisar por nome ou código de barras" name="pesquisar_produto" autocomplete="off">
       </div>
       <div class="input-group">
         <select class="form-control" name="produtos" id="produtos">
@@ -31,7 +31,7 @@
       </ul>
       <li class="list-group-item d-flex justify-content-between">
         <span>Total (R$)</span>
-        <strong>R$ <span id="valor_total"></span></strong>
+        <strong>R$ <span id="valor_venda"></span></strong>
       </li>
     </ul>
   </div>
@@ -46,11 +46,11 @@
     <form id="main">
       <div class="row">
         <div class="col-md-12">
-          <label for="procurar_cliente_nome">Pesquisar cliente pelo nome ou CPF/CNPJ</label>
+          <label for="cliente_nome_pesquisar">Pesquisar cliente pelo nome ou CPF/CNPJ</label>
         </div>
         <div class="col-md-4 mb-3">
           <input
-            id="procurar_cliente_nome"
+            id="cliente_nome_pesquisa"
             type="text"
             class="form-control"
             id="nome"

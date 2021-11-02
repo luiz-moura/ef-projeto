@@ -2,36 +2,28 @@ const instance = axios.create({
   baseURL: 'http://localhost:8000/api'
 });
 
-let venda = {
-  empresa_id: 18,
-  cliente: {
-    id: null,
-  },
-  forma_pagamento: 'Dinheiro',
-  produtos: [],
-
-  produtosConsulta: [],
-  clientesConsulta: [],
-};
-
 $(document).ready(function() {
+  /**
+   * ELEMENTOS DA DOM
+   */
   let $clienteNome = $('#cliente_nome');
   let $cpfCnpj = $('#cpf_cnpj');
   let $estado = $('#estado');
   let $cidade = $('#cidade');
 
-  let $procurarClienteNome = $('#procurar_cliente_nome');
+  let $inputClienteNome = $('#cliente_nome_pesquisa');
   let $listaClientes = $('#cliente_lista');
   let $confirmarClienteBtn = $('#confirmar_cliente');
 
-  let $produtosAdicionados = $('#adicionados');
-  let $quantidadeProdutos = $('#quantidade');
-  let $quantidadeProduto = $('#quantidade_produto');
-  let $procurarProduto = $('#procurar');
+  let $inputProduto = $('#pesquisar_produto');
   let $listaProdutos = $('#produtos');
+  let $produtosAdicionados = $('#adicionados');
+  let $quantidadeTotalProdutos = $('#quantidade');
+  let $quantidadeProduto = $('#quantidade_produto');
+  let $adicionarProduto = $('#adicionar_produto');
 
   let $formMain = $('form#main');
-  let $valorVenda = $('#valor_total');
+  let $valorVenda = $('#valor_venda');
   let $pagamentoDinheiro = $('#dinheiro');
   let $finalizarVenda = $('#finalizar_venda');
 
@@ -41,25 +33,10 @@ $(document).ready(function() {
   let $toast = $('.toast');
 
   let $caixaAberto = $('#caixa-aberto');
-
-  /**
-   *
-   */
+  let $abrirCaixa = $('#abrir-caixa');
 
   const resetar = function () {
-    venda = {
-      empresa_id: 18,
-      cliente: {
-        id: null,
-      },
-      forma_pagamento: 'Dinheiro',
-      produtos: [],
-
-      produtosConsulta: [],
-      clientesConsulta: [],
-    };
-
-    $quantidadeProdutos.html(totalProdutos());
+    $quantidadeTotalProdutos.html(totalProdutos());
     $valorVenda.html(totalValor());
     $listaProdutos.html('');
     $clienteNome.val('');
@@ -68,36 +45,69 @@ $(document).ready(function() {
     $cidade.val('');
     $produtosAdicionados.html('');
     $listaProdutos.html('');
-    $procurarProduto.val('');
+    $inputProduto.val('');
     $quantidadeProduto.val(1);
     $pagamentoDinheiro.prop("checked", true);
   }
 
-  // Preenche a quantidade e valor na DOM
-  $quantidadeProdutos.html(totalProdutos());
-  $valorVenda.html(totalValor());
+  // INIT
+  resetar();
 
-  // Altera a forma de pagamento do objeto
-  $("input[name='payment_method']").change(function () {
-    venda.forma_pagamento = $(this).val();
+  // Retorna a quantidade geral de produtos
+  function totalProdutos() {
+    let total = 0;
+
+    $produtosAdicionados.children('li').each(function () {
+      total += parseFloat($(this).data('fields').quantidade);
+    })
+
+    return total;
+  }
+
+  function totalValor() {
+    let total = 0;
+
+    $produtosAdicionados.children('li').each(function () {
+      let { valor_venda, quantidade } = $(this).data('fields')
+      total += parseFloat(valor_venda) * quantidade;
+    })
+
+    return total;
+  }
+
+  $(document).keyup(function (e) {
+    switch (e.key) {
+      case '+':
+        $inputProduto.val('');
+        $inputProduto.focus();
+        break;
+      case 'F9':
+        $finalizarVenda.click();
+        break;
+      case 'Enter':
+        $confirmButton.click();
+        break;
+    }
   });
 
-  // Remove produto do objeto e da lista (DOM)
-  $('body').on('click', '.remover_produto', function () {
-    let hash = $(this).attr('data-target');
+  /**
+   * Remove produto da lista
+   * Atualiza quantidade total da venda
+   * Atualiza valor total da venda
+   */
+   $('body').on('click', '.remover_produto', function () {
+    $(this).parent('li').remove();
 
-    pos = venda.produtos.map(function(e) { return e.hash; });
-    let index = pos.indexOf(hash);
-    venda.produtos.splice(index, 1);
-
-    $(this).parent().remove();
-
-    $quantidadeProdutos.html(totalProdutos());
+    $quantidadeTotalProdutos.html(totalProdutos());
     $valorVenda.html(totalValor());
   });
 
-  // Adiciona produto no objeto e na lista (também atualiza a quantidade na DOM)
-  $('body').on('click', '#adicionar_produto', function () {
+  /**
+   * Adiciona produto na lista
+   * Atualiza a quantidade total da venda
+   * Atualiza valor total da venda
+   */
+   $adicionarProduto.on('click', function () {
     if ($listaProdutos.val() == null) {
       $toast.toast('show');
       return;
@@ -109,62 +119,45 @@ $(document).ready(function() {
       return;
     }
 
-    let id = parseInt($listaProdutos.val());
+    let produto = $listaProdutos.find(':selected').data('fields');
 
-    pos = venda.produtosConsulta.map(function(e) { return e.id; });
-    let index = pos.indexOf(id);
+    $li = $('<li>', {
+      class: "list-group-item d-flex justify-content-between lh-condensed",
+    });
 
-    let produto = venda.produtosConsulta[index];
-    produto.hash = Math.random();
-    produto.quantidade = quantidade;
+    $('<span>', {
+      class: 'remover_produto'
+    })
+      .append('<i class="bi bi-x-circle"></i>')
+      .appendTo($li);
 
-    venda.produtos.push(produto);
+    let $general = $('<div>', {
+      class: 'custom'
+    }).appendTo($li);
 
-    let li = `
-      <li class="list-group-item d-flex justify-content-between lh-condensed">
-        <span class="remover_produto" data-target="${produto.hash}">
-          <i class="bi bi-x-circle"></i>
-        </span>
-        <div>
-          <h6 class="my-0">${produto.nome}</h6>
-          <small class="text-muted">Quantidade: ${produto.quantidade}</small>
-        </div>
-        <span class="text-muted">R$ ${parseInt(produto.valor_venda) * produto.quantidade}</span>
-      </li>
-    `;
+    $('<h6>', {
+      class: 'my-0',
+      text: produto.nome
+    }).appendTo($general);
 
-    $produtosAdicionados.append(li);
-    $quantidadeProdutos.html(totalProdutos());
+    $('<small>', {
+      class: 'text-muted',
+      text: `Quantidade: ${$quantidadeProduto.val()}`
+    }).appendTo($general);
+
+    $('<span>', {
+      class: 'text-muted',
+      text: `R$ ${parseFloat(produto.valor_venda) * quantidade}`
+    }).appendTo($li);
+
+    $li.data('fields', {
+      ...produto,
+      quantidade,
+    })
+
+    $produtosAdicionados.append($li);
+    $quantidadeTotalProdutos.html(totalProdutos());
     $valorVenda.html(totalValor());
-  });
-
-  // Retorna a quantidade geral de produtos
-  function totalProdutos() {
-    let total = 0;
-    jQuery.each(venda.produtos, function (i, val) {
-      total += parseFloat(val.quantidade);
-    });
-    return total;
-  }
-
-  function totalValor() {
-    let total = 0;
-    jQuery.each(venda.produtos, function (i, val) {
-      total += parseFloat(val.valor_venda) * val.quantidade;
-    });
-    return total;
-  }
-
-  // Foca no campo de pesquisar produtos
-  $(document).keyup(function (e) {
-    if ((e.key).toLowerCase() === '+') {
-      $procurarProduto.val('');
-      $procurarProduto.focus();
-    } else if (e.key === 'F9') {
-      $finalizarVenda.click();
-    } else if (e.key == 'Enter') {
-      $confirmButton.click();
-    }
   });
 
   /**
@@ -172,21 +165,23 @@ $(document).ready(function() {
    * CONSULTAS
    *
    */
-
-  $procurarProduto.change(function () {
-    if ($procurarProduto.val() == '') return;
+  $inputProduto.change(function () {
+    if ($(this).val() == '') return;
 
     $listaProdutos.append('<option disabled>Procurando...</option>');
     instance.post('produtos', {
-      nome: $procurarProduto.val()
+      nome: $(this).val()
     })
-      .then(function (response) {
+      .then(function ({ data }) {
         $listaProdutos.html('');
-        venda.produtosConsulta = response.data.data;
-        venda.produtosConsulta.forEach(function (item) {
-          let option = `<option value="${item.id}">${item.nome}</option>`;
-          $listaProdutos.append(option);
+
+        data.data.forEach(function (item) {
+          $('<option>', {
+            value: item.id,
+            text: item.nome,
+          }).data('fields', item).appendTo($listaProdutos);
         });
+
         $listaProdutos.focus();
       });
   });
@@ -197,47 +192,46 @@ $(document).ready(function() {
       $clienteNome.val('');
       $estado.val('');
       $cidade.val('');
-      venda.cliente = {
-        id: null,
-      };
       return;
     }
 
     instance.get(`cliente/${$cpfCnpj.val()}`)
-      .then((response) => {
-        let cliente = { id, nome, estado, cidade } = response.data.data;
-        venda.cliente = cliente;
+      .then(({ data }) => {
+        let { nome, estado, cidade } = data.data;
+
+        $cpfCnpj.data('fields', data.data);
         $clienteNome.val(nome);
         $estado.val(estado);
         $cidade.val(cidade);
       })
       .catch(error => {
-        $clienteNome.val('');
         $cpfCnpj.val('');
+        $clienteNome.val('');
+        $estado.val('');
+        $cidade.val('');
       })
   });
 
-  $procurarClienteNome.change(function () {
-    if ($procurarClienteNome.val() == '') {
+  $inputClienteNome.change(function () {
+    if ($(this).val() == '') {
       $listaClientes.html('');
       $listaClientes.hide();
       $confirmarClienteBtn.hide();
       return;
     }
 
-    instance.post(`cliente`, {
-      nome: $procurarClienteNome.val()
+    instance.post('cliente', {
+      nome: $(this).val()
     })
-      .then((response) => {
+      .then(({ data }) => {
         $listaClientes.html('');
+        if (data.data.length == 0) return;
 
-        let clientes = response.data.data;
-        if (clientes.length == 0) return;
-
-        venda.clientesConsulta = clientes;
-        venda.clientesConsulta.forEach(function (item) {
-          let $option = `<option value="${item.id}">${item.nome}</option>`;
-          $listaClientes.append($option);
+        data.data.forEach(function (item) {
+          $('<option>', {
+            value: item.id,
+            text: item.nome
+          }).data('fields', item).appendTo($listaClientes);
         });
 
         $listaClientes.show();
@@ -247,22 +241,16 @@ $(document).ready(function() {
   });
 
   $confirmarClienteBtn.click(function () {
-    let id = parseInt($listaClientes.val());
+    let cliente = $listaClientes.find(':selected').data('fields');
 
-    pos = venda.clientesConsulta.map(function(e) { return e.id; });
-    let index = pos.indexOf(id);
-    let meuCliente = venda.clientesConsulta[index];
-
-    $clienteNome.val(meuCliente.nome);
-    $cpfCnpj.val(meuCliente.cpf_cnpj);
-    $estado.val(meuCliente.estado);
-    $cidade.val(meuCliente.cidade);
-
-    venda.cliente = meuCliente;
+    $cpfCnpj.val(cliente.cpf_cnpj).data('fields', cliente);
+    $clienteNome.val(cliente.nome);
+    $estado.val(cliente.estado);
+    $cidade.val(cliente.cidade);
 
     $confirmarClienteBtn.hide();
     $listaClientes.hide();
-    $procurarClienteNome.val('');
+    $inputClienteNome.val('');
   });
 
   $finalizarVenda.click(function () {
@@ -271,37 +259,43 @@ $(document).ready(function() {
       return;
     }
 
+    let forma_pagamento = $("input[name='payment_method']:checked").val();
+    let produtos = [];
+
+    $produtosAdicionados.children('li').each(function () {
+      produtos.push($(this).data('fields'));
+    })
+
     let data = {
-      empresa_id: venda.empresa_id,
-      contexto_id: venda.cliente.id,
-      produtos: venda.produtos
+      empresa_id: 18,
+      contexto_id: $cpfCnpj.data('fields').id,
+      forma_pagamento,
+      produtos,
     }
 
+    console.log(data);
+
     instance.post('venda/store/', data)
-      .then((response) => {
+      .then(() => {
         $modalVenda.modal('show');
         resetar();
       });
   });
 
-  $modalVenda.on('hidden.bs.modal', function (event) {
+  $modalVenda.on('hidden.bs.modal', function () {
     $caixaAberto.show();
-  })
+  });
 
   $confirmButton.click(function () {
     $modalVenda.modal('hide');
     $modalAtalhos.modal('hide');
-  })
+  });
+
+  $abrirCaixa.click(function () {
+    $caixaAberto.hide();
+  });
 
   $formMain.submit(function(event) {
     event.preventDefault();
-  })
-
-  // document.querySelector('body').addEventListener('keydown', function(event) {
-  //     console.log( event.keyCode );
-  // });
-
-  $('#abrir-caixa').click(function () {
-    $caixaAberto.hide();
-  })
+  });
 });
