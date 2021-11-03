@@ -48,17 +48,17 @@ class EmpresaController extends Controller
 
         $empresa = Pessoa::create($request->all());
 
-        $contextos = array(['tipo' => 'e']);
-        if (isset($request->tipo)) {
-            foreach ($request->tipo as $tipo) {
-                $contextos[] = ['tipo' => $tipo];
-            }
+        $marcados = $request->tipo ?: [];
+
+        $contextos = [['tipo' => 'e']];
+        foreach ($marcados as $tipo) {
+            $contextos[] = ['tipo' => $tipo];
         }
 
         $empresa->contextos()->createMany($contextos);
 
         return redirect()->route('empresas.index')
-            ->with('success', 'Empresa criado com sucesso.');
+            ->with('success', 'Empresa criada com sucesso.');
     }
 
     /**
@@ -94,7 +94,7 @@ class EmpresaController extends Controller
     {
         $request->validated();
 
-        $marcados = [...$request->tipo, 'e'];
+        $marcados = $request->tipo ?: [];
 
         $empresa->contextos()->whereNotIn('tipo', $marcados)->delete();
 
@@ -107,7 +107,7 @@ class EmpresaController extends Controller
         $empresa->update($request->all());
 
         return redirect()->route('empresas.index')
-            ->with('success', 'Empresa atualizado com sucesso');
+            ->with('success', 'Empresa atualizada com sucesso');
     }
 
     /**
@@ -121,6 +121,6 @@ class EmpresaController extends Controller
         $empresa->delete();
 
         return redirect()->route('empresas.index')
-            ->with('success', 'Empresa deletado com sucesso');
+            ->with('success', 'Empresa deletada com sucesso');
     }
 }

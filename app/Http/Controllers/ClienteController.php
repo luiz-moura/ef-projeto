@@ -48,11 +48,11 @@ class ClienteController extends Controller
 
         $pessoa = Pessoa::create($request->all());
 
-        $contextos = array(['tipo' => 'c']);
-        if (isset($request->tipo)) {
-            foreach ($request->tipo as $tipo) {
-                $contextos[] = ['tipo' => $tipo];
-            }
+        $marcados = $request->tipo ?: [];
+
+        $contextos = [['tipo' => 'c']];
+        foreach ($marcados as $tipo) {
+            $contextos[] = ['tipo' => $tipo];
         }
 
         $pessoa->contextos()->createMany($contextos);
@@ -94,7 +94,7 @@ class ClienteController extends Controller
     {
         $request->validated();
 
-        $marcados = $request->tipo;
+        $marcados = $request->tipo ?: [];
 
         $cliente->contextos()->whereNotIn('tipo', $marcados)->delete();
 

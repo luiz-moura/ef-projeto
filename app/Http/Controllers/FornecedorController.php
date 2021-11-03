@@ -48,11 +48,11 @@ class FornecedorController extends Controller
 
         $fornecedor = Pessoa::create($request->all());
 
-        $contextos = array(['tipo' => 'u']);
-        if (isset($request->tipo)) {
-            foreach ($request->tipo as $tipo) {
-                $contextos[] = ['tipo' => $tipo];
-            }
+        $marcados = $request->tipo ?: [];
+
+        $contextos = [['tipo' => 'u']];
+        foreach ($marcados as $tipo) {
+            $contextos[] = ['tipo' => $tipo];
         }
 
         $fornecedor->contextos()->createMany($contextos);
@@ -94,7 +94,7 @@ class FornecedorController extends Controller
     {
         $request->validated();
 
-        $marcados = [...$request->tipo, 'e'];
+        $marcados = $request->tipo ?: [];
 
         $fornecedor->contextos()->whereNotIn('tipo', $marcados)->delete();
 
