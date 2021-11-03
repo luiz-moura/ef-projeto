@@ -13,12 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::resource('pessoas', 'PessoaController');
 Route::resource('clientes', 'ClienteController');
-Route::resource('categorias', 'CategoriaController');
-Route::resource('produtos', 'ProdutoController');
 Route::resource('fornecedores', 'FornecedorController')->parameters(['fornecedores' => 'fornecedor']);
 Route::resource('funcionarios', 'FuncionarioController');
 Route::resource('empresas', 'EmpresaController');
+
+Route::resource('categorias', 'CategoriaController');
+Route::resource('produtos', 'ProdutoController');
 
 Route::get('vendas', 'VendaController@index')->name('vendas');
 Route::get('caixa', 'VendaController@caixaAberto')->name('caixaAberto');
