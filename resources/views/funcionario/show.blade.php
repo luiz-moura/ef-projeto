@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
-@section('title', 'Visualizar funcionario')
+@section('title', 'Visualizar funcionário')
 
 @section('content')
 
 <a href="{{ route('funcionarios.index') }}" class="d-block mb-4">
   <i class="bi bi-arrow-return-left"></i>
-  Voltar pra lista de funcionarios
+  Voltar para a lista de funcionários
 </a>
 
-<h3 class="pb-4 mb-4 font-italic border-bottom">Visualizar funcionario</h3>
+<h3 class="pb-4 mb-4 font-italic border-bottom">Visualizar funcionário</h3>
 
 <div>
   <div class="form-row">
@@ -196,6 +196,16 @@
         >
         <label class="custom-control-label" for="fornecedor">Fornecedor</label>
       </div>
+      <div class="custom-control-inline custom-switch mr-3">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="empresa"
+          <?php echo ($funcionario->contextos()->where('tipo', 'e')->exists()) ? 'checked' : '' ?>
+          disabled
+        >
+        <label class="custom-control-label" for="empresa">Empresa</label>
+      </div>
     </div>
   </div>
   <div class="form-row">
@@ -229,7 +239,7 @@
 </div>
 
 <x-modal target="delete">
-  <x-slot name="title">Deseja deletar esse funcionario?</x-slot>
+  <x-slot name="title">Deseja deletar esse funcionário?</x-slot>
   <x-slot name="message">Clique em confirmar para deletar, caso deseje cancele a operação!</x-slot>
 </x-modal>
 

@@ -6,7 +6,7 @@
 
 <a href="{{ route('produtos.index') }}" class="d-block mb-4">
   <i class="bi bi-arrow-return-left"></i>
-  Voltar pra lista de produtos
+  Voltar para a lista de produtos
 </a>
 
 <h3 class="pb-4 mb-4 font-italic border-bottom">Editar produto</h3>

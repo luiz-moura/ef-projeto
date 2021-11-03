@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
-@section('title', 'Editar funcionario')
+@section('title', 'Editar funcionário')
 
 @section('content')
 
 <a href="{{ route('funcionarios.index') }}" class="d-block mb-4">
   <i class="bi bi-arrow-return-left"></i>
-  Voltar pra lista de Funcionarios
+  Voltar para a lista de funcionários
 </a>
 
-<h3 class="pb-4 mb-4 font-italic border-bottom">Editar funcionario</h3>
+<h3 class="pb-4 mb-4 font-italic border-bottom">Editar funcionário</h3>
 
 @if ($errors->any())
   @foreach ($errors->all() as $error)
@@ -202,6 +202,17 @@
           <?php echo ($funcionario->contextos()->where('tipo', 'u')->exists()) ? 'checked' : '' ?>
         >
         <label class="custom-control-label" for="fornecedor">Fornecedor</label>
+      </div>
+      <div class="custom-control-inline custom-switch mr-3">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="empresa"
+          name="tipo[]"
+          value="e"
+          <?php echo ($funcionario->contextos()->where('tipo', 'e')->exists()) ? 'checked' : '' ?>
+        >
+        <label class="custom-control-label" for="empresa">Empresa</label>
       </div>
     </div>
   </div>

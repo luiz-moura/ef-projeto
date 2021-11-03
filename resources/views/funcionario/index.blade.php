@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
-@section('title', 'Funcionarios')
+@section('title', 'Funcionários')
 
 @section('content')
 
 <a href="{{ route('funcionarios.create') }}" class="d-block mb-4">
   <i class="bi bi-person-plus-fill"></i>
-  Cadastrar novos funcionarios
+  Cadastrar funcionário
 </a>
 
-<h3 class="pb-4 mb-4 font-italic border-bottom">Funcionarios</h3>
+<h3 class="pb-4 mb-4 font-italic border-bottom">Funcionários</h3>
 
 @if ($message = Session::get('success'))
   <x-alert type="success">
@@ -76,12 +76,12 @@
   {!! $funcionarios->links() !!}
 
   <x-modal target="delete">
-    <x-slot name="title">Deseja deletar esse funcionario?</x-slot>
+    <x-slot name="title">Deseja deletar esse funcionário?</x-slot>
     <x-slot name="message">Clique em confirmar para deletar, caso deseje cancele a operação!</x-slot>
   </x-modal>
 @else
   <div class="alert alert-dark" role="alert">
-    Não foram encotrado funcionarios.
+    Não foram encotrado funcionários.
   </div>
 @endif
 

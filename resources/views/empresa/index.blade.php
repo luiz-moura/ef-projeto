@@ -6,7 +6,7 @@
 
 <a href="{{ route('empresas.create') }}" class="d-block mb-4">
   <i class="bi bi-person-plus-fill"></i>
-  Cadastrar novas empresas
+  Cadastrar empresa
 </a>
 
 <h3 class="pb-4 mb-4 font-italic border-bottom">Empresas</h3>
@@ -76,7 +76,7 @@
   {!! $empresas->links() !!}
 
   <x-modal target="delete">
-    <x-slot name="title">Deseja deletar esse empresa?</x-slot>
+    <x-slot name="title">Deseja deletar essa empresa?</x-slot>
     <x-slot name="message">Clique em confirmar para deletar, caso deseje cancele a operação!</x-slot>
   </x-modal>
 @else

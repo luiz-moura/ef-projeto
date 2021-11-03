@@ -6,7 +6,7 @@
 
 <a href="{{ route('categorias.index') }}" class="d-block mb-4">
   <i class="bi bi-arrow-return-left"></i>
-  Voltar pra lista de categorias
+  Voltar para a lista de categorias
 </a>
 
 <h3 class="pb-4 mb-4 font-italic border-bottom">Editar categoria</h3>

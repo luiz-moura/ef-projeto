@@ -6,7 +6,7 @@
 
 <a href="{{ route('fornecedores.index') }}" class="d-block mb-4">
   <i class="bi bi-arrow-return-left"></i>
-  Voltar pra lista de Fornecedores
+  Voltar para a lista de Fornecedores
 </a>
 
 <h3 class="pb-4 mb-4 font-italic border-bottom">Editar fornecedor</h3>
@@ -201,7 +201,18 @@
           value="f"
           <?php echo ($fornecedor->contextos()->where('tipo', 'f')->exists()) ? 'checked' : '' ?>
         >
-        <label class="custom-control-label" for="funcionario">Funcionario</label>
+        <label class="custom-control-label" for="funcionario">Funcionário</label>
+      </div>
+      <div class="custom-control-inline custom-switch mr-3">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="empresa"
+          name="tipo[]"
+          value="e"
+          <?php echo ($fornecedor->contextos()->where('tipo', 'e')->exists()) ? 'checked' : '' ?>
+        >
+        <label class="custom-control-label" for="empresa">Empresa</label>
       </div>
     </div>
   </div>

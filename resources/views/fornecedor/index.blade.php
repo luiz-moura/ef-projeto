@@ -6,7 +6,7 @@
 
 <a href="{{ route('fornecedores.create') }}" class="d-block mb-4">
   <i class="bi bi-person-plus-fill"></i>
-  Cadastrar novos fornecedores
+  Cadastrar fornecedor
 </a>
 
 <h3 class="pb-4 mb-4 font-italic border-bottom">Fornecedores</h3>

@@ -6,7 +6,7 @@
 
 <a href="{{ route('fornecedores.index') }}" class="d-block mb-4">
   <i class="bi bi-arrow-return-left"></i>
-  Voltar pra lista de fornecedores
+  Voltar para a lista de fornecedores
 </a>
 
 <h3 class="pb-4 mb-4 font-italic border-bottom">Cadastrar fornecedor</h3>
@@ -173,7 +173,17 @@
           name="tipo[]"
           value="f"
         >
-        <label class="custom-control-label" for="funcionario">Funcionario</label>
+        <label class="custom-control-label" for="funcionario">Funcionário</label>
+      </div>
+      <div class="custom-control-inline custom-switch mr-3">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="empresa"
+          name="tipo[]"
+          value="e"
+        >
+        <label class="custom-control-label" for="empresa">Empresa</label>
       </div>
     </div>
   </div>

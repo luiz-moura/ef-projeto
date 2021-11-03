@@ -6,7 +6,7 @@
 
 <a href="{{ route('empresas.index') }}" class="d-block mb-4">
   <i class="bi bi-arrow-return-left"></i>
-  Voltar pra lista de Empresas
+  Voltar para a lista de empresas
 </a>
 
 <h3 class="pb-4 mb-4 font-italic border-bottom">Editar empresa</h3>
@@ -174,6 +174,17 @@
         <input
           type="checkbox"
           class="custom-control-input"
+          id="empresa"
+          name="tipo[]"
+          value="e"
+          <?php echo ($empresa->contextos()->where('tipo', 'e')->exists()) ? 'checked' : '' ?>
+        >
+        <label class="custom-control-label" for="empresa">Empresa</label>
+      </div>
+      <div class="custom-control-inline custom-switch mr-3">
+        <input
+          type="checkbox"
+          class="custom-control-input"
           id="cliente"
           name="tipo[]"
           value="c"
@@ -191,6 +202,17 @@
           <?php echo ($empresa->contextos()->where('tipo', 'u')->exists()) ? 'checked' : '' ?>
         >
         <label class="custom-control-label" for="fornecedor">Fornecedor</label>
+      </div>
+      <div class="custom-control-inline custom-switch mr-3">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="funcionario"
+          name="tipo[]"
+          value="f"
+          <?php echo ($empresa->contextos()->where('tipo', 'f')->exists()) ? 'checked' : '' ?>
+        >
+        <label class="custom-control-label" for="funcionario">Funcionário</label>
       </div>
     </div>
   </div>
@@ -225,7 +247,7 @@
 </div>
 
 <x-modal target="delete">
-  <x-slot name="title">Deseja deletar esse empresa?</x-slot>
+  <x-slot name="title">Deseja deletar essa empresa?</x-slot>
   <x-slot name="message">Clique em confirmar para deletar, caso deseje cancele a operação!</x-slot>
 </x-modal>
 

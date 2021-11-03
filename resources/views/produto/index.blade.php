@@ -6,7 +6,7 @@
 
 <a href="{{ route('produtos.create') }}" class="d-block mb-4">
   <i class="bi bi-cart-plus-fill"></i>
-  Cadastrar novos produtos
+  Cadastrar produto
 </a>
 
 <h3 class="pb-4 mb-4 font-italic border-bottom">Produtos</h3>
