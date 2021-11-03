@@ -153,7 +153,7 @@ $(document).ready(function() {
     $li.data('fields', {
       ...produto,
       quantidade,
-    })
+    });
 
     $produtosAdicionados.append($li);
     $quantidadeTotalProdutos.html(totalProdutos());
@@ -260,11 +260,10 @@ $(document).ready(function() {
     }
 
     let forma_pagamento = $("input[name='payment_method']:checked").val();
-    let produtos = [];
 
-    $produtosAdicionados.children('li').each(function () {
-      produtos.push($(this).data('fields'));
-    })
+    let produtos = $produtosAdicionados.children('li').map(function () {
+      return $(this).data('fields');
+    }).toArray();
 
     let data = {
       empresa_id: 18,
@@ -272,8 +271,6 @@ $(document).ready(function() {
       forma_pagamento,
       produtos,
     }
-
-    console.log(data);
 
     instance.post('venda/store/', data)
       .then(() => {
