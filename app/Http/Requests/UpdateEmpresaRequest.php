@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateEmpresaRequest extends FormRequest
 {
@@ -25,8 +26,14 @@ class UpdateEmpresaRequest extends FormRequest
     {
         return [
             'nome'                  => 'required',
-            'cpf_cnpj'              => 'nullable|unique:pessoas,cpf_cnpj',
-            'inscricao_estadual'    => 'nullable|unique:pessoas,inscricao_estadual'
+            'cpf_cnpj'              => [
+                'nullable',
+                Rule::unique('pessoas')->ignore($this->empresa->id)
+            ],
+            'inscricao_estadual'    => [
+                'nullable',
+                Rule::unique('pessoas')->ignore($this->empresa->inscricao_estadual)
+            ],
         ];
     }
 }
