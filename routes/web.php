@@ -21,6 +21,9 @@ Route::resource('empresas', 'EmpresaController');
 
 Route::resource('categorias', 'CategoriaController');
 Route::resource('produtos', 'ProdutoController');
+Route::resource('lancamentos', 'LancamentoController');
+
+Route::get('lancamento-tem-produtos/edit/{lancamentoTemProduto}', 'LancamentoTemProdutoController@edit')->name('lancamento-produtos');
 
 Route::get('vendas', 'VendaController@index')->name('vendas');
 Route::get('caixa', 'VendaController@caixaAberto')->name('caixaAberto');

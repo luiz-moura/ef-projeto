@@ -32,8 +32,8 @@
     <div class="nav-scroller py-1 mb-4">
       <nav>
         <div class="nav d-flex">
-          <a class="p-2 text-muted" href="{{ route('clientes.index') }}">
-            <i class="bi bi-person-lines-fill"></i> Pré cadastro
+          <a class="p-2 text-muted" href="{{ route('pessoas.index') }}">
+            <i class="bi bi-person-lines-fill"></i> Pessoas
           </a>
           <a class="p-2 text-muted" href="{{ route('clientes.index') }}">
             <i class="bi bi-person-lines-fill"></i> Clientes
@@ -51,6 +51,9 @@
         <div class="nav d-flex">
           <a class="p-2 text-muted" href="{{ route('vendas') }}">
             <i class="bi bi-handbag-fill"></i> Venda (PDV)
+          </a>
+          <a class="p-2 text-muted" href="{{ route('produtos.index') }}">
+            <i class="bi bi-handbag-fill"></i> Lançamentos
           </a>
           <a class="p-2 text-muted" href="{{ route('produtos.index') }}">
             <i class="bi bi-handbag-fill"></i> Produtos
