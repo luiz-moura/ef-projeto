@@ -25,7 +25,9 @@
 
   <div class="container-xl">
     <div class="py-5 text-center">
-      <img style="filter: invert(100%)" class="d-block mx-auto mb-4" src="{{ asset('images/logo.png') }}" alt="" width="150">
+      <a href="{{ route('home') }}">
+        <img style="filter: invert(100%)" class="d-block mx-auto mb-4" src="{{ asset('images/logo.png') }}" alt="Eficiência Fiscal" width="150">
+      </a>
     </div>
 
     @yield('content')

@@ -4,7 +4,7 @@
 
 @section('content')
 
-<a href="{{ route('categorias.create') }}" class="d-block mb-4 text-uppercase">
+<a href="{{ route('categorias.create') }}" class="d-block mb-4">
   <i class="bi bi-bookmark-plus-fill"></i>
   Cadastrar categoria
 </a>

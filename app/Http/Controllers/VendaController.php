@@ -6,7 +6,6 @@ use App\Models\Lancamento;
 use App\Models\Pessoa;
 use App\Models\Produto;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Http\Resources\Cliente as ClienteResource;
 use App\Http\Resources\Produto as ProdutoResource;
 use App\Http\Resources\Venda as VendaResource;
@@ -21,10 +20,6 @@ class VendaController extends Controller
     public function index()
     {
         return view('venda.index');
-    }
-
-    public function caixaAberto() {
-        return view('venda.aberto');
     }
 
     public function findClienteByCpfOrCnpj(string $cpfCnpj)
@@ -58,16 +53,6 @@ class VendaController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -88,57 +73,12 @@ class VendaController extends Controller
             $produtos[] = [
                 "produto_id"        => $p['id'],
                 "preco_unitario"    => $p['valor_venda'],
-                "quantidade"       => -abs($p['quantidade']),
+                "quantidade"        => $p['quantidade'],
             ];
         }
 
         $lancamento->lancamentoTemProdutos()->createMany($produtos);
 
         return new VendaResource($lancamento);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Lancamento  $lancamento
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Lancamento $lancamento)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Lancamento  $lancamento
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Lancamento $lancamento)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Lancamento  $lancamento
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Lancamento $lancamento)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Lancamento  $lancamento
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Lancamento $lancamento)
-    {
-        //
     }
 }

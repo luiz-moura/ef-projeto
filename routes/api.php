@@ -21,5 +21,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('cliente/{cpf_cnpj}', 'VendaController@findClienteByCpfOrCnpj');
 Route::post('cliente/', 'VendaController@findClienteByNome');
 Route::post('produtos/', 'VendaController@findProdutoByNome');
-
 Route::post('venda/store/', 'VendaController@store');
