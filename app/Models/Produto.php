@@ -25,12 +25,17 @@ class Produto extends Model
         return $this->belongsTo(Categoria::class)->withDefault();
     }
 
-    public function toArray()
+    public function lancamentoTemProdutos()
     {
-        return [
-            'id'            => $this->id,
-            'nome'          => $this->nome,
-            'valor_venda'   => $this->valor_venda
-        ];
+        return $this->hasMany(LancamentoTemProduto::class);
+    }
+
+    public function lancamentos()
+    {
+        return $this
+            ->belongsToMany(Lancamento::class, 'lancamento_tem_produtos')
+            ->using(LancamentoTemProduto::class)
+            ->withPivot('id', 'quantidade', 'preco_unitario')
+            ->wherePivotNull('deleted_at');
     }
 }

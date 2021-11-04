@@ -4,7 +4,7 @@
 
 @section('content')
 
-<a href="{{ route('lancamentos.show', $lancamentoTemProduto->lancamento_id) }}" class="d-block mb-4">
+<a href="{{ route('lancamentos.edit', $lancamentoTemProduto->lancamento_id) }}" class="d-block mb-4">
   <i class="bi bi-arrow-return-left"></i>
   Voltar para o lançamento
 </a>
@@ -20,7 +20,7 @@
 @endif
 
 <form
-  action=""
+  action="{{ route('lancamento-produtos.update', $lancamentoTemProduto->id) }}"
   method="POST"
   class="needs-validation"
   novalidate
@@ -30,35 +30,35 @@
   @method('PUT')
   <div class="form-row">
     <div class="col-md-12 mb-3">
-      <label for="nome">Produto</label>
+      <label for="produto_id">Produto</label>
       <input
         type="text"
         class="form-control"
-        id="nome"
-        name="nome"
+        id="produto_id"
+        name="produto_id"
         value="{{ $lancamentoTemProduto->produto->nome }}"
         disabled
         required
       />
     </div>
     <div class="col-md-6 mb-3">
-      <label for="nome">Quantidade</label>
+      <label for="quantidade">Quantidade</label>
       <input
         type="text"
         class="form-control"
-        id="nome"
-        name="nome"
+        id="quantidade"
+        name="quantidade"
         value="{{ $lancamentoTemProduto->quantidade }}"
         required
       />
     </div>
     <div class="col-md-6 mb-3">
-      <label for="descricao">Preço unitario</label>
+      <label for="preco_unitario">Preço unitario</label>
       <input
         type="text"
         class="form-control"
-        id="descricao"
-        name="descricao"
+        id="preco_unitario"
+        name="preco_unitario"
         value="{{ $lancamentoTemProduto->preco_unitario }}"
       />
     </div>
@@ -66,11 +66,11 @@
 </form>
 <div class="form-row">
   <div class="col-md-12 text-right">
-		<a class="btn btn-warning" href="{{ route('lancamentos.index') }}">
+		<a class="btn btn-warning" href="{{ route('lancamentos.edit', $lancamentoTemProduto->lancamento_id) }}">
 			<i class="bi bi-arrow-return-left"></i> Cancelar
 		</a>
 		<form
-      action=""
+      action="{{ route('lancamento-produtos.destroy', $lancamentoTemProduto->id) }}"
       method="POST"
       class="d-inline"
     >
@@ -94,7 +94,7 @@
 </div>
 
 <x-modal target="delete">
-  <x-slot name="title">Deseja deletar essa categoria?</x-slot>
+  <x-slot name="title">Deseja deletar essa produto do lançamento?</x-slot>
   <x-slot name="message">Clique em confirmar para deletar, caso deseje cancele a operação!</x-slot>
 </x-modal>
 

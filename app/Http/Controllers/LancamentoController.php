@@ -47,9 +47,6 @@ class LancamentoController extends Controller
      */
     public function show(Lancamento $lancamento)
     {
-        // dd($lancamento->produtos);
-        // dd($lancamento->lancamentoTemProdutos);
-
         return view('lancamento.show', compact('lancamento'));
     }
 
@@ -61,7 +58,7 @@ class LancamentoController extends Controller
      */
     public function edit(Lancamento $lancamento)
     {
-        //
+        return view('lancamento.edit', compact('lancamento'));
     }
 
     /**
@@ -84,6 +81,9 @@ class LancamentoController extends Controller
      */
     public function destroy(Lancamento $lancamento)
     {
-        //
+        $lancamento->delete();
+
+        return redirect()->route('lancamentos.index')
+            ->with('success', 'Lançamento excluído com sucesso');
     }
 }

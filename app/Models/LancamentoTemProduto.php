@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use function PHPUnit\Framework\matches;
+
 class LancamentoTemProduto extends Pivot
 {
     use HasFactory;
@@ -25,7 +27,8 @@ class LancamentoTemProduto extends Pivot
         return $this->hasOne(Produto::class, 'id', 'produto_id');
     }
 
-    public function getQuantidadeAttribute($value) {
-        return abs($value);
+    public function lancamento()
+    {
+        return $this->hasOne(Lancamento::class, 'id', 'lancamento_id');
     }
 }

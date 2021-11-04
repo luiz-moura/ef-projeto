@@ -4,7 +4,7 @@
 
 @section('content')
 
-<a href="{{ route('lancamentos.create') }}" class="d-block mb-4 text-uppercase">
+<a href="{{ route('lancamentos.create') }}" class="d-block mb-4">
   <i class="bi bi-bookmark-plus-fill"></i>
   Cadastrar lançamento
 </a>
@@ -32,7 +32,7 @@
       <tr>
         <th scope="row">{{ $lancamento->id }}</th>
         <td>{{ $lancamento->empresa->nome }}</td>
-        <td>{{ $lancamento->operacao_formatado }}</td>
+        <td>{{ $lancamento->operacao }}</td>
         <td>{{ $lancamento->data_operacao }}</td>
         <td class="text-right">
           <form action="{{ route('lancamentos.destroy', $lancamento->id) }}" method="POST">

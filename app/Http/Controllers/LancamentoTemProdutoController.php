@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreLancamentoTemProdutoRequest;
 use App\Models\LancamentoTemProduto;
-use Illuminate\Http\Request;
 
 class LancamentoTemProdutoController extends Controller
 {
@@ -25,9 +25,14 @@ class LancamentoTemProdutoController extends Controller
      * @param  \App\Models\LancamentoTemProduto  $lancamentoTemProduto
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, LancamentoTemProduto $lancamentoTemProduto)
+    public function update(StoreLancamentoTemProdutoRequest $request, LancamentoTemProduto $lancamentoTemProduto)
     {
-        //
+        $request->validated();
+
+        $lancamentoTemProduto->update($request->all());
+
+        return redirect()->route('lancamentos.edit', $lancamentoTemProduto->lancamento_id)
+            ->with('success', 'Produto do lançamento atualizado com sucesso.');
     }
 
     /**
@@ -38,6 +43,9 @@ class LancamentoTemProdutoController extends Controller
      */
     public function destroy(LancamentoTemProduto $lancamentoTemProduto)
     {
-        //
+        $lancamentoTemProduto->delete();
+
+        return redirect()->route('lancamentos.edit', $lancamentoTemProduto->lancamento_id)
+            ->with('success', 'Produto do lançamento deletado com sucesso');
     }
 }

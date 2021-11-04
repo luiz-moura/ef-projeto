@@ -1,9 +1,11 @@
-$('button[name="delete"]').on('click', function(e) {
+$('button[name="delete"], button[name="delete-produto"]').on('click', function(e) {
   var $form = $(this).closest('form');
 
   e.preventDefault();
 
-  $('#delete').modal({
+  $modal = $(this).attr('name');
+
+  $(`#${$modal}`).modal({
       backdrop: 'static',
       keyboard: false
     })

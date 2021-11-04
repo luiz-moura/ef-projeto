@@ -25,13 +25,13 @@
       />
     </div>
     <div class="col-md-6 mb-3">
-      <label for="descricao">Pessoa</label>
+      <label for="descricao">{{ $lancamento->contexto_pessoa }}</label>
       <input
         type="text"
         class="form-control"
         id="contexto_id"
         name="contexto_id"
-        value="{{ $lancamento->contexto_id }}"
+        value="{{ $lancamento->contexto->nome }}"
         disabled
       />
     </div>
@@ -42,7 +42,7 @@
         class="form-control"
         id="operacao"
         name="operacao"
-        value="{{ $lancamento->operacao_formatado }}"
+        value="{{ $lancamento->operacao }}"
         disabled
       />
     </div>
@@ -58,6 +58,7 @@
       />
     </div>
   </div>
+  @if (!$lancamento->produtos->isEmpty())
   <table class="table table-striped table-borderless table-responsive-lg">
     <thead>
       <tr>
@@ -65,7 +66,6 @@
         <th scope="col">Produto</th>
         <th scope="col">Quantidade</th>
         <th scope="col">Valor</th>
-        <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
@@ -73,28 +73,20 @@
       <tr>
         <th scope="row">{{ $produto->pivot->id }}</th>
         <td>{{ $produto->nome }}</td>
-        <td>{{ abs($produto->pivot->quantidade ) }}</td>
+        <td>{{ $produto->pivot->quantidade }}</td>
         <td>{{ $produto->pivot->preco_unitario }}</td>
-        <td class="text-right">
-          <a
-            href="{{ route('lancamento-produtos', $produto->pivot->id) }}"
-            class="btn btn-dark pb-0 pt-0"
-          >
-            <i class="bi bi-brush"></i>
-            Editar
-          </a>
-        </td>
       </tr>
       @endforeach
     </tbody>
   </table>
+  @endif
   <div class="form-row">
     <div class="col-md-12 text-right">
       <a class="btn btn-warning" href="{{ route('lancamentos.index') }}">
         <i class="bi bi-arrow-return-left"></i> Voltar
       </a>
       <form
-        action="{{ route('lancamentos.destroy', $produto->pivot->id) }}"
+        action="{{ route('lancamentos.destroy', $lancamento->id) }}"
         method="POST"
         class="d-inline"
       >
@@ -112,7 +104,7 @@
         </button>
       </form>
       <a
-        href="{{ route('lancamentos.edit', $produto->pivot->id) }}"
+        href="{{ route('lancamentos.edit', $lancamento->id) }}"
         class="btn btn-dark"
       >
         <i class="bi bi-brush"></i> Editar

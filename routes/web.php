@@ -12,18 +12,22 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/', 'HomeController@index')->name('home');
 
 Route::resource('pessoas', 'PessoaController');
 Route::resource('clientes', 'ClienteController');
-Route::resource('fornecedores', 'FornecedorController')->parameters(['fornecedores' => 'fornecedor']);
 Route::resource('funcionarios', 'FuncionarioController');
 Route::resource('empresas', 'EmpresaController');
-
+Route::resource('fornecedores', 'FornecedorController')
+    ->parameters(['fornecedores' => 'fornecedor']);
 Route::resource('categorias', 'CategoriaController');
 Route::resource('produtos', 'ProdutoController');
 Route::resource('lancamentos', 'LancamentoController');
-
-Route::get('lancamento-tem-produtos/edit/{lancamentoTemProduto}', 'LancamentoTemProdutoController@edit')->name('lancamento-produtos');
+Route::resource('lancamento-produtos', 'LancamentoTemProdutoController')
+    ->parameters(['lancamento-produtos' => 'lancamentoTemProduto'])
+    ->only(['index', 'show', 'edit', 'update', 'destroy']);
 
 Route::get('vendas', 'VendaController@index')->name('vendas');
-Route::get('caixa', 'VendaController@caixaAberto')->name('caixaAberto');
+
+Route::get('relatorio-vendas', 'RelatorioController@vendas')->name('relatorio-vendas');
+Route::get('relatorio-posicoes', 'RelatorioController@posicoes')->name('relatorio-posicoes');
