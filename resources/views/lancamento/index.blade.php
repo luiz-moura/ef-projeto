@@ -32,8 +32,8 @@
       <tr>
         <th scope="row">{{ $lancamento->id }}</th>
         <td>{{ $lancamento->empresa->nome }}</td>
-        <td>{{ $lancamento->operacao }}</td>
-        <td>{{ $lancamento->data_operacao }}</td>
+        <td>{{ $lancamento->operacao_formatada }}</td>
+        <td>{{ $lancamento->data_operacao_formatada }}</td>
         <td class="text-right">
           <form action="{{ route('lancamentos.destroy', $lancamento->id) }}" method="POST">
             <a

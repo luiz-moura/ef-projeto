@@ -54,6 +54,31 @@ div#toast {
     justify-content: center;
 }
 
-.remover_produto {
+.remover_produto,
+.remove-prod-btn {
     cursor: pointer;
+}
+
+.icon-lanc {
+    width: 34px;
+    height: 34px;
+    background: darkorchid;
+    color: white;
+    border-radius: 5px;
+    margin-right: 1rem;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.icon-lanc:hover {
+    color: yellow;
+}
+
+tr.border-top.my-color {
+    background: #f1f1f1;
+}
+
+tr.info > th {
+    font-weight: 500;
 }

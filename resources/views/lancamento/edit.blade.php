@@ -66,7 +66,7 @@
         id="operacao"
         name="operacao"
         disabled
-        value="{{ $lancamento->operacao }}"
+        value="{{ $lancamento->operacao_formatada }}"
       />
     </div>
     <div class="col-md-6 mb-3">
@@ -77,7 +77,7 @@
         id="data_operacao"
         name="data_operacao"
         disabled
-        value="{{ $lancamento->data_operacao }}"
+        value="{{ $lancamento->data_operacao_formatada }}"
       />
     </div>
   </div>
@@ -160,7 +160,7 @@
 </x-modal>
 
 <x-modal target="delete-produto">
-  <x-slot name="title">Deseja esse produto do lançamento?</x-slot>
+  <x-slot name="title">Deseja deletar esse produto do lançamento?</x-slot>
   <x-slot name="message">Clique em confirmar para deletar, caso deseje cancele a operação!</x-slot>
 </x-modal>
 

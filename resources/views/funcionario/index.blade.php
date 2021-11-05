@@ -33,7 +33,7 @@
         <tr>
           <th scope="row">{{ $funcionario->id }}</th>
           <td>{{ $funcionario->nome }}</td>
-          <td>{{ $funcionario->cpf_cnpj }}</td>
+          <td>{{ $funcionario->cpf_cnpj_formatado }}</td>
           <td>{{ $funcionario->telefone }}</td>
           <td class="text-right">
             <form

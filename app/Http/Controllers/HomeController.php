@@ -33,6 +33,8 @@ class HomeController extends Controller
             ->orderBy('total', 'desc')
             ->get();
 
-        return view('home', compact('relVendas'));
+        $lancamentos = Lancamento::latest()->paginate(10);
+
+        return view('home', compact('relVendas'), compact('lancamentos'));
     }
 }

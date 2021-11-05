@@ -42,7 +42,7 @@
         class="form-control"
         id="operacao"
         name="operacao"
-        value="{{ $lancamento->operacao }}"
+        value="{{ $lancamento->operacao_formatada }}"
         disabled
       />
     </div>
@@ -53,7 +53,7 @@
         class="form-control"
         id="data_operacao"
         name="data_operacao"
-        value="{{ $lancamento->data_operacao }}"
+        value="{{ $lancamento->data_operacao_formatada }}"
         disabled
       />
     </div>

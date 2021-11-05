@@ -34,33 +34,34 @@ class Lancamento extends Model
 
     public function empresa()
     {
-        return $this->hasOne(Pessoa::class, 'id', 'empresa_id');
+        return $this->hasOne(Pessoa::class, 'id', 'empresa_id')->withDefault();
     }
 
     public function contexto()
     {
-        return $this->hasOne(Pessoa::class, 'id', 'contexto_id');
+        return $this->hasOne(Pessoa::class, 'id', 'contexto_id')->withDefault();
     }
 
-    public function getOperacaoAttribute($value)
+    public function getOperacaoFormatadaAttribute()
     {
-        return match ($value) {
-            'v' => 'Venda',
-            's' => 'Saída',
-            'e' => 'Entrada',
-            default => null,
+        return match ($this->operacao) {
+            'v'     => 'Venda',
+            's'     => 'Saída',
+            'e'     => 'Entrada',
+            default => 'null',
         };
     }
 
-    public function getDataOperacaoAttribute($value) {
-        return \Carbon\Carbon::parse($value)->format('h:m - d/m/Y');
+    public function getDataOperacaoFormatadaAttribute() {
+        return \Carbon\Carbon::parse($this->data_operacao)
+            ->format('h:m - d/m/Y');
     }
 
     public function getContextoPessoaAttribute() {
         return match ($this->operacao) {
-            'Venda'     => 'Cliente',
-            'Saída'     => 'Pessoa',
-            'Entrada'   => 'Fornecedor',
+            'v'         => 'Cliente',
+            's'         => 'Pessoa',
+            'e'         => 'Fornecedor',
             default     => 'Pessoa',
         };
     }

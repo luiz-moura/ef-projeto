@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Relatório de vendas')
+@section('title', 'Relatório de vendas simples')
 
 @section('content')
 
-<h3 class="pb-4 mb-4 font-italic border-bottom">Relatório de vendas</h3>
+<h3 class="pb-4 mb-4 font-italic border-bottom">Relatório de vendas simples</h3>
 
 <form class="mb-5">
   <div class="form-row align-items-center">
@@ -32,29 +32,25 @@
     <thead>
       <tr class="table-active">
         <th scope="col"><i class="bi bi-key-fill"></i></th>
+        <th scope="col">Data</th>
         <th scope="col">Empresa</th>
         <th scope="col">Cliente</th>
-        <th scope="col" colspan="2">Data</th>
+        <th scope="col">Produto</th>
+        <th scope="col">Quantidade</th>
+        <th scope="col">Preço</th>
+        <th scope="col">Total</th>
       </tr>
     </thead>
     <tbody>
       @foreach($vendas as $venda)
-      <tr class="border-top">
-        <td scope="row">{{ $venda->id }}</td>
-        <td>{{ $venda->empresa->nome }}</td>
-        <td>{{ $venda->contexto->nome }}</td>
-        <td>{{ $venda->data_operacao }}</td>
-        <tr>
-          <th scope="col" class="border-right"></th>
-          <th scope="col" class="border-bottom">Produto</th>
-          <th scope="col" class="border-bottom">Quantidade</th>
-          <th scope="col" class="border-bottom">Preço praticado</th>
-          <th scope="col" class="border-bottom">Total</th>
-        </tr>
+      <tr class="border-top my-color">
         @foreach($venda->produtos as $produto)
         <tr>
-          <td class="border-right"></td>
-          <td>{{ $produto->nome }}</td>
+          <td scope="row"><b>{{ $venda->id }}</b></td>
+          <td>{{ $venda->data_operacao_formatada }}</td>
+          <td>{{ substr($venda->empresa->nome, 0, 10) }}</td>
+          <td>{{ substr($venda->contexto->nome, 0, 10) }}</td>
+          <td>{{ substr($produto->nome, 0, 20) }}</td>
           <td>{{ $produto->pivot->quantidade }}</td>
           <td>R$ {{ $produto->pivot->preco_unitario }}</td>
           <td>R$ {{ $produto->pivot->preco_unitario * $produto->pivot->quantidade }}</td>

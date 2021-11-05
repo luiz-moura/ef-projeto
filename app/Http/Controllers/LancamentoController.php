@@ -25,7 +25,7 @@ class LancamentoController extends Controller
      */
     public function create()
     {
-        //
+        return view('lancamento.create');
     }
 
     /**
@@ -36,7 +36,28 @@ class LancamentoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $lancamento = new Lancamento();
+        $lancamento->operacao = $request->input('operacao');
+        $lancamento->empresa_id = $request->input('empresa_id');
+        $lancamento->contexto_id = $request->input('contexto_id');
+        $lancamento->data_operacao = date('Y-m-d H:i:s');
+
+        $lancamento->save();
+
+        $produtos = [];
+        foreach ($request->input('produtos') as $p) {
+            $produtos[] = [
+                "produto_id"        => $p['id'],
+                "preco_unitario"    => $p['valor_venda'],
+                "quantidade"        => $p['quantidade'],
+            ];
+        }
+
+        $lancamento->lancamentoTemProdutos()->createMany($produtos);
+
+        return [
+          'ok' => 'sucesso'
+        ];
     }
 
     /**

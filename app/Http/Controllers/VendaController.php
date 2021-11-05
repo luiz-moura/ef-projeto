@@ -33,7 +33,8 @@ class VendaController extends Controller
 
     public function findProdutoByNome(Request $request)
     {
-        $nome = $request->input('nome');
+        $nome = $request->query('search');
+
         $produtos = Produto::where('nome', 'ilike', "%$nome%")
             ->orWhere('codigo_barras', $nome)
             ->paginate(10);
@@ -43,11 +44,35 @@ class VendaController extends Controller
 
     public function findClienteByNome(Request $request)
     {
-        $nome = $request->input('nome');
+        $nome = $request->query('nome');
+
         $clientes = Pessoa::tipo('c')
             ->where('nome', 'ilike', "%$nome%")
             ->orWhere('cpf_cnpj', 'ilike', "%$nome%")
-            ->paginate();
+            ->paginate(10);
+
+        return ClienteResource::collection($clientes);
+    }
+
+    public function findEmpresaByNome(Request $request)
+    {
+        $nome = $request->query('search');
+
+        $clientes = Pessoa::tipo('e')
+            ->where('nome', 'ilike', "%$nome%")
+            ->orWhere('cpf_cnpj', 'ilike', "%$nome%")
+            ->paginate(10);
+
+        return ClienteResource::collection($clientes);
+    }
+
+    public function findPessoaByNome(Request $request)
+    {
+        $nome = $request->query('search');
+
+        $clientes = Pessoa::where('nome', 'ilike', "%$nome%")
+            ->orWhere('cpf_cnpj', 'ilike', "%$nome%")
+            ->paginate(10);
 
         return ClienteResource::collection($clientes);
     }

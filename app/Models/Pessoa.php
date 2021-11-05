@@ -48,4 +48,39 @@ class Pessoa extends Model
         $qb->whereRelation('contextos', 'tipo', 'c');
         return $qb;
     }
+
+    public function getCreatedAtFormatadaAttribute() {
+        return \Carbon\Carbon::parse($this->created_at)
+            ->format('d/m/Y');
+    }
+
+    public function getCpfCnpjFormatadoAttribute() {
+        if (is_null($this->cpf_cnpj)) {
+            return null;
+        }
+
+        if (strlen($this->cpf_cnpj) > 14) {
+            return $this->mask($this->cpf_cnpj, '###.###.###-##');
+        } else {
+            return $this->mask($this->cpf_cnpj, '##.###.###/####-##');
+        }
+    }
+
+    public function setCpfCnpjAttribute($value) {
+        $onlyNumber = preg_replace('/[^0-9]/', '', $value);
+        $this->attributes['cpf_cnpj'] = $onlyNumber;
+    }
+
+    private function mask($val, $mask) {
+        $maskared = '';
+        $k = 0;
+        for($i = 0; $i<=strlen($mask)-1; $i++) {
+            if($mask[$i] == '#') {
+                if(isset($val[$k])) $maskared .= $val[$k++];
+            } else {
+                if(isset($mask[$i])) $maskared .= $mask[$i];
+            }
+        }
+        return $maskared;
+    }
 }

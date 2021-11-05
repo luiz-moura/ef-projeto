@@ -37,17 +37,18 @@ $(document).ready(function() {
 
   const resetar = function () {
     $quantidadeTotalProdutos.html(totalProdutos());
-    $valorVenda.html(totalValor());
     $listaProdutos.html('');
     $clienteNome.val('');
     $cpfCnpj.val('');
+    $cpfCnpj.data('fields', { id: null});
     $estado.val('');
     $cidade.val('');
     $produtosAdicionados.html('');
     $listaProdutos.html('');
     $inputProduto.val('');
-    $quantidadeProduto.val(1);
     $pagamentoDinheiro.prop("checked", true);
+    $quantidadeProduto.val(1);
+    $valorVenda.html(totalValor());
   }
 
   // INIT
@@ -95,7 +96,7 @@ $(document).ready(function() {
    * Atualiza quantidade total da venda
    * Atualiza valor total da venda
    */
-   $('body').on('click', '.remover_produto', function () {
+  $('body').on('click', '.remover_produto', function () {
     $(this).parent('li').remove();
 
     $quantidadeTotalProdutos.html(totalProdutos());
@@ -113,7 +114,9 @@ $(document).ready(function() {
       return;
     }
 
-    let quantidade = parseInt($quantidadeProduto.val());
+    let quantidade = parseFloat($quantidadeProduto.val());
+    console.log(quantidade);
+
     if (!Number.isInteger(quantidade) || quantidade < 1) {
       $toast.toast('show');
       return;
@@ -169,8 +172,9 @@ $(document).ready(function() {
     if ($(this).val() == '') return;
 
     $listaProdutos.append('<option disabled>Procurando...</option>');
-    instance.post('produtos', {
-      nome: $(this).val()
+
+    instance.get('produtos', {
+      params: { search: $(this).val() }
     })
       .then(function ({ data }) {
         $listaProdutos.html('');
@@ -220,8 +224,8 @@ $(document).ready(function() {
       return;
     }
 
-    instance.post('cliente', {
-      nome: $(this).val()
+    instance.get('cliente', {
+      params: { nome: $(this).val() }
     })
       .then(({ data }) => {
         $listaClientes.html('');

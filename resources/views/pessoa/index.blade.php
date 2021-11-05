@@ -24,7 +24,7 @@
         <th scope="col"><i class="bi bi-key-fill"></i></th>
         <th scope="col">Nome</th>
         <th scope="col">CPF/CNPJ</th>
-        <th scope="col">Telefone</th>
+        <th scope="col">Desde</th>
         <th scope="col"></th>
       </tr>
     </thead>
@@ -33,8 +33,8 @@
         <tr>
           <th scope="row">{{ $pessoa->id }}</th>
           <td>{{ $pessoa->nome }}</td>
-          <td>{{ $pessoa->cpf_cnpj }}</td>
-          <td>{{ $pessoa->telefone }}</td>
+          <td>{{ $pessoa->cpf_cnpj_formatado }}</td>
+          <td>{{ $pessoa->created_at_formatada }}</td>
           <td class="text-right">
             <form
               action="{{ route('pessoas.destroy', $pessoa->id) }}"
