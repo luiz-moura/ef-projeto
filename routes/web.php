@@ -30,6 +30,6 @@ Route::resource('lancamento-produtos', 'LancamentoTemProdutoController')
 Route::get('vendas', 'VendaController@index')->name('vendas');
 
 Route::get('relatorio-vendas-simples', 'RelatorioController@vendasSimples')->name('vendas-simples');
-Route::get('relatorio-vendas-detalhado', 'RelatorioController@vendasDetalhado')->name('vendas-detalhado');
+Route::get('relatorio-vendas-detalhada', 'RelatorioController@vendasDetalhada')->name('vendas-detalhada');
 
 Route::get('relatorio-posicoes', 'RelatorioController@posicoes')->name('relatorio-posicoes');

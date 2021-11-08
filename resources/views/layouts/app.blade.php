@@ -67,8 +67,8 @@
           <a class="p-2 text-muted" href="{{ route('vendas-simples') }}">
             <i class="bi bi-bar-chart-line-fill"></i> Relatório de vendas simples
           </a>
-          <a class="p-2 text-muted" href="{{ route('vendas-detalhado') }}">
-            <i class="bi bi-bar-chart-line-fill"></i> Relatório de vendas detalhado
+          <a class="p-2 text-muted" href="{{ route('vendas-detalhada') }}">
+            <i class="bi bi-bar-chart-line-fill"></i> Relatório de vendas detalhada
           </a>
           <a class="p-2 text-muted" href="{{ route('relatorio-posicoes') }}">
             <i class="bi bi-bar-chart-line-fill"></i> Relatório de posição de estoque

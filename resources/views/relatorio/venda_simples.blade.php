@@ -6,22 +6,42 @@
 
 <h3 class="pb-4 mb-4 font-italic border-bottom">Relatório de vendas simples</h3>
 
-<form class="mb-5">
+<form class="mb-5" method="GET">
   <div class="form-row align-items-center">
-    <div class="col-sm-4 my-1">
-      <label class="sr-only" for="inlineFormInputName">Período início</label>
-      <input type="date" class="form-control" id="inlineFormInputName">
+    <div class="col-sm-3 my-1">
+      <label for="empresa">Empresa</label>
+      <select name="empresa" id="empresa" class="form-control">
+        <option value="">Todas</option>
+        @foreach($empresas as $empresa)
+          @if (isset($query['empresa']) && $query['empresa'] == $empresa->id)
+          <option value="{{ $empresa->id }}" selected>{{ $empresa->nome }}</option>
+          @else
+          <option value="{{ $empresa->id }}">{{ $empresa->nome }}</option>
+          @endif
+        @endforeach
+      </select>
     </div>
-    <div class="col-sm-4 my-1">
-      <label class="sr-only" for="inlineFormInputName">Período final</label>
-      <input type="date" class="form-control" id="inlineFormInputName">
+    <div class="col-sm-3 my-1">
+      <label for="start">Período início</label>
+      <input type="date" class="form-control" id="start" name="period[]" value="{{ $query['period'][0] ?? '' }}">
+    </div>
+    <div class="col-sm-3 my-1">
+      <label for="end">Período final</label>
+      <input type="date" class="form-control" id="end" name="period[]" value="{{ $query['period'][1] ?? '' }}">
+    </div>
+    <div class="col-sm-1 my-1">
+      <label for="limit">Limite</label>
+      <input
+        type="text"
+        id="limit"
+        class="form-control"
+        placeholder="Limite"
+        name="limit"
+        value="{{ $query['limit'] ?? 100 }}"
+      >
     </div>
     <div class="col-sm-2 my-1">
-      <label class="sr-only" for="inlineFormInputName">Limite</label>
-      <input type="text" class="form-control" id="inlineFormInputName" placeholder="Limite" value="100">
-    </div>
-
-    <div class="col-sm-2 my-1">
+      <label>_</label>
       <button type="submit" class="btn btn-primary btn-block">Filtrar</button>
     </div>
   </div>

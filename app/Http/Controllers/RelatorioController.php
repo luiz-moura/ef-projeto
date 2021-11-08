@@ -2,66 +2,66 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Filters\LancamentoFilter;
 use App\Models\Lancamento;
 use App\Models\Pessoa;
 use App\Models\Produto;
 use Illuminate\Http\Request;
-use App\Http\Resources\Cliente as ClienteResource;
-use App\Http\Resources\Produto as ProdutoResource;
-use App\Http\Resources\Venda as VendaResource;
-use App\Models\LancamentoTemProduto;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Builder;
 
 class RelatorioController extends Controller
 {
-    public function vendasDetalhado() {
-        $vendas = Lancamento::where('operacao', 'v')->latest()->paginate(20);
+    public function vendasDetalhada(LancamentoFilter $filter, Request $request) {
+        $empresas = Pessoa::tipo('e')->latest()->get();
 
-        return view('relatorio.venda_detalhada', compact('vendas'));
+        $vendas = Lancamento::filter($filter)
+            ->where('operacao', 'v')
+            ->get();
+
+        return view('relatorio.venda_detalhada', compact('vendas', 'empresas'), ['query' => $request->query()]);
     }
 
-    public function vendasSimples() {
-        $vendas = Lancamento::where('operacao', 'v')->latest()->paginate(20);
+    public function vendasSimples(LancamentoFilter $filter, Request $request) {
+        $empresas = Pessoa::tipo('e')->latest()->get();
 
-        return view('relatorio.venda_simples', compact('vendas'));
+        $vendas = Lancamento::filter($filter)
+            ->where('operacao', 'v')
+            ->get();
+
+        return view('relatorio.venda_simples', compact('vendas', 'empresas'), ['query' => $request->query()]);
     }
 
     public function posicoes() {
-        // $produtos = Produto::whereHas('lancamentos')
-        // ->withCount([
-        //     'lancamentoTemProdutos as vendas' => function (Builder $query) {
-        //         $query->whereRelation('lancamento', 'operacao', 'v');
-        //     },
-        //     'lancamentoTemProdutos as entradas' => function (Builder $query) {
-        //         $query->whereRelation('lancamento', 'operacao', 'e');
-        //     },
-        //     'lancamentoTemProdutos as saidas' => function (Builder $query) {
-        //         $query->whereRelation('lancamento', 'operacao', 's');
-        //     },
-        // ]);
+        $empresas = Pessoa::tipo('e')->get();
 
-        // Lancamento::withCount([
-        //     'quantidade AS vendas' => function ($query) {
-        //         $query->select(DB::raw("SUM(quantidade) as vendas"))->where('operacao', 'v');
-        //     }
-        // ]);
+        $produtosPorEmpresa = [];
 
-        // $produtos = Produto::select(
-        //     "id",
-        //     "nome",
-        //     DB::raw("SUM(lancamento_tem_produtos) as vendas"),
-        // )
-        //     ->groupBy("categoria_id")
-        //     ->get();
+        $i = 0;
+        foreach ($empresas as $empresa) {
+            $produtos = Produto::withSum(
+                ['lancamentoTemProdutos as saidas' => function($query) {
+                    $query->whereRelation('lancamento', 'operacao', 'v')
+                        ->whereRelation('lancamento', 'empresa_id', 26);
+                }],
+                'quantidade'
+            )
+            ->withSum(
+                ['lancamentoTemProdutos as entradas' => function($query) {
+                    $query->whereRelation('lancamento', 'operacao', 'e')
+                        ->whereRelation('lancamento', 'empresa_id', 26);
+                }],
+                'quantidade'
+            )
+            ->get();
 
-        $produtos = Produto::withSum(
-            'lancamentoTemProdutos as vendas',
-            'quantidade'
-        )->get();
+            $produtosPorEmpresa[] = ['empresa' => $empresas[$i], 'produtos' => $produtos];
 
-        dd($produtos);
+            $i++;
+        }
 
-        return view('relatorio.posicao_estoque', compact('produtos'));
+        $produtosPorEmpresa = collect($produtosPorEmpresa);
+
+        return view('relatorio.posicao_estoque', compact('produtosPorEmpresa'));
     }
 }
