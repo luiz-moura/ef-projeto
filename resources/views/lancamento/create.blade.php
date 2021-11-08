@@ -22,7 +22,7 @@
 <form
   action="{{ route('lancamentos.store') }}"
   method="POST"
-  id="form"
+  id="form-lancamento"
   class="needs-validation"
   novalidate
 >

@@ -163,12 +163,14 @@ $(document).ready(function() {
    * STEP 4
    */
 
-  $('#form').submit(function (event) {
+  $('#form-lancamento').submit(function (event) {
     event.preventDefault();
 
     let produtos = $produtosAdicionados.children('.list-group-item').map(function () {
       return $(this).data('fields');
     }).toArray();
+
+    if (produtos.length < 1) return;
 
     let data = {
       empresa_id: $empresa.val(),
