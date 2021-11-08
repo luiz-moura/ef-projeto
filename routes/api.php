@@ -18,12 +18,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('cliente/{cpf_cnpj}', 'VendaController@findClienteByCpfOrCnpj');
-Route::get('produtos', 'VendaController@findProdutoByNome');
-Route::get('cliente', 'VendaController@findClienteByNome');
-Route::get('empresas', 'VendaController@findEmpresaByNome');
-Route::get('pessoas', 'VendaController@findPessoaByNome');
+Route::get('produtos', 'ApiController@findProdutoByNome');
+Route::get('cliente/{cpf_cnpj}', 'ApiController@findClienteByCpfOrCnpj');
+Route::get('cliente', 'ApiController@findClienteByNome');
+Route::get('empresas', 'ApiController@findEmpresaByNome');
+Route::get('pessoas', 'ApiController@findPessoaByNome');
 
 Route::post('venda/store/', 'VendaController@store');
 Route::post('lancamentos/store/', 'LancamentoController@store');
-
