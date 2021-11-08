@@ -1,3 +1,8 @@
+#caixa-aberto {
+    background: rgb(0,82,85);
+    background: linear-gradient(90deg, rgba(0,82,85,1) 0%, rgba(9,121,108,1) 35%, rgba(0,212,255,1) 100%);
+}
+
 .bd-placeholder-img {
     font-size: 1.125rem;
     text-anchor: middle;

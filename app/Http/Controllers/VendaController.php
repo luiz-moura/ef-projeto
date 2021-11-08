@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lancamento;
+use App\Models\Pessoa;
 use Illuminate\Http\Request;
 use App\Http\Resources\Venda as VendaResource;
 
@@ -15,7 +16,8 @@ class VendaController extends Controller
      */
     public function index()
     {
-        return view('venda.index');
+        $empresas = Pessoa::tipo('e')->latest()->get();
+        return view('venda.index', compact('empresas'));
     }
 
     /**

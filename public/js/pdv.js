@@ -34,9 +34,9 @@ $(document).ready(function() {
 
   let $caixaAberto = $('#caixa-aberto');
   let $abrirCaixa = $('#abrir-caixa');
+  let $empresa = $('#empresas');
 
   const resetar = function () {
-    $quantidadeTotalProdutos.html(totalProdutos());
     $listaProdutos.html('');
     $clienteNome.val('');
     $cpfCnpj.val('');
@@ -48,7 +48,8 @@ $(document).ready(function() {
     $inputProduto.val('');
     $pagamentoDinheiro.prop("checked", true);
     $quantidadeProduto.val(1);
-    $valorVenda.html(totalValor());
+    $valorVenda.html(0);
+    $quantidadeTotalProdutos.html(0);
   }
 
   // INIT
@@ -270,7 +271,7 @@ $(document).ready(function() {
     }).toArray();
 
     let data = {
-      empresa_id: 18,
+      empresa_id: $empresa.val(),
       contexto_id: $cpfCnpj.data('fields').id,
       forma_pagamento,
       produtos,

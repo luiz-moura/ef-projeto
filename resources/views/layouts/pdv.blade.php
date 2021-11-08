@@ -15,9 +15,15 @@
   <div id="caixa-aberto" class="text-center text-white">
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
       <main role="main" class="inner cover">
-        <h1 class="cover-heading mb-5">CAIXA ABERTO</h1>
+        <h1 class="cover-heading mb-3">CAIXA LIVRE</h1>
+        <label for="empresas">Selecione a empresa</label>
+        <select class="form-control mb-5" id="empresas">
+          @foreach ($empresas as $empresa)
+          <option value="{{ $empresa->id }}">{{ $empresa->nome }}</option>
+          @endforeach
+        </select>
         <p class="lead">
-          <a href="#" id="abrir-caixa" class="btn btn-lg btn-secondary">Iniciar venda</a>
+          <a href="#" id="abrir-caixa" class="btn btn-lg btn-success text-uppercase">Abrir caixa</a>
         </p>
       </main>
     </div>
