@@ -6,8 +6,8 @@
 [x] organizar js
 [/] mascaras (falta valores R$)
 [x] Relatorio venda simples
+[x] nao está atualizando pessoas
+[x] separar api
+[x] selecionar empresa no caixa
+[x] Filtros do relatorio de vendas
 [ ] Relatorio de posicao de estoque
-[ ] Filtros do relatorio de vendas
-[ ] Filtros do relatorio de posicao de estoque
-[ ] separar api
-[ ] nao está atualizando pessoas

@@ -26,9 +26,21 @@ class HomeController extends Controller
         //     ->limit(6)
         //     ->get();
 
-        $relVendas = Produto::whereHas('lancamentos', function ($qb) {
-            return $qb->where('operacao', 'v');
-        })->withSum('lancamentoTemProdutos as total', 'quantidade')
+        // $relVendas = Produto::whereHas('lancamentos')
+        //     ->withSum(['lancamentoTemProdutos as total' => function ($qb) {
+        //         return $qb->whereRelation('lancamentos', 'operacao', 'v');
+        //     }], 'quantidade')
+        //     ->limit(10)
+        //     ->orderBy('total', 'desc')
+        //     ->get();
+
+        $relVendas = Produto::whereHas('lancamentos')
+            ->withSum(
+                ['lancamentoTemProdutos as total' => function($query) {
+                    $query->whereRelation('lancamento', 'operacao', 'v');
+                }],
+                'quantidade'
+            )
             ->limit(10)
             ->orderBy('total', 'desc')
             ->get();

@@ -12,7 +12,7 @@ abstract class Filter
      *
      * @var \Illuminate\Http\Request
      */
-    protected $request;
+    public $request;
 
     /**
      * The builder instance.

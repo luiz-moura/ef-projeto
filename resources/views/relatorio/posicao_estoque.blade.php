@@ -6,50 +6,32 @@
 
 <h3 class="pb-4 mb-4 font-italic border-bottom">Relatório de posição de estoque</h3>
 
-<form class="mb-5">
-  <div class="form-row align-items-center">
-    <div class="col-sm-4 my-1">
-      <label class="sr-only" for="inlineFormInputName">Período início</label>
-      <input type="date" class="form-control" id="inlineFormInputName">
-    </div>
-    <div class="col-sm-4 my-1">
-      <label class="sr-only" for="inlineFormInputName">Período final</label>
-      <input type="date" class="form-control" id="inlineFormInputName">
-    </div>
-    <div class="col-sm-2 my-1">
-      <label class="sr-only" for="inlineFormInputName">Limite</label>
-      <input type="text" class="form-control" id="inlineFormInputName" placeholder="Limite" value="100">
-    </div>
-    <div class="col-sm-2 my-1">
-      <button type="submit" class="btn btn-primary btn-block">Filtrar</button>
-    </div>
-  </div>
-</form>
-
-@if(!$produtos->isEmpty())
-  <table class="table table-borderless table-responsive-lg">
+@if(!empty($empresas))
+  @foreach($empresas as $empresa)
+  <h3>Empresa: {{ $empresa['nome'] }}</h3>
+  <table class="table table-borderless table-responsive-lg mb-4">
     <thead>
       <tr class="table-active">
         <th scope="col"><i class="bi bi-key-fill"></i></th>
-        <th scope="col">Empresa</th>
-        <th scope="col">Cliente</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Quantidade</th>
         <th scope="col" colspan="2">Data</th>
       </tr>
     </thead>
     <tbody>
-      @foreach($produtos as $venda)
+      @foreach($empresa['produtos'] as $produto)
       <tr class="border-top">
-        <td scope="row">{{ $venda->id }}</td>
-        <td>{{ $venda->empresa->nome }}</td>
-        <td>{{ $venda->contexto->nome }}</td>
-        <td>{{ $venda->data_operacao }}</td>
+        <td scope="row">{{ $produto->id }}</td>
+        <td>{{ $produto->nome }}</td>
+        <td>{{ $produto->entradas - $produto->saidas }}</td>
       </tr>
       @endforeach
     </tbody>
   </table>
+  @endforeach
 @else
   <div class="alert alert-dark" role="alert">
-    Não foram encotrado vendas.
+    Não foram encotrado produtos.
   </div>
 @endif
 
