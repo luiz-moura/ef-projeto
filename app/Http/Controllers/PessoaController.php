@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Filters\PessoaFilter;
 use App\Http\Requests\StorePessoaRequest;
 use App\Http\Requests\UpdatePessoaRequest;
 use App\Models\Pessoa;
+use Illuminate\Http\Request;
 
 class PessoaController extends Controller
 {
@@ -13,11 +15,30 @@ class PessoaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $pessoas = Pessoa::latest()->paginate(20);
+    // public function oldindex(PessoaFilter $filter)
+    // {
+    //     $pessoas = Pessoa::filter($filter)->latest()->paginate(20)->withQueryString();
 
-        return view('pessoa.index', compact('pessoas'))
+    //     $query = $filter->request->query();
+
+    //     return view('pessoa.index', compact('pessoas', 'query'))
+    //         ->with('i', (request()->input('page', 1) - 1) * 5);
+    // }
+
+    public function index(Request $request)
+    {
+        $qb = Pessoa::query();
+
+        if ($request->filled('search')) {
+            $qb->where('nome', 'ilike', "%{$request->query('search')}%")
+            ->orWhere('cpf_cnpj', $request->query('search'));
+        }
+
+        $pessoas = $qb->latest()->withQueryString()->paginate(20);
+
+        $query = $request->query();
+
+        return view('pessoa.index', compact('pessoas', 'query'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 

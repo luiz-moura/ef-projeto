@@ -12,7 +12,6 @@ class Pessoa extends Model
     use SoftDeletes;
 
     protected $table = 'pessoas';
-    public $timestamps = true;
 
     protected $fillable = [
         'nome',
