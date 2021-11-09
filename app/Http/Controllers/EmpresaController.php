@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreEmpresaRequest;
 use App\Http\Requests\UpdateEmpresaRequest;
 use App\Models\Pessoa;
+use Illuminate\Http\Request;
 
 class EmpresaController extends Controller
 {
@@ -18,11 +19,20 @@ class EmpresaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $empresas = Pessoa::tipo('e')->latest()->paginate(20);
+        $qb = Pessoa::tipo('e');
 
-        return view('empresa.index', compact('empresas'))
+        if ($request->filled('search')) {
+            $qb->where('nome', 'ilike', "%{$request->query('search')}%")
+                ->orWhere('cpf_cnpj', "{$request->query('search')}%");
+        }
+
+        $empresas = $qb->latest()->paginate(20)->withQueryString();
+
+        $query = $request->query();
+
+        return view('empresa.index', compact('empresas', 'query'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 

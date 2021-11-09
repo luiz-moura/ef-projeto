@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreFuncionarioRequest;
 use App\Http\Requests\UpdateFuncionarioRequest;
 use App\Models\Pessoa;
+use Illuminate\Http\Request;
 
 class FuncionarioController extends Controller
 {
@@ -18,11 +19,20 @@ class FuncionarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $funcionarios = Pessoa::tipo('f')->latest()->paginate(20);
+        $qb = Pessoa::tipo('f');
 
-        return view('funcionario.index', compact('funcionarios'))
+        if ($request->filled('search')) {
+            $qb->where('nome', 'ilike', "%{$request->query('search')}%")
+                ->orWhere('cpf_cnpj', "{$request->query('search')}%");
+        }
+
+        $funcionarios = $qb->latest()->paginate(20)->withQueryString();
+
+        $query = $request->query();
+
+        return view('funcionario.index', compact('funcionarios', 'query'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 

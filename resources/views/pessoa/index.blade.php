@@ -30,7 +30,6 @@
   </div>
 </form>
 
-
 @if ($message = Session::get('success'))
   <x-alert type="success">
     <x-slot name="message">{{ $message }}</x-slot>

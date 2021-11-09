@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreClienteRequest;
 use App\Http\Requests\UpdateClienteRequest;
 use App\Models\Pessoa;
+use Illuminate\Http\Request;
 
 class ClienteController extends Controller
 {
@@ -18,11 +19,20 @@ class ClienteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $clientes = Pessoa::tipo('c')->latest()->paginate(20);
+        $qb = Pessoa::tipo('c');
 
-        return view('cliente.index', compact('clientes'))
+        if ($request->filled('search')) {
+            $qb->where('nome', 'ilike', "%{$request->query('search')}%")
+                ->orWhere('cpf_cnpj', "{$request->query('search')}%");
+        }
+
+        $clientes = $qb->latest()->paginate(20)->withQueryString();
+
+        $query = $request->query();
+
+        return view('cliente.index', compact('clientes', 'query'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 

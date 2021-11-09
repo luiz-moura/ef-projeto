@@ -15,26 +15,16 @@ class PessoaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    // public function oldindex(PessoaFilter $filter)
-    // {
-    //     $pessoas = Pessoa::filter($filter)->latest()->paginate(20)->withQueryString();
-
-    //     $query = $filter->request->query();
-
-    //     return view('pessoa.index', compact('pessoas', 'query'))
-    //         ->with('i', (request()->input('page', 1) - 1) * 5);
-    // }
-
     public function index(Request $request)
     {
         $qb = Pessoa::query();
 
         if ($request->filled('search')) {
             $qb->where('nome', 'ilike', "%{$request->query('search')}%")
-            ->orWhere('cpf_cnpj', $request->query('search'));
+                ->orWhere('cpf_cnpj', "{$request->query('search')}%");
         }
 
-        $pessoas = $qb->latest()->withQueryString()->paginate(20);
+        $pessoas = $qb->latest()->paginate(20)->withQueryString();
 
         $query = $request->query();
 

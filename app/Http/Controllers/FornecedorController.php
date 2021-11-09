@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreFornecedorRequest;
 use App\Http\Requests\UpdateFornecedorRequest;
 use App\Models\Pessoa;
+use Illuminate\Http\Request;
 
 class FornecedorController extends Controller
 {
@@ -18,11 +19,20 @@ class FornecedorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $fornecedores = Pessoa::tipo('u')->latest()->paginate(20);
+        $qb = Pessoa::tipo('u');
 
-        return view('fornecedor.index', compact('fornecedores'))
+        if ($request->filled('search')) {
+            $qb->where('nome', 'ilike', "%{$request->query('search')}%")
+                ->orWhere('cpf_cnpj', "{$request->query('search')}%");
+        }
+
+        $fornecedores = $qb->latest()->paginate(20)->withQueryString();
+
+        $query = $request->query();
+
+        return view('fornecedor.index', compact('fornecedores', 'query'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
