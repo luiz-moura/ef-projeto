@@ -44,6 +44,7 @@ $(document).ready(function() {
   $cep = $('#cep');
   $cpf_cnpj = $('#cpf_cnpj');
   $money = $('.money');
+  $tel = $('#telefone');
 
   if ($money != undefined) {
     // $money.mask('000.000.000.000.000,00', {reverse: true});
@@ -64,6 +65,10 @@ $(document).ready(function() {
 
   if ($cep != undefined) {
     $cep.mask('00000-000');
+  }
+
+  if ($tel != undefined) {
+    $tel.mask('(00) 0000-0000');
   }
 
   $cep.change(function () {

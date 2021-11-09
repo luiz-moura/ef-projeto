@@ -6,6 +6,7 @@ use App\Models\Pessoa;
 use App\Models\Produto;
 use Illuminate\Http\Request;
 use App\Http\Resources\Cliente as ClienteResource;
+use App\Http\Resources\Pessoa as PessoaResource;
 use App\Http\Resources\Produto as ProdutoResource;
 
 class ApiController extends Controller
@@ -58,10 +59,23 @@ class ApiController extends Controller
     {
         $nome = $request->query('search');
 
-        $clientes = Pessoa::where('nome', 'ilike', "%$nome%")
-            ->orWhere('cpf_cnpj', 'ilike', "%$nome%")
-            ->paginate(10);
+        $qb = Pessoa::query();
 
-        return ClienteResource::collection($clientes);
+        if ($request->filled('operacao')) {
+            $tipo = match($request->query('operacao')) {
+                'e' => 'u',
+                's' => 'c',
+                'v' => 'c',
+            };
+
+            $qb->tipo($tipo);
+        }
+
+        $qb->where('nome', 'ilike', "%$nome%")
+            ->orWhere('cpf_cnpj', 'ilike', "%$nome%");
+
+        $clientes = $qb->paginate(10);
+
+        return PessoaResource::collection($clientes);
     }
 }

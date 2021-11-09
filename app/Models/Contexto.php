@@ -18,6 +18,11 @@ class Contexto extends Model
         return $this->hasOne(Pessoa::class, 'id', 'pessoa_id');
     }
 
+    public function pessoaTrash()
+    {
+        return Pessoa::withTrashed()->find($this->pessoa_id);
+    }
+
     public function getTipoFormatadoAttribute()
     {
         return match ($this->tipo) {
@@ -27,5 +32,10 @@ class Contexto extends Model
             'e' => 'Empresa',
             default => null,
         };
+    }
+
+    public function getNomeAttribute()
+    {
+            return $this->pessoaTrash()?->nome;
     }
 }

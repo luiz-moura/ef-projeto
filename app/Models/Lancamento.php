@@ -36,12 +36,12 @@ class Lancamento extends Model
 
     public function empresa()
     {
-        return $this->hasOne(Pessoa::class, 'id', 'empresa_id')->withDefault();
+        return $this->hasOne(Contexto::class, 'id', 'empresa_id')->withTrashed()->withDefault();
     }
 
     public function contexto()
     {
-        return $this->hasOne(Pessoa::class, 'id', 'contexto_id')->withDefault();
+        return $this->hasOne(Contexto::class, 'id', 'contexto_id')->withTrashed()->withDefault();
     }
 
     public function getOperacaoFormatadaAttribute()

@@ -52,9 +52,14 @@ $(document).ready(function() {
     if ($(this).val() == '') return;
 
     instance.get('pessoas', {
-      params: { search: $(this).val() }
+      params: {
+        search: $(this).val() ,
+        operacao: $operacao.val(),
+      }
     })
       .then(({ data }) => {
+        console.log(data);
+
         data.data.forEach((item) => {
           $('<option>', {
             value: item.id,
@@ -180,6 +185,8 @@ $(document).ready(function() {
       $toast.toast('show');
       return;
     }
+
+    console.log($pessoa.val().contextos);
 
     let data = {
       empresa_id: $empresa.val(),

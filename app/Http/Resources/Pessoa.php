@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Cliente extends JsonResource
+class Pessoa extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,7 +20,7 @@ class Cliente extends JsonResource
             'cpf_cnpj'      => $this->cpf_cnpj,
             'cidade'        => $this->cidade,
             'estado'        => $this->estado,
-            'contexto_id'   => $this->contextos()->where('tipo', 'c')->first()->id,
+            'contextos'     => $this->contextos,
         ];
 
         // return parent::toArray($request);

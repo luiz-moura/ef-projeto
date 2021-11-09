@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lancamento;
+use App\Models\Pessoa;
 use Illuminate\Http\Request;
 
 class LancamentoController extends Controller
@@ -38,8 +39,15 @@ class LancamentoController extends Controller
     {
         $lancamento = new Lancamento();
         $lancamento->operacao = $request->input('operacao');
-        $lancamento->empresa_id = $request->input('empresa_id');
-        $lancamento->contexto_id = $request->input('contexto_id');
+        $lancamento->empresa_id = Pessoa::find($request->input('empresa_id'))->contextos()->where('tipo', 'e')->first()->id;
+
+        $tipo = match($request->input('operacao')) {
+            'e' => 'u',
+            's' => 'c',
+            'v' => 'c',
+        };
+
+        $lancamento->contexto_id = Pessoa::find($request->input('contexto_id'))->contextos()->where('tipo', $tipo)->first()->id;
         $lancamento->data_operacao = date('Y-m-d H:i:s');
 
         $lancamento->save();

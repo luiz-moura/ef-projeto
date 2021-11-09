@@ -19,7 +19,7 @@
         <label for="empresas">Selecione a empresa</label>
         <select class="form-control mb-5" id="empresas">
           @foreach ($empresas as $empresa)
-          <option value="{{ $empresa->id }}">{{ $empresa->nome }}</option>
+          <option value="{{ $empresa->contextos()->where('tipo', 'e')->first()->id }}">{{ $empresa->nome }}</option>
           @endforeach
         </select>
         <p class="lead">

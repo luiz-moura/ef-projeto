@@ -272,7 +272,7 @@ $(document).ready(function() {
 
     let data = {
       empresa_id: $empresa.val(),
-      contexto_id: $cpfCnpj.data('fields').id,
+      contexto_id: $cpfCnpj.data('fields').contexto_id,
       forma_pagamento,
       produtos,
     }
