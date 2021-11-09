@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\CpfCnpj;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -28,7 +29,7 @@ class UpdateFuncionarioRequest extends FormRequest
             'nome'                  => 'required',
             'cpf_cnpj'              => [
                 'nullable',
-                Rule::unique('pessoas')->ignore($this->funcionario->id)
+                New CpfCnpj($this->funcionario->id),
             ],
             'inscricao_estadual'    => [
                 'nullable',
