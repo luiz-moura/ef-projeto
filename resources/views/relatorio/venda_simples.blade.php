@@ -13,10 +13,10 @@
       <select name="empresa" id="empresa" class="form-control">
         <option value="">Todas</option>
         @foreach($empresas as $empresa)
-          @if (isset($query['empresa']) && $query['empresa'] == $empresa->id)
-          <option value="{{ $empresa->id }}" selected>{{ $empresa->nome }}</option>
+          @if (isset($query['empresa']) && $query['empresa'] == $empresa->contextos()->where('tipo', 'e')->first()->id)
+          <option value="{{ $empresa->contextos()->where('tipo', 'e')->first()->id }}" selected>{{ $empresa->nome }}</option>
           @else
-          <option value="{{ $empresa->id }}">{{ $empresa->nome }}</option>
+          <option value="{{ $empresa->contextos()->where('tipo', 'e')->first()->id }}">{{ $empresa->nome }}</option>
           @endif
         @endforeach
       </select>
@@ -46,6 +46,13 @@
     </div>
   </div>
 </form>
+
+<div class="text-right mb-3">
+  <a href="{{ route('vendas-simples-pdf', $query) }}" target="_blank" class="btn btn-danger">
+    <i class="bi bi-file-earmark-pdf-fill"></i>
+    PDF
+  </a>
+</div>
 
 @if(!$vendas->isEmpty())
   <table class="table table-borderless table-responsive-lg">

@@ -9,6 +9,7 @@ use App\Models\Produto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Builder;
+use PDF;
 
 class RelatorioController extends Controller
 {
@@ -31,7 +32,31 @@ class RelatorioController extends Controller
             ->where('operacao', 'v')
             ->get();
 
-        return view('relatorio.venda_simples', compact('vendas', 'empresas'), ['query' => $request->query()]);
+        $query = $filter->request->query();
+
+        return view('relatorio.venda_simples', compact('vendas', 'empresas', 'query'));
+    }
+
+    public function vendasSimplesPDF(LancamentoFilter $filter) {
+        $vendas = Lancamento::filter($filter)
+            ->where('operacao', 'v')
+            ->get();
+
+        $pdf = PDF::loadView('relatorio.venda_simples_pdf', compact('vendas'));
+
+        // download PDF file with download method
+        return $pdf->stream();
+    }
+
+    public function vendasDetalhadaPDF(LancamentoFilter $filter) {
+        $vendas = Lancamento::filter($filter)
+            ->where('operacao', 'v')
+            ->get();
+
+        $pdf = PDF::loadView('relatorio.venda_detalhada_pdf', compact('vendas'));
+
+        // download PDF file with download method
+        return $pdf->stream();
     }
 
     public function posicoes() {
@@ -42,14 +67,14 @@ class RelatorioController extends Controller
             $produtos = Produto::withSum(
                 ['lancamentoTemProdutos as saidas' => function($query) use ($empresa) {
                     $query->whereRelation('lancamento', 'operacao', 'v')
-                        ->whereRelation('lancamento', 'empresa_id', $empresa->id);
+                        ->whereRelation('lancamento', 'empresa_id', $empresa->contextos()->where('tipo', 'e')->first()->id);
                 }],
                 'quantidade'
             )
             ->withSum(
                 ['lancamentoTemProdutos as entradas' => function($query) use ($empresa) {
                     $query->whereRelation('lancamento', 'operacao', 'e')
-                        ->whereRelation('lancamento', 'empresa_id', $empresa->id);
+                        ->whereRelation('lancamento', 'empresa_id', $empresa->contextos()->where('tipo', 'e')->first()->id);
                 }],
                 'quantidade'
             )

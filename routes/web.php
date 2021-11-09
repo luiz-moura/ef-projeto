@@ -32,4 +32,7 @@ Route::get('vendas', 'VendaController@index')->name('vendas');
 Route::get('relatorio-vendas-simples', 'RelatorioController@vendasSimples')->name('vendas-simples');
 Route::get('relatorio-vendas-detalhada', 'RelatorioController@vendasDetalhada')->name('vendas-detalhada');
 
+Route::get('relatorio-vendas-simples/pdf', 'RelatorioController@vendasSimplesPDF')->name('vendas-simples-pdf');
+Route::get('relatorio-vendas-detalhada/pdf', 'RelatorioController@vendasDetalhadaPDF')->name('vendas-detalhada-pdf');
+
 Route::get('relatorio-posicoes', 'RelatorioController@posicoes')->name('relatorio-posicoes');

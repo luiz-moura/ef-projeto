@@ -15,7 +15,6 @@
         <th scope="col"><i class="bi bi-key-fill"></i></th>
         <th scope="col">Nome</th>
         <th scope="col">Quantidade</th>
-        <th scope="col" colspan="2">Data</th>
       </tr>
     </thead>
     <tbody>
