@@ -58,10 +58,10 @@ class Pessoa extends Model
             return null;
         }
 
-        if (strlen($this->cpf_cnpj) > 14) {
-            return $this->mask($this->cpf_cnpj, '###.###.###-##');
-        } else {
+        if (strlen($this->cpf_cnpj) >= 14) {
             return $this->mask($this->cpf_cnpj, '##.###.###/####-##');
+        } else {
+            return $this->mask($this->cpf_cnpj, '###.###.###-##');
         }
     }
 
