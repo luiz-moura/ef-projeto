@@ -66,6 +66,7 @@ $(document).ready(function() {
         $('#rua').val(data.logradouro);
         $('#bairro').val(data.bairro);
         $('#cidade').val(data.localidade);
+        $('#estado').val(data.uf);
       });
   });
 });

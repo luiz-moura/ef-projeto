@@ -92,7 +92,18 @@
     </div>
   </div>
   <div class="form-row">
-    <div class="col-md-6 mb-3">
+    <div class="col-md-2 mb-3">
+      <label for="cep">CEP</label>
+      <input
+        type="text"
+        class="form-control"
+        id="cep"
+        name="cep"
+        value="{{ $empresa->cep }}"
+        disabled
+      />
+    </div>
+    <div class="col-md-4 mb-3">
       <label for="bairro">Bairro</label>
       <input
         type="text"
@@ -103,7 +114,7 @@
         disabled
       />
     </div>
-    <div class="col-md-6 mb-3">
+    <div class="col-md-4 mb-3">
       <label for="rua">Rua</label>
       <input
         type="text"
@@ -125,7 +136,7 @@
         disabled
       />
     </div>
-    <div class="col-md-8 mb-3">
+    <div class="col-md-12 mb-3">
       <label for="complemento">Complemento</label>
       <input
         type="text"
@@ -133,17 +144,6 @@
         id="complemento"
         name="complemento"
         value="{{ $empresa->complemento }}"
-        disabled
-      />
-    </div>
-    <div class="col-md-2 mb-3">
-      <label for="cep">CEP</label>
-      <input
-        type="text"
-        class="form-control"
-        id="cep"
-        name="cep"
-        value="{{ $empresa->cep }}"
         disabled
       />
     </div>
