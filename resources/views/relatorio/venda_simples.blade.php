@@ -6,7 +6,7 @@
 
 <h3 class="pb-4 mb-4 font-italic border-bottom">Relatório de vendas simples</h3>
 
-<form class="mb-5" method="GET">
+<form class="mb-5 submit-only-btn" method="GET">
   <div class="form-row align-items-center">
     <div class="col-sm-3 my-1">
       <label for="empresa">Empresa</label>

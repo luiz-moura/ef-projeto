@@ -23,7 +23,7 @@
   action="{{ route('pessoas.update', $pessoa->id) }}"
   method="POST"
   id="form"
-  class="needs-validation"
+  class="needs-validation submit-only-btn"
   novalidate
 >
   @csrf

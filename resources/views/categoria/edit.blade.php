@@ -22,7 +22,7 @@
 <form
   action="{{ route('categorias.update', $categoria->id) }}"
   method="POST"
-  class="needs-validation"
+  class="needs-validation submit-only-btn"
   novalidate
   id="form"
 >

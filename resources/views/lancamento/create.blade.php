@@ -23,7 +23,7 @@
   action="{{ route('lancamentos.store') }}"
   method="POST"
   id="form-lancamento"
-  class="needs-validation"
+  class="needs-validation submit-only-btn"
   novalidate
 >
   @csrf

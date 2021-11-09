@@ -22,7 +22,7 @@
 <form
   action="{{ route('pessoas.store') }}"
   method="POST"
-  class="needs-validation"
+  class="needs-validation submit-only-btn"
   novalidate
 >
   @csrf

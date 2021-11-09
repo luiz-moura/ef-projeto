@@ -28,7 +28,7 @@
 <form
   action="{{ route('lancamentos.update', $lancamento->id) }}"
   method="POST"
-  class="needs-validation"
+  class="needs-validation submit-only-btn"
   novalidate
   id="form"
 >

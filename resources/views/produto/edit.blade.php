@@ -23,7 +23,7 @@
   action="{{ route('produtos.update', $produto->id) }}"
   method="POST"
   id="edit"
-  class="needs-validation"
+  class="needs-validation submit-only-btn"
   novalidate
 >
   @csrf

@@ -41,21 +41,30 @@ $('button[name="delete"], button[name="delete-produto"]').on('click', function(e
 
 // MASK
 $(document).ready(function() {
-  $('.money').mask('000.000.000.000.000,00', {reverse: true});
+  $cep = $('#cep');
+  $cpf_cnpj = $('#cpf_cnpj');
+  $money = $('.money');
+
+  if ($money != undefined) {
+    $money.mask('000.000.000.000.000,00', {reverse: true});
+  }
 
   let options = {
     onKeyPress: function (cpf, ev, el, op) {
       let masks = ['000.000.000-000', '00.000.000/0000-00'];
-      $('#cpf_cnpj').mask((cpf.length > 14) ? masks[1] : masks[0], op);
+      $cpf_cnpj.mask((cpf.length > 14) ? masks[1] : masks[0], op);
     }
   }
 
-  $('#cpf_cnpj').val().length > 11 ? $('#cpf_cnpj').mask('00.000.000/0000-00', options) : $('#cpf_cnpj').mask('000.000.000-00#', options);
+  if ($cpf_cnpj.val() != undefined) {
+    $cpf_cnpj.val().length > 11
+      ? $cpf_cnpj.mask('00.000.000/0000-00', options)
+      : $cpf_cnpj.mask('000.000.000-00#', options);
+  }
 
-
-  $cep = $('#cep');
-
-  $cep.mask('00000-000');
+  if ($cep != undefined) {
+    $cep.mask('00000-000');
+  }
 
   $cep.change(function () {
     if ($(this).val() == '') return;
@@ -68,5 +77,14 @@ $(document).ready(function() {
         $('#cidade').val(data.localidade);
         $('#estado').val(data.uf);
       });
+  });
+
+  $('.submit-only-btn').each(function() {
+    $(this).find('input').keypress(function(e) {
+      // Enter pressed?
+      if(e.which == 10 || e.which == 13) {
+        e.preventDefault();
+      }
+    });
   });
 });
