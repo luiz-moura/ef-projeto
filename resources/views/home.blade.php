@@ -20,10 +20,10 @@
       </strong>
       Foi realizado uma <b>{{ $lancamento->operacao_formatada }}</b> as {{ $lancamento->data_operacao_formatada }}
       @if (!is_null($lancamento->contexto_id))
-      o <b>{{ $lancamento->contexto_pessoa }}</b> foi o
+      o(a) <b>{{ $lancamento->contexto_pessoa }}</b> foi o(a)
       <a href="{{ route ('pessoas.show', $lancamento->contexto_id) }}">{{ $lancamento->contexto->nome }}</a>
       @else
-      e não teve uma pessoa envolvida
+      e não foi informado o {{ $lancamento->contexto_pessoa }}
       @endif
     </p>
   </div>

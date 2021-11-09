@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Lancamento;
 use App\Models\LancamentoTemProduto;
 use App\Models\Produto;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -34,7 +35,9 @@ class HomeController extends Controller
         //     ->orderBy('total', 'desc')
         //     ->get();
 
-        $relVendas = Produto::whereHas('lancamentos')
+        $relVendas = Produto::whereHas('lancamentos', function (Builder $query) {
+            $query->where('operacao', 'v');
+        })
             ->withSum(
                 ['lancamentoTemProdutos as total' => function($query) {
                     $query->whereRelation('lancamento', 'operacao', 'v');
