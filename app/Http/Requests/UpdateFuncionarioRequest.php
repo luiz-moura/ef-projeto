@@ -33,7 +33,7 @@ class UpdateFuncionarioRequest extends FormRequest
             ],
             'inscricao_estadual'    => [
                 'nullable',
-                Rule::unique('pessoas')->ignore($this->funcionario->inscricao_estadual)
+                Rule::unique('pessoas')->ignore($this->funcionario->id)
             ],
         ];
     }
