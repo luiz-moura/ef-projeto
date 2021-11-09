@@ -24,7 +24,7 @@
         <th scope="col"><i class="bi bi-key-fill"></i></th>
         <th scope="col">Nome</th>
         <th scope="col">Categoria</th>
-        <th scope="col">Ultimo custo</th>
+        <th scope="col">Último custo</th>
         <th scope="col">Valor</th>
         <th scope="col"></th>
       </tr>

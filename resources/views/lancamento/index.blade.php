@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Lancamentos')
+@section('title', 'Lançamentos')
 
 @section('content')
 
@@ -9,7 +9,7 @@
   Cadastrar lançamento
 </a>
 
-<h3 class="pb-4 mb-4 font-italic border-bottom">Lancamentos</h3>
+<h3 class="pb-4 mb-4 font-italic border-bottom">Lançamentos</h3>
 
 @if ($message = Session::get('success'))
   <x-alert type="success">

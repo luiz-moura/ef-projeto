@@ -8,7 +8,7 @@
 <canvas class="mb-5" id="myChart" style="height: 400px;"></canvas>
 
 <div class="my-3 p-3 bg-white rounded shadow-sm">
-  <h6 class="border-bottom border-gray pb-2 mb-0">Ultimas lançamentos</h6>
+  <h6 class="border-bottom border-gray pb-2 mb-0">Últimos lançamentos</h6>
   @foreach ($lancamentos as $lancamento)
   <div class="media text-muted pt-3">
     <a href="{{ route('lancamentos.show', $lancamento->id) }}" class="icon-lanc">

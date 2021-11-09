@@ -8,7 +8,7 @@
 
 @if(!empty($empresas))
   @foreach($empresas as $empresa)
-  <h3>Empresa: {{ $empresa['nome'] }}</h3>
+  <h4>{{ $empresa['nome'] }}</h4>
   <table class="table table-borderless table-responsive-lg mb-4">
     <thead>
       <tr class="table-active">
