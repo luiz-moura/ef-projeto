@@ -6,6 +6,7 @@ use App\Http\Requests\StoreProdutoRequest;
 use App\Http\Requests\UpdateProdutoRequest;
 use App\Models\Produto;
 use App\Models\Categoria;
+use Illuminate\Http\Request;
 
 class ProdutoController extends Controller
 {
@@ -14,11 +15,20 @@ class ProdutoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $produtos = Produto::latest()->paginate(20);
+        $qb = Produto::query();
 
-        return view('produto.index', compact('produtos'))
+        if ($request->filled('search')) {
+            $qb->where('nome', 'ilike', "%{$request->query('search')}%")
+                ->orWhere('codigo_barras', "{$request->query('search')}%");
+        }
+
+        $produtos = $qb->latest()->paginate(20)->withQueryString();
+
+        $query = $request->query();
+
+        return view('produto.index', compact('produtos', 'query'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 

@@ -11,6 +11,25 @@
 
 <h3 class="pb-4 mb-4 font-italic border-bottom">Categorias</h3>
 
+<form class="mb-5" method="GET">
+  <div class="form-row align-items-center">
+    <div class="col-sm-10 my-1">
+      <label for="search">Consultar</label>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Digite o nome ou Código de barras"
+        name="search"
+        value="{{ $query['search'] ?? null }}"
+      >
+    </div>
+    <div class="col-sm-2 my-1">
+      <label>_</label>
+      <button type="submit" class="btn btn-primary btn-block">Procurar</button>
+    </div>
+  </div>
+</form>
+
 @if ($message = Session::get('success'))
   <x-alert type="success">
     <x-slot name="message">{{ $message }}</x-slot>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCategoriaRequest;
 use App\Http\Requests\UpdateCategoriaRequest;
 use App\Models\Categoria;
+use Illuminate\Http\Request;
 
 class CategoriaController extends Controller
 {
@@ -13,10 +14,19 @@ class CategoriaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categorias = Categoria::latest()->paginate(20);
-        return view('categoria.index', compact('categorias'));
+        $qb = Categoria::query();
+
+        if ($request->filled('search')) {
+            $qb->where('nome', 'ilike', "%{$request->query('search')}%");
+        }
+
+        $categorias = $qb->latest()->paginate(20)->withQueryString();
+
+        $query = $request->query();
+
+        return view('categoria.index', compact('categorias', 'query'));
     }
 
     /**
