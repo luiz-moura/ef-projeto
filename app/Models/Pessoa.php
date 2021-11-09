@@ -67,7 +67,12 @@ class Pessoa extends Model
 
     public function setCpfCnpjAttribute($value) {
         $onlyNumber = preg_replace('/[^0-9]/', '', $value);
-        $this->attributes['cpf_cnpj'] = $onlyNumber;
+
+        if (is_null($value) or $value == '') {
+            $this->attributes['cpf_cnpj'] = null;
+        } else {
+            $this->attributes['cpf_cnpj'] = $onlyNumber;
+        }
     }
 
     private function mask($val, $mask) {
