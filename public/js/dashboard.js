@@ -46,7 +46,7 @@ $(document).ready(function() {
   $money = $('.money');
 
   if ($money != undefined) {
-    $money.mask('000.000.000.000.000,00', {reverse: true});
+    // $money.mask('000.000.000.000.000,00', {reverse: true});
   }
 
   let options = {

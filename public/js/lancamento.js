@@ -20,6 +20,7 @@ $(document).ready(function() {
   let $produtosAdicionados = $('#produtos-adicionados');
 
   let $lancamentoModel = $('#lancamento');
+  let $toast = $('.toast');
 
   /**
    * STEP 1
@@ -166,11 +167,19 @@ $(document).ready(function() {
   $('#form-lancamento').submit(function (event) {
     event.preventDefault();
 
+    if ($empresa.val() == null || $empresa.val() == '') {
+      $toast.toast('show');
+      return;
+    }
+
     let produtos = $produtosAdicionados.children('.list-group-item').map(function () {
       return $(this).data('fields');
     }).toArray();
 
-    if (produtos.length < 1) return;
+    if (produtos.length < 1) {
+      $toast.toast('show');
+      return;
+    }
 
     let data = {
       empresa_id: $empresa.val(),

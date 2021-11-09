@@ -86,7 +86,7 @@
         @foreach ($categorias as $cat)
           <option
             value="{{ $cat->id }}"
-            selected="{{ $produto->categoria->id == $cat->id && 'selected' }}"
+            <?php echo $produto->categoria->id == $cat->id ? 'selected' : null ?>
           >{{ $cat->nome }}</option>
         @endforeach
       </select>

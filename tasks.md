@@ -10,4 +10,4 @@
 [x] separar api
 [x] selecionar empresa no caixa
 [x] Filtros do relatorio de vendas
-[ ] Relatorio de posicao de estoque
+[x] Relatorio de posicao de estoque

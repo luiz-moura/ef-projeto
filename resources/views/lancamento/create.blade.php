@@ -23,7 +23,7 @@
   action="{{ route('lancamentos.store') }}"
   method="POST"
   id="form-lancamento"
-  class="needs-validation submit-only-btn"
+  class="submit-only-btn"
   novalidate
 >
   @csrf
@@ -41,7 +41,7 @@
             <i class="bi bi-search"></i>
           </button>
         </div>
-        <select type="text" id="empresa" class="form-control" name="empresa" required></select>
+        <select type="text" id="empresa" class="form-control" name="empresa" disabled></select>
       </div>
     </div>
     <div class="col-md-6 mb-3">
@@ -176,5 +176,10 @@
   </x-slot>
   <x-slot name="message"></x-slot>
 </x-modal>
+
+<x-toast>
+  <x-slot name="title">Tentativa falhou</x-slot>
+  <x-slot name="message">Você deve <b>informar a empresa</b> e pelo menos 1 <b>produto</b>!</x-slot>
+</x-toast>
 
 @endsection
