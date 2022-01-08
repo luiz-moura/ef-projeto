@@ -19,14 +19,13 @@ class CategoriaController extends Controller
         $qb = Categoria::query();
 
         if ($request->filled('search')) {
-            $qb->where('nome', 'ilike', "%{$request->query('search')}%");
+            $qb->where('nome', 'ilike', "%{$request->query('search')}%")
+                ->orWhere('descricao', 'ilike', "%{$request->query('search')}%");
         }
 
         $categorias = $qb->latest()->paginate(20)->withQueryString();
 
-        $query = $request->query();
-
-        return view('categoria.index', compact('categorias', 'query'));
+        return view('categoria.index', compact('categorias'));
     }
 
     /**
@@ -47,9 +46,9 @@ class CategoriaController extends Controller
      */
     public function store(StoreCategoriaRequest $request)
     {
-        $request->validated();
+        $validated = $request->validated();
 
-        Categoria::create($request->all());
+        Categoria::create($validated);
 
         return redirect()->route('categorias.index')
             ->with('success', 'Categoria criada com sucesso.');
@@ -86,9 +85,9 @@ class CategoriaController extends Controller
      */
     public function update(UpdateCategoriaRequest $request, Categoria $categoria)
     {
-        $request->validated();
+        $validated = $request->validated();
 
-        $categoria->update($request->all());
+        $categoria->update($validated);
 
         return redirect()->route('categorias.index')
             ->with('success', 'Categoria atualizada com sucesso.');

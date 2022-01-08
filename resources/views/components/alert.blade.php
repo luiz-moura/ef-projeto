@@ -7,6 +7,6 @@
     @else
       <i class="bi bi-slash-circle-fill"></i>
     @endif
-    {{ $message }}
+    {{ $message ?? $slot }}
   </span>
 </div>

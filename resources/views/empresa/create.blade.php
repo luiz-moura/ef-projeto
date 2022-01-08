@@ -13,216 +13,244 @@
 
 @if ($errors->any())
   @foreach ($errors->all() as $error)
-    <x-alert type="danger">
-      <x-slot name="message">{{ $error }}</x-slot>
-    </x-alert>
+    <x-alert type="danger" :message="$error"/>
   @endforeach
 @endif
 
 <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
   <li class="nav-item" role="presentation">
     <a
-      class="nav-link active"
-      id="home-tab"
-      data-toggle="tab"
       href="#home"
+      id="home-tab"
+      class="nav-link active"
       role="tab"
+      data-toggle="tab"
       aria-controls="home"
       aria-selected="true"
     >Principal</a>
   </li>
   <li class="nav-item" role="presentation">
     <a
-      class="nav-link"
       id="profile-tab"
-      data-toggle="tab"
+      class="nav-link"
       href="#profile"
       role="tab"
+      data-toggle="tab"
       aria-controls="profile"
       aria-selected="false"
     >Fiscal</a>
   </li>
 </ul>
 <div class="tab-content" id="myTabContent">
-  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+  <div
+    id="home"
+    class="tab-pane fade show active"
+    role="tabpanel"
+    aria-labelledby="home-tab"
+  >
     <form
-    action="{{ route('empresas.store') }}"
-    method="POST"
-    class="needs-validation submit-only-btn"
-    novalidate
+      action="{{ route('empresas.store') }}"
+      method="POST"
+      class="needs-validation submit-only-btn"
+      novalidate
     >
       @csrf
-      <div class="form-row">
-        <div class="col-md-6 mb-3">
+      <div class="form-row mb-3">
+        <div class="col-md-6">
           <label for="nome">Nome</label>
           <input
             type="text"
-            class="form-control"
-            id="nome"
             name="nome"
+            value="{{ old('nome') }}"
+            id="nome"
+            class="form-control"
             required
           />
         </div>
-        <div class="col-md-6 mb-3">
+        <div class="col-md-6">
           <label for="cpf_cnpj">CPF ou CNPJ</label>
           <input
             type="text"
-            class="form-control"
-            id="cpf_cnpj"
             name="cpf_cnpj"
-          />
-        </div>
-        <div class="col-md-4 mb-3">
-          <label for="inscricao_estadual">IE (Inscrição Estadual)</label>
-          <input
-            type="text"
+            value="{{ old('cpf_cnpj') }}"
+            id="cpf_cnpj"
             class="form-control"
-            id="inscricao_estadual"
-            name="inscricao_estadual"
-          />
-        </div>
-        <div class="col-md-4 mb-3">
-          <label for="nome_fantasia">Nome fantasia</label>
-          <input
-            type="text"
-            class="form-control"
-            id="nome_fantasia"
-            name="nome_fantasia"
-          />
-        </div>
-        <div class="col-md-4 mb-3">
-          <label for="razao_social">Razão Social</label>
-          <input
-            type="text"
-            class="form-control"
-            id="razao_social"
-            name="razao_social"
-          />
-        </div>
-        <div class="col-md-6 mb-3">
-          <label for="email">E-mail</label>
-          <input
-            type="email"
-            class="form-control"
-            id="email"
-            name="email"
-          />
-        </div>
-        <div class="col-md-6 mb-3">
-          <label for="telefone">Telefone</label>
-          <input
-            type="text"
-            class="form-control"
-            id="telefone"
-            name="telefone"
           />
         </div>
       </div>
-      <div class="form-row">
-        <div class="col-md-2 mb-3">
+      <div class="form-row mb-3">
+        <div class="col-md-4">
+          <label for="inscricao_estadual">IE (Inscrição Estadual)</label>
+          <input
+            type="text"
+            name="inscricao_estadual"
+            value="{{ old('inscricao_estadual') }}"
+            id="inscricao_estadual"
+            class="form-control"
+          />
+        </div>
+        <div class="col-md-4">
+          <label for="nome_fantasia">Nome fantasia</label>
+          <input
+            type="text"
+            name="nome_fantasia"
+            value="{{ old('nome_fantasia') }}"
+            id="nome_fantasia"
+            class="form-control"
+          />
+        </div>
+        <div class="col-md-4">
+          <label for="razao_social">Razão Social</label>
+          <input
+            type="text"
+            name="razao_social"
+            value="{{ old('razao_social') }}"
+            id="razao_social"
+            class="form-control"
+          />
+        </div>
+      </div>
+      <div class="form-row mb-3">
+        <div class="col-md-6">
+          <label for="email">E-mail</label>
+          <input
+            type="email"
+            name="email"
+            value="{{ old('email') }}"
+            id="email"
+            class="form-control"
+          />
+        </div>
+        <div class="col-md-6">
+          <label for="telefone">Telefone</label>
+          <input
+            type="text"
+            name="telefone"
+            value="{{ old('telefone') }}"
+            id="telefone"
+            class="form-control"
+          />
+        </div>
+      </div>
+      <div class="form-row mb-3">
+        <div class="col-md-2">
           <label for="cep">CEP</label>
           <input
             type="text"
-            class="form-control"
-            id="cep"
             name="cep"
+            value="{{ old('cep') }}"
+            id="cep"
+            class="form-control"
           />
         </div>
-        <div class="col-md-4 mb-3">
+        <div class="col-md-4">
           <label for="bairro">Bairro</label>
           <input
             type="text"
-            class="form-control"
-            id="bairro"
             name="bairro"
+            value="{{ old('bairro') }}"
+            id="bairro"
+            class="form-control"
           />
         </div>
-        <div class="col-md-4 mb-3">
+        <div class="col-md-4">
           <label for="rua">Rua</label>
           <input
             type="text"
-            class="form-control"
-            id="rua"
             name="rua"
+            value="{{ old('rua') }}"
+            id="rua"
+            class="form-control"
           />
         </div>
-        <div class="col-md-2 mb-3">
+        <div class="col-md-2">
           <label for="numero">Número</label>
           <input
             type="text"
-            class="form-control"
-            id="numero"
             name="numero"
-          />
-        </div>
-        <div class="col-md-12 mb-3">
-          <label for="complemento">Complemento</label>
-          <input
-            type="text"
+            value="{{ old('numero') }}"
+            id="numero"
             class="form-control"
-            id="complemento"
-            name="complemento"
           />
         </div>
-        <div class="col-md-6 mb-3">
+      </div>
+      <div class="form-group mb-3">
+        <label for="complemento">Complemento</label>
+        <input
+          type="text"
+          name="complemento"
+          value="{{ old('complemento') }}"
+          id="complemento"
+          class="form-control"
+        />
+      </div>
+      <div class="form-row mb-3">
+        <div class="col-md-6">
           <label for="cidade">Cidade</label>
           <input
             type="text"
-            class="form-control"
-            id="cidade"
             name="cidade"
+            value="{{ old('cidade') }}"
+            id="cidade"
+            class="form-control"
           />
         </div>
-        <div class="col-md-6 mb-3">
+        <div class="col-md-6">
           <label for="estado">Estado</label>
           <x-select-estados />
         </div>
       </div>
-      <div class="form-row">
-        <div class="col-md-12 mb-5">
+      <div class="form-row mb-5">
+        <div class="col-md-12">
           <label class="mr-3">Constar em:</label>
           <div class="custom-control-inline custom-switch mr-3">
             <input
               type="checkbox"
-              class="custom-control-input"
-              id="cliente"
               name="tipo[]"
               value="c"
+              id="cliente"
+              class="custom-control-input"
+              @if(is_array(old('tipo')) && in_array('c', old('tipo'))) checked @endif
             >
             <label class="custom-control-label" for="cliente">Cliente</label>
           </div>
           <div class="custom-control-inline custom-switch mr-3">
             <input
               type="checkbox"
-              class="custom-control-input"
-              id="fornecedor"
               name="tipo[]"
               value="u"
+              id="fornecedor"
+              class="custom-control-input"
+              @if(is_array(old('tipo')) && in_array('u', old('tipo'))) checked @endif
             >
             <label class="custom-control-label" for="fornecedor">Fornecedor</label>
           </div>
           <div class="custom-control-inline custom-switch mr-3">
             <input
               type="checkbox"
-              class="custom-control-input"
-              id="funcionario"
               name="tipo[]"
               value="f"
+              id="funcionario"
+              class="custom-control-input"
+              @if(is_array(old('tipo')) && in_array('f', old('tipo'))) checked @endif
             >
             <label class="custom-control-label" for="funcionario">Funcionário</label>
           </div>
         </div>
       </div>
-      <div class="text-right">
-        <a class="btn btn-warning" href="{{ route('empresas.index') }}">
-          <i class="bi bi-arrow-return-left"></i> Cancelar
-        </a>
-        <button class="btn btn-primary" type="submit">
-          <i class="bi bi-check-circle-fill"></i> Cadastrar
-        </button>
+      <div class="form-row">
+        <div class="col-md-12 text-right">
+          <a class="btn btn-warning" href="{{ route('empresas.index') }}">
+            <i class="bi bi-arrow-return-left"></i> Cancelar
+          </a>
+          <button class="btn btn-primary" type="submit">
+            <i class="bi bi-check-circle-fill"></i> Cadastrar
+          </button>
+        </div>
       </div>
     </form>
   </div>
+  <!-- Tab2 -->
   <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
 </div>
 

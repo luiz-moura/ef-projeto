@@ -30,9 +30,7 @@ class FuncionarioController extends Controller
 
         $funcionarios = $qb->latest()->paginate(20)->withQueryString();
 
-        $query = $request->query();
-
-        return view('funcionario.index', compact('funcionarios', 'query'))
+        return view('funcionario.index', compact('funcionarios'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
@@ -54,11 +52,11 @@ class FuncionarioController extends Controller
      */
     public function store(StoreFuncionarioRequest $request)
     {
-        $request->validated();
+        $validated = $request->validated();
 
-        $funcionario = Pessoa::create($request->all());
+        $funcionario = Pessoa::create($validated);
 
-        $marcados = $request->tipo ?: [];
+        $marcados = $request->input('tipo', []);
 
         $contextos = [['tipo' => 'f']];
         foreach ($marcados as $tipo) {
@@ -102,9 +100,9 @@ class FuncionarioController extends Controller
      */
     public function update(UpdateFuncionarioRequest $request, Pessoa $funcionario)
     {
-        $request->validated();
+        $validated = $request->validated();
 
-        $marcados = $request->tipo ?: [];
+        $marcados = $request->input('tipo', []);
 
         $funcionario->contextos()->whereNotIn('tipo', $marcados)->delete();
 
@@ -114,7 +112,7 @@ class FuncionarioController extends Controller
             }
         }
 
-        $funcionario->update($request->all());
+        $funcionario->update($validated);
 
         return redirect()->route('funcionarios.index')
             ->with('success', 'Funcionario atualizado com sucesso');

@@ -9,10 +9,13 @@ class Alert extends Component
     /**
      * Create a new component instance.
      *
+     * @param string $type
+     *
      * @return void
      */
     public function __construct(
-        public $type
+        public $type    = 'success',
+        public $message = null
     )
     {
         //

@@ -13,89 +13,75 @@
 
 @if ($errors->any())
   @foreach ($errors->all() as $error)
-    <x-alert type="danger">
-      <x-slot name="message">{{ $error }}</x-slot>
-    </x-alert>
+    <x-alert type="danger" :message="$error"/>
   @endforeach
 @endif
 
 <form
   action="{{ route('lancamento-produtos.update', $lancamentoTemProduto->id) }}"
   method="POST"
+  id="form"
   class="needs-validation submit-only-btn"
   novalidate
-  id="form"
 >
   @csrf
   @method('PUT')
-  <div class="form-row">
-    <div class="col-md-12 mb-3">
+  <div class="form-row mb-3">
+    <div class="col-md-12">
       <label for="produto_id">Produto</label>
       <input
         type="text"
-        class="form-control"
-        id="produto_id"
         name="produto_id"
         value="{{ $lancamentoTemProduto->produto->nome }}"
+        id="produto_id"
+        class="form-control"
         disabled
         required
       />
     </div>
-    <div class="col-md-6 mb-3">
+  </div>
+  <div class="form-row mb-3">
+    <div class="col-md-6">
       <label for="quantidade">Quantidade</label>
       <input
         type="text"
-        class="form-control"
-        id="quantidade"
         name="quantidade"
         value="{{ $lancamentoTemProduto->quantidade }}"
+        id="quantidade"
+        class="form-control"
         required
       />
     </div>
-    <div class="col-md-6 mb-3">
+    <div class="col-md-6">
       <label for="preco_unitario">Preço unitario</label>
       <input
         type="text"
-        class="form-control"
-        id="preco_unitario"
         name="preco_unitario"
         value="{{ $lancamentoTemProduto->preco_unitario }}"
+        id="preco_unitario"
+        class="form-control"
       />
     </div>
   </div>
 </form>
-<div class="form-row">
+
+<div class="row">
   <div class="col-md-12 text-right">
 		<a class="btn btn-warning" href="{{ route('lancamentos.edit', $lancamentoTemProduto->lancamento_id) }}">
 			<i class="bi bi-arrow-return-left"></i> Cancelar
 		</a>
-		<form
-      action="{{ route('lancamento-produtos.destroy', $lancamentoTemProduto->id) }}"
-      method="POST"
-      class="d-inline"
-    >
-			@csrf
-			@method('DELETE')
-			<button
-        type="submit"
-        class="btn btn-danger d-inline"
-        name="delete"
-        data-toggle="modal"
-        data-target="#delete"
-      >
-				<i class="bi bi-trash"></i>
-				Excluir
-			</button>
-		</form>
+    <x-form.delete
+      :action="route('lancamento-produtos.destroy', $lancamentoTemProduto)"
+      target="delete"
+    />
 		<button class="btn btn-primary" type="submit" form="form">
 			<i class="bi bi-check-circle-fill"></i> Atualizar
 		</button>
 	</div>
 </div>
 
-<x-modal target="delete">
-  <x-slot name="title">Deseja deletar essa produto do lançamento?</x-slot>
-  <x-slot name="message">Clique em confirmar para deletar, caso deseje cancele a operação!</x-slot>
+<x-modal target="delete" title="Deseja deletar essa produto do lançamento?">
+  Clique em confirmar para deletar, caso deseje cancele a operação!
 </x-modal>
 
 @endsection

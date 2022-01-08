@@ -26,9 +26,7 @@ class ProdutoController extends Controller
 
         $produtos = $qb->latest()->paginate(20)->withQueryString();
 
-        $query = $request->query();
-
-        return view('produto.index', compact('produtos', 'query'))
+        return view('produto.index', compact('produtos'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
@@ -40,6 +38,7 @@ class ProdutoController extends Controller
     public function create()
     {
         $categorias = Categoria::latest()->get();
+
         return view('produto.create', compact('categorias'));
     }
 
@@ -51,9 +50,9 @@ class ProdutoController extends Controller
      */
     public function store(StoreProdutoRequest $request)
     {
-        $request->validated();
+        $validated = $request->validated();
 
-        Produto::create($request->all());
+        Produto::create($validated);
 
         return redirect()->route('produtos.index')
             ->with('success', 'Produto criado com sucesso.');
@@ -79,7 +78,8 @@ class ProdutoController extends Controller
     public function edit(Produto $produto)
     {
         $categorias = Categoria::latest()->get();
-        return view('produto.edit', compact('produto'), compact('categorias'));
+
+        return view('produto.edit', compact('produto', 'categorias'));
     }
 
     /**
@@ -91,9 +91,9 @@ class ProdutoController extends Controller
      */
     public function update(UpdateProdutoRequest $request, Produto $produto)
     {
-        $request->validated();
+        $validated = $request->validated();
 
-        $produto->update($request->all());
+        $produto->update($validated);
 
         return redirect()->route('produtos.index')
             ->with('success', 'Produto atualizado com sucesso');

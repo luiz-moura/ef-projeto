@@ -29,9 +29,7 @@
   </table>
   @endforeach
 @else
-  <div class="alert alert-dark" role="alert">
-    Não foram encotrado produtos.
-  </div>
+  <x-alert type="warning" message="Não foram encotrado produtos."/>
 @endif
 
 @endsection

@@ -12,31 +12,28 @@
 <h3 class="pb-4 mb-4 font-italic border-bottom">Produtos</h3>
 
 <form class="mb-5" method="GET">
+  <p class="mb-1">Consultar</p>
   <div class="form-row align-items-center">
     <div class="col-sm-10 my-1">
-      <label for="search">Consultar</label>
       <input
         type="text"
+        name="search"
+        value="{{ request()->search }}"
         class="form-control"
         placeholder="Digite o nome ou Código de barras"
-        name="search"
-        value="{{ $query['search'] ?? null }}"
       >
     </div>
     <div class="col-sm-2 my-1">
-      <label>_</label>
       <button type="submit" class="btn btn-primary btn-block">Procurar</button>
     </div>
   </div>
 </form>
 
 @if ($message = Session::get('success'))
-  <x-alert type="success">
-    <x-slot name="message">{{ $message }}</x-slot>
-  </x-alert>
+  <x-alert type="success" :message="$message"/>
 @endif
 
-@if(!$produtos->isEmpty())
+@if($produtos->isNotEmpty())
   <table class="table table-striped table-borderless table-responsive-lg">
     <thead>
       <tr>
@@ -57,37 +54,19 @@
         <td>{{ $produto->ultimo_valor_custo }}</td>
         <td>{{ $produto->valor_venda }}</td>
         <td class="text-right">
-          <form
-            action="{{ route('produtos.destroy', $produto->id) }}"
-            method="POST"
-          >
-            @csrf
-            @method('DELETE')
-            <a
-              href="{{ route('produtos.show', $produto->id) }}"
-              class="btn btn-info pb-0 pt-0"
-            >
-              <i class="bi bi-eye-fill"></i>
-              Visualizar
-            </a>
-            <a
-              href="{{ route('produtos.edit', $produto->id) }}"
-              class="btn btn-dark pb-0 pt-0"
-            >
-              <i class="bi bi-brush"></i>
-              Editar
-            </a>
-            <button
-              type="submit"
-              class="btn btn-danger pb-0 pt-0"
-              name="delete"
-              data-toggle="modal"
-              data-target="#delete"
-            >
-              <i class="bi bi-trash"></i>
-              Excluir
-            </button>
-          </form>
+          <a href="{{ route('produtos.show', $produto) }}" class="btn btn-info pb-0 pt-0">
+            <i class="bi bi-eye-fill"></i>
+            Visualizar
+          </a>
+          <a href="{{ route('produtos.edit', $produto) }}" class="btn btn-dark pb-0 pt-0">
+            <i class="bi bi-brush"></i>
+            Editar
+          </a>
+          <x-form.delete
+            :action="route('produtos.destroy', $produto)"
+            target="delete"
+            class="pb-0 pt-0"
+          />
         </td>
       </tr>
       @endforeach
@@ -96,14 +75,11 @@
 
   {!! $produtos->links() !!}
 
-  <x-modal target="delete">
-    <x-slot name="title">Deseja deletar esse produto?</x-slot>
-    <x-slot name="message">Clique em confirmar para deletar, caso deseje cancele a operação!</x-slot>
+  <x-modal target="delete" title="Deseja deletar esse produto?">
+    Clique em confirmar para deletar, caso deseje cancele a operação!
   </x-modal>
 @else
-  <div class="alert alert-dark" role="alert">
-    Não foram encotrado produtos.
-  </div>
+  <x-alert type="warning" message="Não foram encotrado produtos."/>
 @endif
 
 @endsection

@@ -26,7 +26,7 @@ $(document).ready(function() {
    * STEP 1
    */
 
-  $nomeEmpresa.change(function () {
+  $nomeEmpresa.on('change', function () {
     $listaEmpresas.html('');
 
     if ($(this).val() == '') return;
@@ -46,7 +46,7 @@ $(document).ready(function() {
       });
   });
 
-  $nomePessoa.change(function () {
+  $nomePessoa.on('change', function () {
     $listaPessoas.html('');
 
     if ($(this).val() == '') return;
@@ -58,8 +58,6 @@ $(document).ready(function() {
       }
     })
       .then(({ data }) => {
-        console.log(data);
-
         data.data.forEach((item) => {
           $('<option>', {
             value: item.id,
@@ -71,7 +69,7 @@ $(document).ready(function() {
       });
   });
 
-  $nomeProduto.change(function () {
+  $nomeProduto.on('change', function () {
     $listaProdutos.html('');
 
     if ($(this).val() == '') return;
@@ -185,8 +183,6 @@ $(document).ready(function() {
       $toast.toast('show');
       return;
     }
-
-    console.log($pessoa.val().contextos);
 
     let data = {
       empresa_id: $empresa.val(),

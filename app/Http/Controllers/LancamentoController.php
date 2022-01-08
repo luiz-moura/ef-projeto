@@ -16,6 +16,7 @@ class LancamentoController extends Controller
     public function index()
     {
         $lancamentos = Lancamento::latest()->paginate(20);
+
         return view('lancamento.index', compact('lancamentos'));
     }
 

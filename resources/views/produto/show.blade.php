@@ -17,10 +17,10 @@
       <label for="nome">Nome</label>
       <input
         type="text"
-        class="form-control"
-        id="nome"
         name="nome"
         value="{{ $produto->nome }}"
+        id="nome"
+        class="form-control"
         disabled
       />
     </div>
@@ -28,10 +28,10 @@
       <label for="codigo_barras">Código de barras</label>
       <input
         type="text"
-        class="form-control"
-        id="codigo_barras"
         name="codigo_barras"
         value="{{ $produto->codigo_barras }}"
+        id="codigo_barras"
+        class="form-control"
         disabled
       />
     </div>
@@ -39,29 +39,34 @@
       <label for="marca">Marca</label>
       <input
         type="text"
-        class="form-control"
-        id="marca"
         name="marca"
         value="{{ $produto->marca }}"
+        id="marca"
+        class="form-control"
         disabled
       />
     </div>
     <div class="col-md-6 mb-3">
       <label for="valor_venda">Valor venda</label>
-      <input
-        type="text"
-        class="form-control"
-        id="valor_venda"
-        name="valor_venda"
-        disabled
-      />
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">R$</span>
+        </div>
+        <input
+          type="text"
+          name="valor_venda"
+          id="valor_venda"
+          class="form-control"
+          disabled
+        />
+      </div>
     </div>
     <div class="col-md-6 mb-3">
       <label for="categoria_id">Categoria</label>
       <select
-        class="custom-select"
-        id="categoria_id"
         name="categoria_id"
+        id="categoria_id"
+        class="custom-select"
         disabled
       >
         <option value="{{ $produto->categoria->id }}">
@@ -75,38 +80,16 @@
       <a class="btn btn-warning" href="{{ route('produtos.index') }}">
         <i class="bi bi-arrow-return-left"></i> Voltar
       </a>
-      <form
-        action="{{ route('produtos.destroy', $produto->id) }}"
-        method="POST"
-        class="d-inline"
-      >
-        @csrf
-        @method('DELETE')
-        <button
-          type="submit"
-          class="btn btn-danger d-inline"
-          name="delete"
-          data-toggle="modal"
-          data-target="#delete"
-        >
-          <i class="bi bi-trash"></i>
-          Excluir
-        </button>
-      </form>
-      <a
-        href="{{ route('produtos.edit', $produto->id) }}"
-        class="btn btn-dark"
-        type="submit"
-      >
+      <x-form.delete :action="route('produtos.destroy', $produto)" target="delete"/>
+      <a href="{{ route('produtos.edit', $produto) }}" class="btn btn-dark">
         <i class="bi bi-brush"></i> Editar
       </a>
     </div>
   </div>
 </div>
 
-<x-modal target="delete">
-  <x-slot name="title">Deseja deletar essa produto?</x-slot>
-  <x-slot name="message">Clique em confirmar para deletar, caso deseje cancele a operação!</x-slot>
+<x-modal target="delete" title="Deseja deletar essa produto?">
+  Clique em confirmar para deletar, caso deseje cancele a operação!
 </x-modal>
 
 @endsection

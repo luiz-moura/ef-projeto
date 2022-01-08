@@ -5,13 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="theme-color" content="#563d7c">
   <title>@yield('title')</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/pdv.css') }}">
 </head>
 
 <body class="bg-light">
-
   <div id="caixa-aberto" class="text-center text-white">
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
       <main role="main" class="inner cover">
@@ -19,11 +17,19 @@
         <label for="empresas">Selecione a empresa</label>
         <select class="form-control mb-5" id="empresas">
           @foreach ($empresas as $empresa)
-          <option value="{{ $empresa->contextos()->where('tipo', 'e')->first()->id }}">{{ $empresa->nome }}</option>
+          <option value="{{ $empresa->contextos()->where('tipo', 'e')->first()->id }}">
+            {{ $empresa->nome }}
+          </option>
           @endforeach
         </select>
         <p class="lead">
-          <a href="#" id="abrir-caixa" class="btn btn-lg btn-success text-uppercase">Abrir caixa</a>
+          <a
+            href="#"
+            id="abrir-caixa"
+            class="btn btn-lg btn-success text-uppercase"
+          >
+            Abrir caixa
+          </a>
         </p>
       </main>
     </div>
@@ -32,7 +38,13 @@
   <div class="container-xl">
     <div class="py-5 text-center">
       <a href="{{ route('home') }}">
-        <img style="filter: invert(100%)" class="d-block mx-auto mb-4" src="{{ asset('images/logo.png') }}" alt="Eficiência Fiscal" width="150">
+        <img
+          style="filter: invert(100%)"
+          class="d-block mx-auto mb-4"
+          src="{{ asset('images/logo.png') }}"
+          alt="Eficiência Fiscal"
+          width="150"
+        >
       </a>
     </div>
 
@@ -41,7 +53,7 @@
     <footer class="my-5 pt-5 text-muted text-center text-small">
       <p class="mb-1">&copy; 2021 PDV Online</p>
       <ul class="list-inline">
-        <li class="list-inline-item"><a data-toggle="modal"  data-target="#atalhos" href="#">Atalhos</a></li>
+        <li class="list-inline-item"><a data-toggle="modal" data-target="#atalhos" href="#">Atalhos</a></li>
         <li class="list-inline-item"><a href="#">Suporte</a></li>
       </ul>
     </footer>
@@ -56,10 +68,7 @@
     </x-slot>
   </x-modal>
 
-  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script src="{{ asset('js/pdv.js') }}"></script>
+  <script src="{{ asset('js/app.js') }}" defer></script>
 </body>
 
 </html>

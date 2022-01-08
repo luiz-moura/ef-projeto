@@ -8,7 +8,7 @@
       </button>
     </div>
     <div class="toast-body">
-      {{ $message }}
+      {{ $message ?? $slot }}
     </div>
   </div>
 </div>

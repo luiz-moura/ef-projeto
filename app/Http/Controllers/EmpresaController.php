@@ -30,9 +30,7 @@ class EmpresaController extends Controller
 
         $empresas = $qb->latest()->paginate(20)->withQueryString();
 
-        $query = $request->query();
-
-        return view('empresa.index', compact('empresas', 'query'))
+        return view('empresa.index', compact('empresas'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
@@ -54,11 +52,11 @@ class EmpresaController extends Controller
      */
     public function store(StoreEmpresaRequest $request)
     {
-        $request->validated();
+        $validated = $request->validated();
 
-        $empresa = Pessoa::create($request->all());
+        $empresa = Pessoa::create($validated);
 
-        $marcados = $request->tipo ?: [];
+        $marcados = $request->input('tipo', []);
 
         $contextos = [['tipo' => 'e']];
         foreach ($marcados as $tipo) {
@@ -102,9 +100,9 @@ class EmpresaController extends Controller
      */
     public function update(UpdateEmpresaRequest $request, Pessoa $empresa)
     {
-        $request->validated();
+        $validated = $request->validated();
 
-        $marcados = $request->tipo ?: [];
+        $marcados = $request->input('tipo', []);
 
         $empresa->contextos()->whereNotIn('tipo', $marcados)->delete();
 
@@ -114,7 +112,7 @@ class EmpresaController extends Controller
             }
         }
 
-        $empresa->update($request->all());
+        $empresa->update($validated);
 
         return redirect()->route('empresas.index')
             ->with('success', 'Empresa atualizada com sucesso');

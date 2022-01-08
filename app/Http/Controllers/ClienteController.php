@@ -30,9 +30,7 @@ class ClienteController extends Controller
 
         $clientes = $qb->latest()->paginate(20)->withQueryString();
 
-        $query = $request->query();
-
-        return view('cliente.index', compact('clientes', 'query'))
+        return view('cliente.index', compact('clientes'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
@@ -54,13 +52,13 @@ class ClienteController extends Controller
      */
     public function store(StoreClienteRequest $request)
     {
-        $request->validated();
+        $validated = $request->validated();
 
-        $pessoa = Pessoa::create($request->all());
-
-        $marcados = $request->tipo ?: [];
+        $pessoa = Pessoa::create($validated);
 
         $contextos = [['tipo' => 'c']];
+        $marcados = $request->input('tipo', []);
+
         foreach ($marcados as $tipo) {
             $contextos[] = ['tipo' => $tipo];
         }
@@ -102,9 +100,9 @@ class ClienteController extends Controller
      */
     public function update(UpdateClienteRequest $request, Pessoa $cliente)
     {
-        $request->validated();
+        $validated = $request->validated();
 
-        $marcados = $request->tipo ?: [];
+        $marcados = $request->input('tipo', []);
 
         $cliente->contextos()->whereNotIn('tipo', $marcados)->delete();
 
@@ -114,7 +112,7 @@ class ClienteController extends Controller
             }
         }
 
-        $cliente->update($request->all());
+        $cliente->update($validated);
 
         return redirect()->route('clientes.index')
             ->with('success', 'Cliente atualizado com sucesso');

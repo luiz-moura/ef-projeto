@@ -31,11 +31,6 @@ class Pessoa extends Model
         'observacoes'
     ];
 
-    public function contextos()
-    {
-        return $this->hasMany(Contexto::class, 'pessoa_id', 'id');
-    }
-
     public function scopeTipo($qb, $tipo)
     {
         $qb->whereRelation('contextos', 'tipo', $tipo);
@@ -48,12 +43,19 @@ class Pessoa extends Model
         return $qb;
     }
 
-    public function getCreatedAtFormatadaAttribute() {
+    public function contextos()
+    {
+        return $this->hasMany(Contexto::class, 'pessoa_id', 'id');
+    }
+
+    public function getCreatedAtFormatadaAttribute()
+    {
         return \Carbon\Carbon::parse($this->created_at)
             ->format('d/m/Y');
     }
 
-    public function getCpfCnpjFormatadoAttribute() {
+    public function getCpfCnpjFormatadoAttribute()
+    {
         if (is_null($this->cpf_cnpj)) {
             return null;
         }
@@ -65,7 +67,8 @@ class Pessoa extends Model
         }
     }
 
-    public function setCpfCnpjAttribute($value) {
+    public function setCpfCnpjAttribute($value)
+    {
         $onlyNumber = preg_replace('/[^0-9]/', '', $value);
 
         if (is_null($value) or $value == '') {
@@ -75,7 +78,8 @@ class Pessoa extends Model
         }
     }
 
-    private function mask($val, $mask) {
+    private function mask($val, $mask)
+    {
         $maskared = '';
         $k = 0;
         for($i = 0; $i<=strlen($mask)-1; $i++) {

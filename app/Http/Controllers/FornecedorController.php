@@ -30,9 +30,7 @@ class FornecedorController extends Controller
 
         $fornecedores = $qb->latest()->paginate(20)->withQueryString();
 
-        $query = $request->query();
-
-        return view('fornecedor.index', compact('fornecedores', 'query'))
+        return view('fornecedor.index', compact('fornecedores'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
@@ -54,11 +52,11 @@ class FornecedorController extends Controller
      */
     public function store(StoreFornecedorRequest $request)
     {
-        $request->validated();
+        $validated = $request->validated();
 
-        $fornecedor = Pessoa::create($request->all());
+        $fornecedor = Pessoa::create($validated);
 
-        $marcados = $request->tipo ?: [];
+        $marcados = $request->input('tipo', []);
 
         $contextos = [['tipo' => 'u']];
         foreach ($marcados as $tipo) {
@@ -102,9 +100,9 @@ class FornecedorController extends Controller
      */
     public function update(UpdateFornecedorRequest $request, Pessoa $fornecedor)
     {
-        $request->validated();
+        $validated = $request->validated();
 
-        $marcados = $request->tipo ?: [];
+        $marcados = $request->input('tipo', []);
 
         $fornecedor->contextos()->whereNotIn('tipo', $marcados)->delete();
 
@@ -114,7 +112,7 @@ class FornecedorController extends Controller
             }
         }
 
-        $fornecedor->update($request->all());
+        $fornecedor->update($validated);
 
         return redirect()->route('fornecedores.index')
             ->with('success', 'Fornecedor atualizado com sucesso');

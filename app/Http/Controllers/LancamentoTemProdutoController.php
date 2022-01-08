@@ -25,11 +25,14 @@ class LancamentoTemProdutoController extends Controller
      * @param  \App\Models\LancamentoTemProduto  $lancamentoTemProduto
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreLancamentoTemProdutoRequest $request, LancamentoTemProduto $lancamentoTemProduto)
+    public function update(
+        StoreLancamentoTemProdutoRequest $request,
+        LancamentoTemProduto $lancamentoTemProduto
+    )
     {
-        $request->validated();
+        $validated = $request->validated();
 
-        $lancamentoTemProduto->update($request->all());
+        $lancamentoTemProduto->update($validated);
 
         return redirect()->route('lancamentos.edit', $lancamentoTemProduto->lancamento_id)
             ->with('success', 'Produto do lançamento atualizado com sucesso.');

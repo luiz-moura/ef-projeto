@@ -10,7 +10,7 @@
         @endif
       </div>
       <div class="modal-body">
-        {{ $message }}
+        {{ $message ?? $slot }}
       </div>
       <div class="modal-footer">
         @if ($cancelButton == 'yes')

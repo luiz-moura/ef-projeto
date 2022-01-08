@@ -4,7 +4,7 @@
 
 @section('content')
 
-<h3 class="pb-4 mb-4 font-italic border-bottom">Relatório de vendas</h3>
+<h3 class="pb-4 mb-4 font-italic border-bottom">Relatório de vendas detalhado</h3>
 
 <form class="mb-5 submit-only-btn" method="GET">
   <div class="form-row align-items-center">
@@ -13,8 +13,10 @@
       <select name="empresa" id="empresa" class="form-control">
         <option value="">Todas</option>
         @foreach($empresas as $empresa)
-          @if (isset($query['empresa']) && $query['empresa'] == $empresa->contextos()->where('tipo', 'e')->first()->id)
-          <option value="{{ $empresa->contextos()->where('tipo', 'e')->first()->id }}" selected>{{ $empresa->nome }}</option>
+          @if (request()->empresa == $empresa->contextos()->where('tipo', 'e')->first()->id)
+            <option value="{{ $empresa->contextos()->where('tipo', 'e')->first()->id }}" selected>
+              {{ $empresa->nome }}
+            </option>
           @else
           <option value="{{ $empresa->contextos()->where('tipo', 'e')->first()->id }}">{{ $empresa->nome }}</option>
           @endif
@@ -23,11 +25,23 @@
     </div>
     <div class="col-sm-3 my-1">
       <label for="start">Período início</label>
-      <input type="date" class="form-control" id="start" name="period[]" value="{{ $query['period'][0] ?? '' }}">
+      <input
+        type="date"
+        class="form-control"
+        id="start"
+        name="period[]"
+        value="{{ request()->period[0] ?? null }}"
+      >
     </div>
     <div class="col-sm-3 my-1">
       <label for="end">Período final</label>
-      <input type="date" class="form-control" id="end" name="period[]" value="{{ $query['period'][1] ?? '' }}">
+      <input
+        type="date"
+        name="period[]"
+        value="{{ request()->period[1] ?? null }}"
+        id="end"
+        class="form-control"
+      >
     </div>
     <div class="col-sm-1 my-1">
       <label for="limit">Limite</label>
@@ -37,7 +51,7 @@
         class="form-control"
         placeholder="Limite"
         name="limit"
-        value="{{ $query['limit'] ?? 100 }}"
+        value="{{ request()->limit ?? 100 }}"
       >
     </div>
     <div class="col-sm-2 my-1">
@@ -48,9 +62,8 @@
 </form>
 
 <div class="text-right mb-3">
-  <a href="{{ route('vendas-detalhada-pdf', $query) }}" target="_blank" class="btn btn-danger">
-    <i class="bi bi-file-earmark-pdf-fill"></i>
-    PDF
+  <a href="{{ route('vendas-detalhada-pdf', request()->all()) }}" target="_blank" class="btn btn-danger">
+    <i class="bi bi-file-earmark-pdf-fill"></i> PDF
   </a>
 </div>
 
@@ -92,9 +105,7 @@
     </tbody>
   </table>
 @else
-  <div class="alert alert-dark" role="alert">
-    Não foram encotrado vendas.
-  </div>
+  <x-alert type="warning" message="Não foram encotrado vendas."/>
 @endif
 
 @endsection

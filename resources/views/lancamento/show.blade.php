@@ -12,53 +12,55 @@
 <h3 class="pb-4 mb-4 font-italic border-bottom">Visualizar lançamento</h3>
 
 <div>
-  <div class="form-row">
-    <div class="col-md-6 mb-3">
+  <div class="form-row mb-3">
+    <div class="col-md-6">
       <label for="nome">Empresa</label>
       <input
         type="text"
-        class="form-control"
-        id="empresa"
         name="empresa"
         value="{{ $lancamento->empresa->nome }}"
+        id="empresa"
+        class="form-control"
         disabled
       />
     </div>
-    <div class="col-md-6 mb-3">
+    <div class="col-md-6">
       <label for="descricao">{{ $lancamento->contexto_pessoa }}</label>
       <input
         type="text"
-        class="form-control"
-        id="contexto_id"
         name="contexto_id"
         value="{{ $lancamento->contexto->nome }}"
-        disabled
-      />
-    </div>
-    <div class="col-md-6 mb-3">
-      <label for="descricao">Operação</label>
-      <input
-        type="text"
+        id="contexto_id"
         class="form-control"
-        id="operacao"
-        name="operacao"
-        value="{{ $lancamento->operacao_formatada }}"
-        disabled
-      />
-    </div>
-    <div class="col-md-6 mb-3">
-      <label for="descricao">Data da operação</label>
-      <input
-        type="text"
-        class="form-control"
-        id="data_operacao"
-        name="data_operacao"
-        value="{{ $lancamento->data_operacao_formatada }}"
         disabled
       />
     </div>
   </div>
-  @if (!$lancamento->produtos->isEmpty())
+  <div class="form-row mb-3">
+    <div class="col-md-6">
+      <label for="descricao">Operação</label>
+      <input
+        type="text"
+        name="operacao"
+        value="{{ $lancamento->operacao_formatada }}"
+        id="operacao"
+        class="form-control"
+        disabled
+      />
+    </div>
+    <div class="col-md-6">
+      <label for="descricao">Data da operação</label>
+      <input
+        type="text"
+        name="data_operacao"
+        value="{{ $lancamento->data_operacao_formatada }}"
+        id="data_operacao"
+        class="form-control"
+        disabled
+      />
+    </div>
+  </div>
+  @if ($lancamento->produtos->isNotEmpty())
   <table class="table table-striped table-borderless table-responsive-lg">
     <thead>
       <tr>
@@ -85,37 +87,19 @@
       <a class="btn btn-warning" href="{{ route('lancamentos.index') }}">
         <i class="bi bi-arrow-return-left"></i> Voltar
       </a>
-      <form
-        action="{{ route('lancamentos.destroy', $lancamento->id) }}"
-        method="POST"
-        class="d-inline"
-      >
-        @csrf
-        @method('DELETE')
-        <button
-          type="submit"
-          class="btn btn-danger d-inline"
-          name="delete"
-          data-toggle="modal"
-          data-target="#delete"
-        >
-          <i class="bi bi-trash"></i>
-          Excluir
-        </button>
-      </form>
-      <a
-        href="{{ route('lancamentos.edit', $lancamento->id) }}"
-        class="btn btn-dark"
-      >
+      <x-form.delete
+        :action="route('lancamentos.destroy', $lancamento->id)"
+        target="delete"
+      />
+      <a href="{{ route('lancamentos.edit', $lancamento->id) }}" class="btn btn-dark">
         <i class="bi bi-brush"></i> Editar
       </a>
     </div>
   </div>
 </div>
 
-<x-modal target="delete">
-  <x-slot name="title">Deseja deletar essa lançamento?</x-slot>
-  <x-slot name="message">Clique em confirmar para deletar, caso deseje cancele a operação!</x-slot>
+<x-modal target="delete" title="Deseja deletar essa lançamento?">
+  Clique em confirmar para deletar, caso deseje cancele a operação!
 </x-modal>
 
 @endsection

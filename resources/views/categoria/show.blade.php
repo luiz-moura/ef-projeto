@@ -12,26 +12,24 @@
 <h3 class="pb-4 mb-4 font-italic border-bottom">Visualizar categoria</h3>
 
 <div>
-  <div class="form-row">
-    <div class="col-md-6 mb-3">
+  <div class="form-row mb-3">
+    <div class="col-md-6">
       <label for="nome">Nome</label>
       <input
         type="text"
-        class="form-control"
-        id="nome"
         name="nome"
         value="{{ $categoria->nome }}"
+        class="form-control"
         disabled
       />
     </div>
-    <div class="col-md-6 mb-3">
+    <div class="col-md-6">
       <label for="descricao">Descrição</label>
       <input
         type="text"
-        class="form-control"
-        id="descricao"
         name="descricao"
         value="{{ $categoria->descricao }}"
+        class="form-control"
         disabled
       />
     </div>
@@ -41,37 +39,16 @@
       <a class="btn btn-warning" href="{{ route('categorias.index') }}">
         <i class="bi bi-arrow-return-left"></i> Voltar
       </a>
-      <form
-        action="{{ route('categorias.destroy', $categoria->id) }}"
-        method="POST"
-        class="d-inline"
-      >
-        @csrf
-        @method('DELETE')
-        <button
-          type="submit"
-          class="btn btn-danger d-inline"
-          name="delete"
-          data-toggle="modal"
-          data-target="#delete"
-        >
-          <i class="bi bi-trash"></i>
-          Excluir
-        </button>
-      </form>
-      <a
-        href="{{ route('categorias.edit', $categoria->id) }}"
-        class="btn btn-dark"
-      >
+      <x-form.delete :action="route('categorias.destroy', $categoria)" target="delete"/>
+      <a href="{{ route('categorias.edit', $categoria) }}" class="btn btn-dark">
         <i class="bi bi-brush"></i> Editar
       </a>
     </div>
   </div>
 </div>
 
-<x-modal target="delete">
-  <x-slot name="title">Deseja deletar essa categoria?</x-slot>
-  <x-slot name="message">Clique em confirmar para deletar, caso deseje cancele a operação!</x-slot>
+<x-modal target="delete" title="Deseja deletar essa categoria?">
+  Clique em confirmar para deletar, caso deseje cancele a operação!
 </x-modal>
 
 @endsection

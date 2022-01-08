@@ -5,6 +5,7 @@
 @section('content')
 
 <h3 class="border-bottom border-gray pb-2 mb-3">Ranking de vendas</h3>
+
 <canvas class="mb-5" id="myChart" style="height: 400px;"></canvas>
 
 <div class="my-3 p-3 bg-white rounded shadow-sm">
@@ -20,10 +21,10 @@
       </strong>
       Foi realizado uma <b>{{ $lancamento->operacao_formatada }}</b> as {{ $lancamento->data_operacao_formatada }}
       @if (!is_null($lancamento->contexto_id))
-      o(a) <b>{{ $lancamento->contexto_pessoa }}</b> foi o(a)
-      <a href="{{ route ('pessoas.show', $lancamento->contexto_id) }}">{{ $lancamento->contexto->nome }}</a>
+        o(a) <b>{{ $lancamento->contexto_pessoa }}</b> foi o(a)
+        <a href="{{ route ('pessoas.show', $lancamento->contexto_id) }}">{{ $lancamento->contexto->nome }}</a>
       @else
-      e não foi informado o {{ $lancamento->contexto_pessoa }}
+        e não foi informado o {{ $lancamento->contexto_pessoa }}
       @endif
     </p>
   </div>

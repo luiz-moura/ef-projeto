@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Filters\PessoaFilter;
 use App\Http\Requests\StorePessoaRequest;
 use App\Http\Requests\UpdatePessoaRequest;
 use App\Models\Pessoa;
@@ -26,9 +25,7 @@ class PessoaController extends Controller
 
         $pessoas = $qb->latest()->paginate(20)->withQueryString();
 
-        $query = $request->query();
-
-        return view('pessoa.index', compact('pessoas', 'query'))
+        return view('pessoa.index', compact('pessoas'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
@@ -50,11 +47,11 @@ class PessoaController extends Controller
      */
     public function store(StorePessoaRequest $request)
     {
-        $request->validated();
+        $validated = $request->validated();
 
-        $pessoa = Pessoa::create($request->all());
+        $pessoa = Pessoa::create($validated);
 
-        $marcados = $request->tipo ?: [];
+        $marcados = $request->input('tipo', []);
 
         $contextos = [];
         foreach ($marcados as $tipo) {
@@ -98,9 +95,9 @@ class PessoaController extends Controller
      */
     public function update(UpdatePessoaRequest $request, Pessoa $pessoa)
     {
-        $request->validated();
+        $validated = $request->validated();
 
-        $marcados = $request->tipo ?: [];
+        $marcados = $request->input('tipo', []);
 
         $pessoa->contextos()->whereNotIn('tipo', $marcados)->delete();
 
@@ -110,7 +107,7 @@ class PessoaController extends Controller
             }
         }
 
-        $pessoa->update($request->all());
+        $pessoa->update($validated);
 
         return redirect()->route('pessoas.index')
             ->with('success', 'Pessoa atualizada com sucesso');

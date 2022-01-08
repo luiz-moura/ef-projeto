@@ -16,10 +16,10 @@ class CreateProdutosTable extends Migration
         Schema::create('produtos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('categoria_id')
+                ->nullable()
                 ->constrained('categorias')
                 ->onUpdate('cascade')
-                ->onDelete('cascade')
-                ->nullable();
+                ->onDelete('cascade');
             $table->string('codigo_barras')->nullable()->unique();
             $table->string('nome');
             $table->string('marca')->nullable();
@@ -37,10 +37,6 @@ class CreateProdutosTable extends Migration
      */
     public function down()
     {
-        Schema::table('produtos', function (Blueprint $table) {
-            $table->dropForeign('categoria_id');
-        });
-
         Schema::dropIfExists('produtos');
     }
 }

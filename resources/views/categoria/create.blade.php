@@ -13,9 +13,7 @@
 
 @if ($errors->any())
   @foreach ($errors->all() as $error)
-    <x-alert type="danger">
-      <x-slot name="message">{{ $error }}</x-slot>
-    </x-alert>
+    <x-alert type="danger" :message="$error"/>
   @endforeach
 @endif
 
@@ -26,34 +24,38 @@
   novalidate
 >
   @csrf
-  <div class="form-row">
-    <div class="col-md-6 mb-3">
+  <div class="form-row mb-3">
+    <div class="col-md-6">
       <label for="nome">Nome</label>
       <input
         type="text"
-        class="form-control"
-        id="nome"
         name="nome"
+        value="{{ old('nome') }}"
+        id="nome"
+        class="form-control @error('nome') is-invalid @enderror"
         required
       />
     </div>
-    <div class="col-md-6 mb-3">
+    <div class="col-md-6">
       <label for="descricao">Descrição</label>
       <input
         type="text"
-        class="form-control"
-        id="descricao"
         name="descricao"
+        value="{{ old('descricao') }}"
+        id="descricao"
+        class="form-control @error('nome') is-invalid @enderror"
       />
     </div>
   </div>
-  <div class="text-right">
-    <a class="btn btn-warning" href="{{ route('categorias.index') }}">
-      <i class="bi bi-arrow-return-left"></i> Cancelar
-    </a>
-    <button class="btn btn-primary" type="submit">
-      <i class="bi bi-check-circle-fill"></i> Cadastrar
-    </button>
+  <div class="form-row">
+    <div class="col-md-12 text-right">
+      <a class="btn btn-warning" href="{{ route('categorias.index') }}">
+        <i class="bi bi-arrow-return-left"></i> Cancelar
+      </a>
+      <button class="btn btn-primary" type="submit">
+        <i class="bi bi-check-circle-fill"></i> Cadastrar
+      </button>
+    </div>
   </div>
 </form>
 

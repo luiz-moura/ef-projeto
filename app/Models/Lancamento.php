@@ -54,12 +54,14 @@ class Lancamento extends Model
         };
     }
 
-    public function getDataOperacaoFormatadaAttribute() {
+    public function getDataOperacaoFormatadaAttribute()
+    {
         return \Carbon\Carbon::parse($this->data_operacao)
             ->format('h:m - d/m/Y');
     }
 
-    public function getContextoPessoaAttribute() {
+    public function getContextoPessoaAttribute()
+    {
         return match ($this->operacao) {
             'v'         => 'Cliente',
             's'         => 'Pessoa',
