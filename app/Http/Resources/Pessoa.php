@@ -22,7 +22,5 @@ class Pessoa extends JsonResource
             'estado'        => $this->estado,
             'contextos'     => $this->contextos,
         ];
-
-        // return parent::toArray($request);
     }
 }

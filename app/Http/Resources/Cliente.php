@@ -22,7 +22,5 @@ class Cliente extends JsonResource
             'estado'        => $this->estado,
             'contexto_id'   => $this->contextos()->where('tipo', 'c')->first()->id,
         ];
-
-        // return parent::toArray($request);
     }
 }

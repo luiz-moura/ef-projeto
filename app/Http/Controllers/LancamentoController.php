@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Lancamento;
 use App\Models\Pessoa;
+use App\Models\Produto;
 use Illuminate\Http\Request;
 
 class LancamentoController extends Controller
@@ -38,21 +39,35 @@ class LancamentoController extends Controller
      */
     public function store(Request $request)
     {
-        $lancamento = new Lancamento();
-        $lancamento->operacao = $request->input('operacao');
-        $lancamento->empresa_id = Pessoa::find($request->input('empresa_id'))->contextos()->where('tipo', 'e')->first()->id;
-
+        /**
+         * Busca o contexto da pessoa de acordo com a operacao
+         * Ex: Operacao entrada ira buscar o contexto fornecedor da pessoa informada
+         */
         $tipo = match($request->input('operacao')) {
             'e' => 'u',
             's' => 'c',
             'v' => 'c',
         };
 
-        $lancamento->contexto_id = Pessoa::find($request->input('contexto_id'))->contextos()->where('tipo', $tipo)->first()->id;
-        $lancamento->data_operacao = date('Y-m-d H:i:s');
+        /**
+         * Pessoa sem contexto para o tipo de lancamento
+         * Ex: tipo de lancamento venda, pessoa apenas com contexto de funcionario (sem contexto de cliente)
+         */
+        $contexto_id = Pessoa::find($request->input('contexto_id'))->contextos()->where('tipo', $tipo)->first()?->id;
+        if (is_null($contexto_id)) {
+            return response(['error' => 'A pessoa não possui o contexto para este tipo de lançamento'], 400);
+        }
 
+        $lancamento = new Lancamento();
+        $lancamento->operacao = $request->input('operacao');
+        $lancamento->data_operacao = date('Y-m-d H:i:s');
+        $lancamento->empresa_id = Pessoa::find($request->input('empresa_id'))->contextos()->where('tipo', 'e')->first()->id;
+        $lancamento->contexto_id = Pessoa::find($request->input('contexto_id'))->contextos()->where('tipo', $tipo)->first()->id;
         $lancamento->save();
 
+        /**
+         * Registras os produtos do lancamento
+         */
         $produtos = [];
         foreach ($request->input('produtos') as $p) {
             $produtos[] = [
@@ -64,9 +79,14 @@ class LancamentoController extends Controller
 
         $lancamento->lancamentoTemProdutos()->createMany($produtos);
 
-        return [
-          'ok' => 'sucesso'
-        ];
+        /**
+         * Atualiza ultimo preco de custo dos produtos
+         */
+        foreach ($produtos as $produto) {
+            Produto::find($produto['produto_id'])->update(['ultimo_preco_custo' => $produto['preco_unitario']]);
+        }
+
+        return response(['ok' => 'sucesso'], 201);
     }
 
     /**

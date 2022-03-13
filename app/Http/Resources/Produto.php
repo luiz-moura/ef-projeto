@@ -19,7 +19,5 @@ class Produto extends JsonResource
             'nome'          => $this->nome,
             'valor_venda'   => $this->valor_venda
         ];
-
-        // return parent::toArray($request);
     }
 }

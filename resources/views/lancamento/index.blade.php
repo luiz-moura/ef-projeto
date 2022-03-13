@@ -21,6 +21,7 @@
       <tr>
         <th scope="col"><i class="bi bi-key-fill"></i></th>
         <th scope="col">Empresa</th>
+        <th scope="col">Envolvido</th>
         <th scope="col">Operação</th>
         <th scope="col">Data da operação</th>
       </tr>
@@ -30,6 +31,7 @@
       <tr>
         <th scope="row">{{ $lancamento->id }}</th>
         <td>{{ $lancamento->empresa->nome }}</td>
+        <td>{{ $lancamento->contexto->pessoa?->nome }}</td>
         <td>{{ $lancamento->operacao_formatada }}</td>
         <td>{{ $lancamento->data_operacao_formatada }}</td>
         <td class="text-right">

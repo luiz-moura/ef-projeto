@@ -12,7 +12,7 @@
   <h6 class="border-bottom border-gray pb-2 mb-0">Últimos lançamentos</h6>
   @foreach ($lancamentos as $lancamento)
   <div class="media text-muted pt-3">
-    <a href="{{ route('lancamentos.show', $lancamento->id) }}" class="icon-lanc">
+    <a href="{{ route('lancamentos.show', $lancamento->id) }}" class="icon-lanc mr-2">
       <i class="bi bi-eye-fill"></i>
     </a>
     <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">

@@ -40,7 +40,6 @@
           </button>
         </div>
         <select
-          type="text"
           id="empresa"
           class="form-control"
           name="empresa"
@@ -62,7 +61,6 @@
           </button>
         </div>
         <select
-          type="text"
           id="pessoa"
           class="form-control"
           name="pessoa"
@@ -87,22 +85,22 @@
       <label for="descricao">Produto</label>
       <div class="input-group">
         <div class="input-group-prepend">
-        <button
-          class="btn btn-primary"
-          type="button"
-          data-toggle="modal"
-          data-target="#produtos-modal"
-        >
-          <i class="bi bi-search"></i>
-        </button>
+          <button
+            class="btn btn-primary"
+            type="button"
+            data-toggle="modal"
+            data-target="#produtos-modal"
+          >
+            <i class="bi bi-search"></i>
+          </button>
         </div>
         <select
-          type="text"
           id="produto"
           class="form-control"
           name="produto"
           disabled
-        ></select>
+        >
+        </select>
       </div>
     </div>
     <div class="col-md-3">
@@ -195,6 +193,16 @@
   <x-slot name="title">
     <i class="bi bi-check2-circle"></i>
     Lançamento efetuado com sucesso
+  </x-slot>
+</x-modal>
+
+<x-modal target="lancamento-falha" cancel_button="no" exit_button="no">
+  <x-slot name="title">
+    <i class="bi bi-check2-circle"></i>
+    Ocorreu uma falha ao finalizar o lancamento
+  </x-slot>
+  <x-slot name="message">
+    -
   </x-slot>
 </x-modal>
 

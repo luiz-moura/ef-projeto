@@ -1,5 +1,5 @@
 const instance = axios.create({
-  baseURL: 'http://localhost:8000/api'
+  baseURL: `${window.location.origin}/api`
 });
 
 $(document).ready(function() {

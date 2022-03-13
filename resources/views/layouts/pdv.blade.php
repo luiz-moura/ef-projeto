@@ -17,17 +17,16 @@
         <label for="empresas">Selecione a empresa</label>
         <select class="form-control mb-5" id="empresas">
           @foreach ($empresas as $empresa)
-          <option value="{{ $empresa->contextos()->where('tipo', 'e')->first()->id }}">
-            {{ $empresa->nome }}
-          </option>
+            <option value="{{ $empresa->contextos()->where('tipo', 'e')->first()->id }}">
+              {{ $empresa->nome }}
+            </option>
           @endforeach
         </select>
         <p class="lead">
-          <a
-            href="#"
-            id="abrir-caixa"
-            class="btn btn-lg btn-success text-uppercase"
-          >
+          <a href="{{ route('home') }}" class="btn btn-lg btn-success text-uppercase">
+            <i class="bi bi-arrow-return-left"></i>
+          </a>
+          <a href="#" id="abrir-caixa" class="btn btn-lg btn-success text-uppercase">
             Abrir caixa
           </a>
         </p>
@@ -37,15 +36,7 @@
 
   <div class="container-xl">
     <div class="py-5 text-center">
-      <a href="{{ route('home') }}">
-        <img
-          style="filter: invert(100%)"
-          class="d-block mx-auto mb-4"
-          src="{{ asset('images/logo.png') }}"
-          alt="Eficiência Fiscal"
-          width="150"
-        >
-      </a>
+      <h1><a href="{{ route('home') }}" class="text-muted">PDV</a></h1>
     </div>
 
     @yield('content')

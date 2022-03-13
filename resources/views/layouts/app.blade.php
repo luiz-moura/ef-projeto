@@ -15,62 +15,55 @@
         <div class="col-4">
           <a class="blog-header-logo text-dark" href="{{ route('home') }}">GERENCIAL</a>
         </div>
-        <div class="col-4 text-center">
-          <a class="text-muted" href="{{ route('home') }}">
-            <img style="filter: invert(1);" height="55px" src="{{ asset('images/logo.png') }}" alt="Eficiência Fiscal">
-          </a>
-        </div>
         <div class="col-4 d-flex justify-content-end align-items-center">
           <a class="btn btn-sm btn-outline-secondary" href="#">Sobre</a>
         </div>
       </div>
     </header>
-    <div class="nav-scroller py-1 mb-4">
-      <nav>
-        <div class="nav d-flex pb-0">
-          <a class="p-2 text-muted" href="{{ route('pessoas.index') }}">
-            <i class="bi bi-person-lines-fill"></i> Pessoas
+    <nav class="mb-4">
+      <div class="nav d-flex pb-0">
+        <a class="p-2 text-muted" href="{{ route('pessoas.index') }}">
+          <i class="bi bi-person-lines-fill"></i> Pessoas
+        </a>
+        <a class="p-2 text-muted" href="{{ route('clientes.index') }}">
+          <i class="bi bi-person-lines-fill"></i> Clientes
+        </a>
+        <a class="p-2 text-muted" href="{{ route('fornecedores.index') }}">
+          <i class="bi bi-truck"></i> Fornecedores
+        </a>
+        <a class="p-2 text-muted" href="{{ route('funcionarios.index') }}">
+          <i class="bi bi-people-fill"></i> Funcionarios
+        </a>
+        <a class="p-2 text-muted" href="{{ route('empresas.index') }}">
+          <i class="bi bi-shop-window"></i> Minhas Empresas
+        </a>
+      </div>
+      <div class="nav d-flex pb-0">
+        <a class="p-2 text-muted" href="{{ route('vendas') }}">
+          <i class="bi bi-handbag-fill"></i> Venda (PDV)
+        </a>
+        <a class="p-2 text-muted" href="{{ route('lancamentos.index') }}">
+          <i class="bi bi-signpost-split-fill"></i> Lançamentos de produtos
+        </a>
+        <a class="p-2 text-muted" href="{{ route('produtos.index') }}">
+          <i class="bi bi-box"></i> Produtos
+        </a>
+        <a class="p-2 text-muted" href="{{ route('categorias.index') }}">
+          <i class="bi bi-bookmark-fill"></i> Categorias
+        </a>
+        <div class="dropdown p-2">
+          <a class="dropdown-toggle text-muted" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-pie-chart-fill"></i>
+            Relatórios
           </a>
-          <a class="p-2 text-muted" href="{{ route('clientes.index') }}">
-            <i class="bi bi-person-lines-fill"></i> Clientes
-          </a>
-          <a class="p-2 text-muted" href="{{ route('fornecedores.index') }}">
-            <i class="bi bi-truck"></i> Fornecedores
-          </a>
-          <a class="p-2 text-muted" href="{{ route('funcionarios.index') }}">
-            <i class="bi bi-people-fill"></i> Funcionarios
-          </a>
-          <a class="p-2 text-muted" href="{{ route('empresas.index') }}">
-            <i class="bi bi-shop-window"></i> Minhas Empresas
-          </a>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item" href="{{ route('vendas-simples') }}">Relatório de vendas simples</a>
+            <a class="dropdown-item" href="{{ route('vendas-detalhada') }}">Relatório de vendas detalhada</a>
+            <a class="dropdown-item" href="{{ route('relatorio-posicoes') }}">Relatório de posição de estoque</a>
+          </div>
         </div>
-        <div class="nav d-flex pb-0">
-          <a class="p-2 text-muted" href="{{ route('vendas') }}">
-            <i class="bi bi-handbag-fill"></i> Venda (PDV)
-          </a>
-          <a class="p-2 text-muted" href="{{ route('lancamentos.index') }}">
-            <i class="bi bi-clipboard-data"></i> Lançamentos
-          </a>
-          <a class="p-2 text-muted" href="{{ route('produtos.index') }}">
-            <i class="bi bi-box"></i> Produtos
-          </a>
-          <a class="p-2 text-muted" href="{{ route('categorias.index') }}">
-            <i class="bi bi-bookmark-fill"></i> Categorias
-          </a>
-        </div>
-        <div class="nav d-flex pb-0">
-          <a class="p-2 text-muted" href="{{ route('vendas-simples') }}">
-            <i class="bi bi-bar-chart-line-fill"></i> Relatório de vendas simples
-          </a>
-          <a class="p-2 text-muted" href="{{ route('vendas-detalhada') }}">
-            <i class="bi bi-bar-chart-line-fill"></i> Relatório de vendas detalhada
-          </a>
-          <a class="p-2 text-muted" href="{{ route('relatorio-posicoes') }}">
-            <i class="bi bi-bar-chart-line-fill"></i> Relatório de posição de estoque
-          </a>
-        </div>
-      </nav>
-    </div>
+      </div>
+    </nav>
   </div>
 
   <main role="main" class="container">

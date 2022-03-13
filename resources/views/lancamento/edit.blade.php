@@ -107,6 +107,7 @@
         <x-form.delete
           :action="route('lancamento-produtos.destroy', $produto->pivot->id)"
           target="delete-produto"
+          class="pb-0 pt-0"
         />
       </td>
     </tr>

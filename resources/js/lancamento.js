@@ -1,5 +1,5 @@
 const instance = axios.create({
-  baseURL: 'http://localhost:8000/api'
+  baseURL: `${window.location.origin}/api`
 });
 
 $(document).ready(function() {
@@ -24,8 +24,9 @@ $(document).ready(function() {
 
   /**
    * STEP 1
+   *
+   * Consulta e preenche select do modal (empresa, produto, pessoa)
    */
-
   $nomeEmpresa.on('change', function () {
     $listaEmpresas.html('');
 
@@ -89,24 +90,12 @@ $(document).ready(function() {
       });
   });
 
-
   /**
    * STEP 2
+   *
+   * Preenche a opção informada e fecha o modal de pesquisa
    */
-
-  $('body').on('click', '.confirm_btn_modal', function () {
-    $modal = $(this).parent().parent().parent().parent();
-    $id = $modal.attr('id');
-
-    confirmaOpcao({
-      $content: $(`#${$id.slice(0, -1)}`),
-      $lista: $(`#lista-${$id}`),
-    });
-
-    $modal.modal('hide');
-  });
-
-  function confirmaOpcao({ $content, $lista }) {
+   function confirmaOpcao({ $content, $lista }) {
     $content.html('');
 
     let $meuConteudo = $lista.find(':selected');
@@ -125,17 +114,31 @@ $(document).ready(function() {
       .appendTo($content);
   }
 
+  $('body').on('click', '.confirm_btn_modal:visible', function () {
+    $modal = $(this).parent().parent().parent().parent();
+
+    $id = $modal.attr('id').split('-')[0];
+    $inputId = `#${$id.split('-')[0].slice(0, -1)}`;
+
+    confirmaOpcao({
+      $content: $($inputId),
+      $lista: $(`#lista-${$id}`),
+    });
+
+    $modal.modal('hide');
+  });
+
   /**
    * STEP 3
+   *
+   * Adiciona/remove produto da lista de produtos
    */
-
   $('body').on('click', '#add-produto-btn' , function () {
     $meuProduto = $listaProdutos.find(':selected');
 
     if ($meuProduto.val() == '' || $meuProduto.val() == undefined) {
       return;
     }
-
 
     let produto = $meuProduto.data('fields');
     let quantidade = $quantidadeProd.val();
@@ -165,9 +168,10 @@ $(document).ready(function() {
 
   /**
    * STEP 4
+   *
+   * Submit form
    */
-
-  $('#form-lancamento').submit(function (event) {
+  $('#form-lancamento').on('submit', function (event) {
     event.preventDefault();
 
     if ($empresa.val() == null || $empresa.val() == '') {
@@ -194,6 +198,10 @@ $(document).ready(function() {
     instance.post('lancamentos/store/', data)
       .then(() => {
         $lancamentoModel.modal('show');
+      })
+      .catch(function (data) {
+        $('#lancamento-falha').modal('show');
+        $('#lancamento-falha .modal-body').text(data.response.data.error);
       });
   });
 

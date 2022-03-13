@@ -6,6 +6,7 @@ use App\Models\Pessoa;
 use App\Models\Produto;
 use Illuminate\Http\Request;
 use App\Http\Resources\Cliente as ClienteResource;
+use App\Http\Resources\Empresa as EmpresaResource;
 use App\Http\Resources\Pessoa as PessoaResource;
 use App\Http\Resources\Produto as ProdutoResource;
 
@@ -52,7 +53,7 @@ class ApiController extends Controller
             ->orWhere('cpf_cnpj', 'ilike', "%$nome%")
             ->paginate(10);
 
-        return ClienteResource::collection($clientes);
+        return EmpresaResource::collection($clientes);
     }
 
     public function findPessoaByNome(Request $request)
