@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Concerns\Filterable;
+use Carbon\Carbon;
 
 class Lancamento extends Model
 {
@@ -56,8 +57,7 @@ class Lancamento extends Model
 
     public function getDataOperacaoFormatadaAttribute()
     {
-        return \Carbon\Carbon::parse($this->data_operacao)
-            ->format('h:m - d/m/Y');
+        return Carbon::parse($this->data_operacao)->format('h:m - d/m/Y');
     }
 
     public function getContextoPessoaAttribute()

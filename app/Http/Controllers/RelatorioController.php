@@ -7,8 +7,6 @@ use App\Models\Lancamento;
 use App\Models\Pessoa;
 use App\Models\Produto;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\Builder;
 use PDF;
 
 class RelatorioController extends Controller
@@ -24,8 +22,6 @@ class RelatorioController extends Controller
     }
 
     public function vendasSimples(LancamentoFilter $filter, Request $request) {
-        // dd($request->filled('period'));
-
         $empresas = Pessoa::tipo('e')->latest()->get();
 
         $vendas = Lancamento::filter($filter)
@@ -44,7 +40,6 @@ class RelatorioController extends Controller
 
         $pdf = PDF::loadView('relatorio.venda_simples_pdf', compact('vendas'));
 
-        // download PDF file with download method
         return $pdf->stream();
     }
 
@@ -55,7 +50,6 @@ class RelatorioController extends Controller
 
         $pdf = PDF::loadView('relatorio.venda_detalhada_pdf', compact('vendas'));
 
-        // download PDF file with download method
         return $pdf->stream();
     }
 

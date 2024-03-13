@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
 
 class Pessoa extends Model
 {
@@ -33,14 +34,12 @@ class Pessoa extends Model
 
     public function scopeTipo($qb, $tipo)
     {
-        $qb->whereRelation('contextos', 'tipo', $tipo);
-        return $qb;
+        return $qb->whereRelation('contextos', 'tipo', $tipo);
     }
 
     public function scopeCliente($qb)
     {
-        $qb->whereRelation('contextos', 'tipo', 'c');
-        return $qb;
+        return $qb->whereRelation('contextos', 'tipo', 'c');
     }
 
     public function contextos()
@@ -50,21 +49,20 @@ class Pessoa extends Model
 
     public function getCreatedAtFormatadaAttribute()
     {
-        return \Carbon\Carbon::parse($this->created_at)
-            ->format('d/m/Y');
+        return Carbon::parse($this->created_at)->format('d/m/Y');
     }
 
     public function getCpfCnpjFormatadoAttribute()
     {
-        if (is_null($this->cpf_cnpj)) {
+        if (!$this->cpf_cnpj) {
             return null;
         }
 
         if (strlen($this->cpf_cnpj) >= 14) {
             return $this->mask($this->cpf_cnpj, '##.###.###/####-##');
-        } else {
-            return $this->mask($this->cpf_cnpj, '###.###.###-##');
         }
+
+        return $this->mask($this->cpf_cnpj, '###.###.###-##');
     }
 
     public function setCpfCnpjAttribute($value)
@@ -82,13 +80,14 @@ class Pessoa extends Model
     {
         $maskared = '';
         $k = 0;
-        for($i = 0; $i<=strlen($mask)-1; $i++) {
-            if($mask[$i] == '#') {
-                if(isset($val[$k])) $maskared .= $val[$k++];
+        for ($i = 0; $i <= strlen($mask) - 1; $i++) {
+            if ($mask[$i] == '#') {
+                if (isset($val[$k])) $maskared .= $val[$k++];
             } else {
-                if(isset($mask[$i])) $maskared .= $mask[$i];
+                if (isset($mask[$i])) $maskared .= $mask[$i];
             }
         }
+
         return $maskared;
     }
 }

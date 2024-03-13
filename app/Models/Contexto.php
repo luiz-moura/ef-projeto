@@ -36,6 +36,6 @@ class Contexto extends Model
 
     public function getNomeAttribute()
     {
-            return $this->pessoaTrash()?->nome;
+        return $this->pessoaTrash()?->nome;
     }
 }

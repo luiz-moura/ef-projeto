@@ -14,11 +14,6 @@ class FornecedorController extends Controller
         $this->middleware('verifica.contexto')->except(['index', 'create', 'store']);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         $qb = Pessoa::tipo('u');
@@ -34,31 +29,19 @@ class FornecedorController extends Controller
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('fornecedor.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StoreFornecedorRequest $request)
     {
-        $validated = $request->validated();
-
-        $fornecedor = Pessoa::create($validated);
+        $validatedRequest = $request->validated();
+        $fornecedor = Pessoa::create($validatedRequest);
 
         $marcados = $request->input('tipo', []);
-
         $contextos = [['tipo' => 'u']];
+
         foreach ($marcados as $tipo) {
             $contextos[] = ['tipo' => $tipo];
         }
@@ -69,41 +52,19 @@ class FornecedorController extends Controller
             ->with('success', 'Fornecedor criado com sucesso.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Pessoa  $fornecedor
-     * @return \Illuminate\Http\Response
-     */
     public function show(Pessoa $fornecedor)
     {
         return view('fornecedor.show', compact('fornecedor'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Pessoa  $fornecedor
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Pessoa $fornecedor)
     {
         return view('fornecedor.edit', compact('fornecedor'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Pessoa  $fornecedor
-     * @return \Illuminate\Http\Response
-     */
     public function update(UpdateFornecedorRequest $request, Pessoa $fornecedor)
     {
-        $validated = $request->validated();
-
         $marcados = $request->input('tipo', []);
-
         $fornecedor->contextos()->whereNotIn('tipo', $marcados)->delete();
 
         foreach ($marcados as $tipo) {
@@ -112,18 +73,13 @@ class FornecedorController extends Controller
             }
         }
 
-        $fornecedor->update($validated);
+        $validatedRequest = $request->validated();
+        $fornecedor->update($validatedRequest);
 
         return redirect()->route('fornecedores.index')
             ->with('success', 'Fornecedor atualizado com sucesso');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Pessoa  $fornecedor
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Pessoa $fornecedor)
     {
         $fornecedor->delete();

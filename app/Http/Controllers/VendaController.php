@@ -9,23 +9,13 @@ use App\Http\Resources\Venda as VendaResource;
 
 class VendaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $empresas = Pessoa::tipo('e')->latest()->get();
+
         return view('venda.index', compact('empresas'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $lancamento = new Lancamento();
@@ -47,6 +37,6 @@ class VendaController extends Controller
 
         $lancamento->lancamentoTemProdutos()->createMany($produtos);
 
-        return new VendaResource($lancamento);
+        return VendaResource::make($lancamento);
     }
 }

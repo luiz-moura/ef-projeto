@@ -9,11 +9,6 @@ use Illuminate\Http\Request;
 
 class PessoaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         $qb = Pessoa::query();
@@ -29,31 +24,19 @@ class PessoaController extends Controller
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('pessoa.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StorePessoaRequest $request)
     {
-        $validated = $request->validated();
-
-        $pessoa = Pessoa::create($validated);
+        $validatedRequest = $request->validated();
+        $pessoa = Pessoa::create($validatedRequest);
 
         $marcados = $request->input('tipo', []);
-
         $contextos = [];
+
         foreach ($marcados as $tipo) {
             $contextos[] = ['tipo' => $tipo];
         }
@@ -64,41 +47,19 @@ class PessoaController extends Controller
             ->with('success', 'Pessoa criada com sucesso.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Pessoa  $pessoa
-     * @return \Illuminate\Http\Response
-     */
     public function show(Pessoa $pessoa)
     {
         return view('pessoa.show', compact('pessoa'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Pessoa  $pessoa
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Pessoa $pessoa)
     {
         return view('pessoa.edit', compact('pessoa'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Pessoa  $pessoa
-     * @return \Illuminate\Http\Response
-     */
     public function update(UpdatePessoaRequest $request, Pessoa $pessoa)
     {
-        $validated = $request->validated();
-
         $marcados = $request->input('tipo', []);
-
         $pessoa->contextos()->whereNotIn('tipo', $marcados)->delete();
 
         foreach ($marcados as $tipo) {
@@ -107,18 +68,13 @@ class PessoaController extends Controller
             }
         }
 
-        $pessoa->update($validated);
+        $validatedRequest = $request->validated();
+        $pessoa->update($validatedRequest);
 
         return redirect()->route('pessoas.index')
             ->with('success', 'Pessoa atualizada com sucesso');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Pessoa  $pessoa
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Pessoa $pessoa)
     {
         $pessoa->delete();

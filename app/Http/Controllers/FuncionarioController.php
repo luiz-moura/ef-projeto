@@ -14,11 +14,6 @@ class FuncionarioController extends Controller
         $this->middleware('verifica.contexto')->except(['index', 'create', 'store']);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         $qb = Pessoa::tipo('f');
@@ -34,31 +29,19 @@ class FuncionarioController extends Controller
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('funcionario.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StoreFuncionarioRequest $request)
     {
-        $validated = $request->validated();
-
-        $funcionario = Pessoa::create($validated);
+        $validatedRequest = $request->validated();
+        $funcionario = Pessoa::create($validatedRequest);
 
         $marcados = $request->input('tipo', []);
-
         $contextos = [['tipo' => 'f']];
+
         foreach ($marcados as $tipo) {
             $contextos[] = ['tipo' => $tipo];
         }
@@ -69,41 +52,19 @@ class FuncionarioController extends Controller
             ->with('success', 'Funcionario criado com sucesso.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Pessoa  $funcionario
-     * @return \Illuminate\Http\Response
-     */
     public function show(Pessoa $funcionario)
     {
         return view('funcionario.show', compact('funcionario'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Pessoa  $funcionario
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Pessoa $funcionario)
     {
         return view('funcionario.edit', compact('funcionario'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Pessoa  $funcionario
-     * @return \Illuminate\Http\Response
-     */
     public function update(UpdateFuncionarioRequest $request, Pessoa $funcionario)
     {
-        $validated = $request->validated();
-
         $marcados = $request->input('tipo', []);
-
         $funcionario->contextos()->whereNotIn('tipo', $marcados)->delete();
 
         foreach ($marcados as $tipo) {
@@ -112,18 +73,13 @@ class FuncionarioController extends Controller
             }
         }
 
-        $funcionario->update($validated);
+        $validatedRequest = $request->validated();
+        $funcionario->update($validatedRequest);
 
         return redirect()->route('funcionarios.index')
             ->with('success', 'Funcionario atualizado com sucesso');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Pessoa  $funcionario
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Pessoa $funcionario)
     {
         $funcionario->delete();

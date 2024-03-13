@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-use function PHPUnit\Framework\matches;
-
 class LancamentoTemProduto extends Pivot
 {
     use HasFactory;

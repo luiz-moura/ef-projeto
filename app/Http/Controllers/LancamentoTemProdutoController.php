@@ -7,43 +7,23 @@ use App\Models\LancamentoTemProduto;
 
 class LancamentoTemProdutoController extends Controller
 {
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\LancamentoTemProduto  $lancamentoTemProduto
-     * @return \Illuminate\Http\Response
-     */
     public function edit(LancamentoTemProduto $lancamentoTemProduto)
     {
         return view('lancamentotemproduto.edit', compact('lancamentoTemProduto'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\LancamentoTemProduto  $lancamentoTemProduto
-     * @return \Illuminate\Http\Response
-     */
     public function update(
         StoreLancamentoTemProdutoRequest $request,
         LancamentoTemProduto $lancamentoTemProduto
     )
     {
-        $validated = $request->validated();
-
-        $lancamentoTemProduto->update($validated);
+        $validatedRequest = $request->validated();
+        $lancamentoTemProduto->update($validatedRequest);
 
         return redirect()->route('lancamentos.edit', $lancamentoTemProduto->lancamento_id)
             ->with('success', 'Produto do lançamento atualizado com sucesso.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\LancamentoTemProduto  $lancamentoTemProduto
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(LancamentoTemProduto $lancamentoTemProduto)
     {
         $lancamentoTemProduto->delete();

@@ -14,11 +14,6 @@ class EmpresaController extends Controller
         $this->middleware('verifica.contexto')->except(['index', 'create', 'store']);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         $qb = Pessoa::tipo('e');
@@ -34,31 +29,19 @@ class EmpresaController extends Controller
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('empresa.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StoreEmpresaRequest $request)
     {
-        $validated = $request->validated();
-
-        $empresa = Pessoa::create($validated);
+        $validatedRequest = $request->validated();
+        $empresa = Pessoa::create($validatedRequest);
 
         $marcados = $request->input('tipo', []);
-
         $contextos = [['tipo' => 'e']];
+
         foreach ($marcados as $tipo) {
             $contextos[] = ['tipo' => $tipo];
         }
@@ -69,41 +52,19 @@ class EmpresaController extends Controller
             ->with('success', 'Empresa criada com sucesso.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Pessoa  $empresa
-     * @return \Illuminate\Http\Response
-     */
     public function show(Pessoa $empresa)
     {
         return view('empresa.show', compact('empresa'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Pessoa  $empresa
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Pessoa $empresa)
     {
         return view('empresa.edit', compact('empresa'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Pessoa  $empresa
-     * @return \Illuminate\Http\Response
-     */
     public function update(UpdateEmpresaRequest $request, Pessoa $empresa)
     {
-        $validated = $request->validated();
-
         $marcados = $request->input('tipo', []);
-
         $empresa->contextos()->whereNotIn('tipo', $marcados)->delete();
 
         foreach ($marcados as $tipo) {
@@ -112,18 +73,13 @@ class EmpresaController extends Controller
             }
         }
 
-        $empresa->update($validated);
+        $validatedRequest = $request->validated();
+        $empresa->update($validatedRequest);
 
         return redirect()->route('empresas.index')
             ->with('success', 'Empresa atualizada com sucesso');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Pessoa  $empresa
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Pessoa $empresa)
     {
         $empresa->delete();

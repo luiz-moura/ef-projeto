@@ -3,7 +3,6 @@
 namespace App\Http\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Schema;
 
 class LancamentoFilter extends Filter
 {

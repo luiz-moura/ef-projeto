@@ -13,10 +13,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Pessoa::factory(10)->create();
-
         $this->call([
             ProdutoSeeder::class,
+            PessoaSeeder::class,
         ]);
     }
 }

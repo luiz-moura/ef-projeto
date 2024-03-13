@@ -18,7 +18,7 @@ class ApiController extends Controller
             ->where('cpf_cnpj', $cpfCnpj)
             ->firstOrFail();
 
-        return new ClienteResource($cliente);
+        return ClienteResource::make($cliente);
     }
 
     public function findProdutoByNome(Request $request)
@@ -72,10 +72,9 @@ class ApiController extends Controller
             $qb->tipo($tipo);
         }
 
-        $qb->where('nome', 'ilike', "%$nome%")
-            ->orWhere('cpf_cnpj', 'ilike', "%$nome%");
-
-        $clientes = $qb->paginate(10);
+        $clientes = $qb->where('nome', 'ilike', "%$nome%")
+            ->orWhere('cpf_cnpj', 'ilike', "%$nome%")
+            ->paginate(10);
 
         return PessoaResource::collection($clientes);
     }

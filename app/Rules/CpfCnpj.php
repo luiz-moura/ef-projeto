@@ -7,16 +7,8 @@ use App\Models\Pessoa;
 
 class CpfCnpj implements Rule
 {
-    /**
-     * Create a new rule instance.
-     *
-     * @return void
-     */
-    public function __construct(
-        protected $id = null,
-    )
+    public function __construct(protected $id = null)
     {
-
     }
 
     /**
