@@ -3,7 +3,7 @@
 
 > Cadastro de clientes, fornecedores, funcionários e empresas, entradas e saídas de mercadorias e pdv de vendas
 
-![nano-erp](https://user-images.githubusercontent.com/57726726/158039912-0430ef05-8e3c-4be9-b154-f442482a9ff6.png)
+![nano-erp](https://github.com/luiz-moura/nano-erp-laravel/assets/57726726/5b4ca63a-a730-4fc5-84cc-c10decd11fe2)
 
 ## Technologies
 - [Laravel](https://laravel.com)
@@ -16,7 +16,7 @@
 
 1. Clone the project
 ```bash
-  git clone https://github.com/luiz-moura/laravel-movie-app.git
+  git clone https://github.com/luiz-moura/nano-erp-laravel.git
 ```
 
 2. Create .env
@@ -39,7 +39,17 @@
   sail artisan key:generate
 ```
 
-6. Install NPM dependencies
+6. Install composer dependencies
+```bash
+  sail composer install
+```
+
+7. Run migrations
+```bash
+  sail artisan migrate --seed
+```
+
+8. Install NPM dependencies
 ```bash
   sail npm install && sail npm run dev
 ```
