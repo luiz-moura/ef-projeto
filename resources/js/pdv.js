@@ -7,7 +7,7 @@ $(document).ready(function() {
    * ELEMENTOS DA DOM
    */
   let $clienteNome = $('#cliente_nome');
-  let $cpfCnpj = $('#cpf_cnpj');
+  let $cpfCnpj = $('#cliente_cpf_cnpj');
   let $estado = $('#estado');
   let $cidade = $('#cidade');
 

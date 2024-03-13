@@ -74,8 +74,8 @@
       </h4>
       <div class="row">
         <div class="col-md-5 mb-3">
-          <label for="cpf_cnpj">CPF/CNPJ</label>
-          <input type="text" class="form-control" id="cpf_cnpj" autocomplete="off">
+          <label for="cliente_cpf_cnpj">CPF/CNPJ</label>
+          <input type="text" class="form-control" id="cliente_cpf_cnpj" autocomplete="off">
         </div>
         <div class="col-md-7 mb-3">
           <label for="cliente_nome">Nome</label>
